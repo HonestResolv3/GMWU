@@ -1,4 +1,7 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
@@ -6,6 +9,8 @@ namespace GMWU
 {
     public partial class GMWU : Form
     {
+        List<GTask> list = new List<GTask>();
+
         public GMWU()
         {
             InitializeComponent();
@@ -20,25 +25,29 @@ namespace GMWU
                     if (textBoxesAreBlank(txtAFLocation, txtGFLocation, txtGMAOutput))
                         return;
 
-                    newTask.AddonInputLocation = txtAFLocation.Text;
-                    newTask.GMadFileLocation = txtGFLocation.Text;
-                    newTask.GMAOutputLocation = txtGMAOutput.Text;
                     if (string.IsNullOrWhiteSpace(tbxTaskName.Text))
                         newTask.TaskName = "Create .GMA";
                     else
                         newTask.TaskName = tbxTaskName.Text;
+
+                    if (string.IsNullOrWhiteSpace(txtGMFileName.Text))
+                        txtGMFileName.Text = "newgma";
+
+                    newTask.FileName = txtGFLocation.Text;
+                    newTask.Arguments = "create -folder \"" + txtAFLocation.Text + "\" -out \"" + txtGMAOutput.Text + "\\" + txtGMFileName.Text + ".gma" + "\"";
                     break;
                 case 1:
                     if (textBoxesAreBlank(txtGOLoc, txtGMAFLoc, txtGFLoc))
                         return;
 
-                    newTask.AddonOutputLocation = txtGOLoc.Text;
-                    newTask.GMadFileLocation = txtGMAFLoc.Text;
-                    newTask.GMAInputLocation = txtGFLoc.Text;
                     if (string.IsNullOrWhiteSpace(tbxTaskName.Text))
                         newTask.TaskName = "Extract .GMA";
                     else
                         newTask.TaskName = tbxTaskName.Text;
+
+                    newTask.FileName = txtGMAFLoc.Text;
+                    newTask.FolderLocation = txtGOLoc.Text;
+                    newTask.Arguments = "extract -file \"" + txtGFLoc.Text + "\" -out \"" + txtGOLoc.Text + "\"";
                     break;
                 case 2:
                     break;
@@ -47,6 +56,7 @@ namespace GMWU
             }
             newTask.TaskNotes = tbxTaskNotes.Text;
             lbxQueue.Items.Add(newTask);
+            list.Add(newTask);
         }
 
         private void btnGitHub_Click(object sender, System.EventArgs e)
@@ -89,10 +99,43 @@ namespace GMWU
         {
             if (string.IsNullOrWhiteSpace(T1.Text) || string.IsNullOrWhiteSpace(T2.Text) || string.IsNullOrWhiteSpace(T3.Text))
             {
-                MessageBox.Show("Please fill in all required fields before adding it to the task queue!", "Error");
+                MessageBox.Show("Please fill in all required fields before adding it to the task queue!", "Input Error");
                 return true;
             }
             return false;
+        }
+
+        private void btnRunTask_Click(object sender, System.EventArgs e)
+        {
+            if (lbxQueue.SelectedIndex > lbxQueue.Items.Count || lbxQueue.SelectedIndex == -1)
+            {
+                MessageBox.Show("Please select a valid task from the queue!", "Selection Error");
+                return;
+            }
+
+            GTask refer = list[lbxQueue.SelectedIndex];
+            Process process = new Process
+            {
+                StartInfo = new ProcessStartInfo
+                {
+                    FileName = refer.FileName,
+                    Arguments = refer.Arguments,
+                    CreateNoWindow = true,
+                    RedirectStandardOutput = true,
+                    UseShellExecute = false,
+                }
+            };
+
+            if (!string.IsNullOrWhiteSpace(refer.FolderLocation) && !Directory.Exists(refer.FolderLocation))
+                Directory.CreateDirectory(Path.Combine(refer.FolderLocation, refer.FileName.Substring(0, refer.FileName.IndexOf("."))));
+
+
+            process.Start();
+            btnRunTask.Enabled = false;
+            while (!process.StandardOutput.EndOfStream)
+                rtbConsole.Text += process.StandardOutput.ReadLine() + Environment.NewLine;
+            rtbConsole.Text += Environment.NewLine;
+            btnRunTask.Enabled = true;
         }
     }
 }
