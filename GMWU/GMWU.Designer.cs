@@ -67,7 +67,7 @@ namespace GMWU
             this.tpgJSCreator = new System.Windows.Forms.TabPage();
             this.tpgPresetCreator = new System.Windows.Forms.TabPage();
             this.tpgSettings = new System.Windows.Forms.TabPage();
-            this.tpgAbout = new System.Windows.Forms.TabPage();
+            this.tpgCredits = new System.Windows.Forms.TabPage();
             this.btnSteam = new System.Windows.Forms.Button();
             this.btnGitHub = new System.Windows.Forms.Button();
             this.lblCreatedByTitle = new System.Windows.Forms.Label();
@@ -90,7 +90,7 @@ namespace GMWU
             this.tctrlTasks.SuspendLayout();
             this.tpgCreateGMA.SuspendLayout();
             this.tpgExtractGMA.SuspendLayout();
-            this.tpgAbout.SuspendLayout();
+            this.tpgCredits.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.tctrlConsole.SuspendLayout();
             this.tpgConsole.SuspendLayout();
@@ -183,7 +183,7 @@ namespace GMWU
             this.tctrlMainArea.Controls.Add(this.tpgJSCreator);
             this.tctrlMainArea.Controls.Add(this.tpgPresetCreator);
             this.tctrlMainArea.Controls.Add(this.tpgSettings);
-            this.tctrlMainArea.Controls.Add(this.tpgAbout);
+            this.tctrlMainArea.Controls.Add(this.tpgCredits);
             this.tctrlMainArea.Controls.Add(this.tpgChangelog);
             this.tctrlMainArea.Location = new System.Drawing.Point(13, 12);
             this.tctrlMainArea.Name = "tctrlMainArea";
@@ -474,19 +474,19 @@ namespace GMWU
             this.tpgSettings.Text = "Settings";
             this.tpgSettings.UseVisualStyleBackColor = true;
             // 
-            // tpgAbout
+            // tpgCredits
             // 
-            this.tpgAbout.Controls.Add(this.btnSteam);
-            this.tpgAbout.Controls.Add(this.btnGitHub);
-            this.tpgAbout.Controls.Add(this.lblCreatedByTitle);
-            this.tpgAbout.Controls.Add(this.pictureBox1);
-            this.tpgAbout.Location = new System.Drawing.Point(4, 22);
-            this.tpgAbout.Name = "tpgAbout";
-            this.tpgAbout.Padding = new System.Windows.Forms.Padding(3);
-            this.tpgAbout.Size = new System.Drawing.Size(678, 332);
-            this.tpgAbout.TabIndex = 4;
-            this.tpgAbout.Text = "About";
-            this.tpgAbout.UseVisualStyleBackColor = true;
+            this.tpgCredits.Controls.Add(this.btnSteam);
+            this.tpgCredits.Controls.Add(this.btnGitHub);
+            this.tpgCredits.Controls.Add(this.lblCreatedByTitle);
+            this.tpgCredits.Controls.Add(this.pictureBox1);
+            this.tpgCredits.Location = new System.Drawing.Point(4, 22);
+            this.tpgCredits.Name = "tpgCredits";
+            this.tpgCredits.Padding = new System.Windows.Forms.Padding(3);
+            this.tpgCredits.Size = new System.Drawing.Size(678, 332);
+            this.tpgCredits.TabIndex = 4;
+            this.tpgCredits.Text = "Credits";
+            this.tpgCredits.UseVisualStyleBackColor = true;
             // 
             // btnSteam
             // 
@@ -667,8 +667,8 @@ namespace GMWU
             this.tpgCreateGMA.PerformLayout();
             this.tpgExtractGMA.ResumeLayout(false);
             this.tpgExtractGMA.PerformLayout();
-            this.tpgAbout.ResumeLayout(false);
-            this.tpgAbout.PerformLayout();
+            this.tpgCredits.ResumeLayout(false);
+            this.tpgCredits.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.tctrlConsole.ResumeLayout(false);
             this.tpgConsole.ResumeLayout(false);
@@ -713,7 +713,7 @@ namespace GMWU
         private System.Windows.Forms.TabPage tpgPublishAddon;
         private System.Windows.Forms.TabPage tpgPresetCreator;
         private System.Windows.Forms.TabPage tpgSettings;
-        private System.Windows.Forms.TabPage tpgAbout;
+        private System.Windows.Forms.TabPage tpgCredits;
         private System.Windows.Forms.TabPage tpgChangelog;
         private System.Windows.Forms.Button btnSteam;
         private System.Windows.Forms.Button btnGitHub;
