@@ -131,7 +131,7 @@ namespace GMWU
             this.btnRunTask.Name = "btnRunTask";
             this.btnRunTask.Size = new System.Drawing.Size(129, 23);
             this.btnRunTask.TabIndex = 9;
-            this.btnRunTask.Text = "Run Task";
+            this.btnRunTask.Text = "Run Task in Queue";
             this.btnRunTask.UseVisualStyleBackColor = true;
             this.btnRunTask.Click += new System.EventHandler(this.btnRunTask_Click);
             // 
@@ -583,7 +583,7 @@ namespace GMWU
             this.tpgErrors.Padding = new System.Windows.Forms.Padding(3);
             this.tpgErrors.Size = new System.Drawing.Size(1105, 230);
             this.tpgErrors.TabIndex = 1;
-            this.tpgErrors.Text = "Errors";
+            this.tpgErrors.Text = "Program Errors";
             this.tpgErrors.UseVisualStyleBackColor = true;
             // 
             // rtbErrors
