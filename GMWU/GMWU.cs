@@ -21,41 +21,63 @@ namespace GMWU
             GTask newTask = new GTask();
             switch (tctrlTasks.SelectedIndex)
             {
+                // This task is for creating a new .GMA that will be created through GMad.exe
                 case 0:
+                    // Checks if the input is blank or the locations of the required content are not valid
                     if (textBoxesAreBlank(txtAFLocation, txtGFLocation, txtGMAOutput) 
                         || checkLocationsBeingInvalid(txtAFLocation, txtGFLocation, txtGMAOutput, 0))
                         return;
 
+                    // If the task has no name, give it a default name, else set it to what the user entered
                     if (string.IsNullOrWhiteSpace(tbxTaskName.Text))
                         newTask.TaskName = "Create .GMA";
                     else
                         newTask.TaskName = tbxTaskName.Text;
 
+                    // If no .GMA file name was provided, give it a default name, else set it to what the user entered
                     if (string.IsNullOrWhiteSpace(txtGMFileName.Text))
                         txtGMFileName.Text = "newgma";
 
+                    // Store the location of the file used to create the .GMA in the GTask FileName property
                     newTask.FileName = txtGFLocation.Text;
-                    newTask.Arguments = "create -folder \"" + txtAFLocation.Text + "\" -out \"" + txtGMAOutput.Text + "\\" + txtGMFileName.Text + ".gma" + "\"";
+
+                    // Store the full name (incluidng .GMA file extension) in the GTask GMAName property
+                    newTask.GMAName = txtGMFileName.Text + ".gma";
+
+                    // Stores the arguments needed to create a gma, by creating a .GMA from a folder, and writing the .GMA to an output location)
+                    newTask.Arguments = "create -folder \"" + txtAFLocation.Text + "\" -out \"" + txtGMAOutput.Text + "\\" + newTask.GMAName + "\"";
                     break;
+                // This task is for extrafting a .GMA that will be output to a specific location
                 case 1:
+                    // Checks if the input is blank or the locations of the required content are not valid
                     if (textBoxesAreBlank(txtGOLoc, txtGMAFLoc, txtGFLoc)
                         || checkLocationsBeingInvalid(txtGOLoc, txtGMAFLoc, txtGFLoc, 1))
                         return;
 
+                    // If the task has no name, give it a default name, else set it to what the user entered
                     if (string.IsNullOrWhiteSpace(tbxTaskName.Text))
                         newTask.TaskName = "Extract .GMA";
                     else
                         newTask.TaskName = tbxTaskName.Text;
 
+                    // Store the location of the file used to extract the .GMA in the GTask FileName property
                     newTask.FileName = txtGMAFLoc.Text;
-                    newTask.FolderLocation = txtGOLoc.Text;
-                    newTask.Arguments = "extract -file \"" + txtGFLoc.Text + "\" -out \"" + txtGOLoc.Text + "\"";
+
+                    // Store the full name (incluidng .GMA file extension) in the GTask GMAName property
+                    newTask.GMAName = txtGFLoc.Text.Substring(txtGFLoc.Text.LastIndexOf("\\") + 1);
+
+                    // Store the location that will be used to output the contents of the extracted .GMA
+                    newTask.FolderLocation = Path.Combine(txtGOLoc.Text, newTask.GMAName.Substring(0, newTask.GMAName.IndexOf(".")));
+
+                    // Store the arguments needed to extract a gma, by seelcting a file, and writing the .GMA's contents to an output location)
+                    newTask.Arguments = "extract -file \"" + txtGFLoc.Text + "\" -out \"" + newTask.FolderLocation + "\"";
                     break;
                 case 2:
                     break;
                 default:
                     break;
             }
+
             newTask.TaskNotes = tbxTaskNotes.Text;
             lbxQueue.Items.Add(newTask);
             list.Add(newTask);
@@ -100,7 +122,7 @@ namespace GMWU
                 else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
                     Process.Start("open", Url);
                 else
-                    rtbErrors.Text += $"[{DateTime.Now.ToString("HH:mm:ss tt")}] The platform that this application is running on is not able to open up the provided URL: {Url}{Environment.NewLine}{Environment.NewLine}";
+                    throw;
             }
         }
 
@@ -193,19 +215,30 @@ namespace GMWU
                 }
             };
 
-            // This part is specifically meant for extracting .GMA files, if the directory does not exist and the FolderLocation property has content, make a new directory
-            if (!string.IsNullOrWhiteSpace(refer.FolderLocation) && !Directory.Exists(refer.FolderLocation))
-                Directory.CreateDirectory(Path.Combine(refer.FolderLocation, refer.FileName.Substring(0, refer.FileName.IndexOf("."))));
-
             // At the moment, I want to make this cross-platform, and in case there are any errors, they are logged to the Errors console window
             try
             {
+                // Start the new process
                 process.Start();
+
+                // Disable being able to run new tasks until the current one is finished
                 btnRunTask.Enabled = false;
+
+                // Check that the process still has work to do
                 while (!process.StandardOutput.EndOfStream)
+
+                    // Print what the process is outputting to the console
                     rtbConsole.Text += process.StandardOutput.ReadLine() + Environment.NewLine;
+
+                // Formatting to keep everything spaced
                 rtbConsole.Text += Environment.NewLine;
+
+                // Enable being able to run new tasks since the current one is finished
                 btnRunTask.Enabled = true;
+
+                // Remove the task from the queue and the "list" data structure
+                list.RemoveAt(lbxQueue.SelectedIndex);
+                lbxQueue.Items.RemoveAt(lbxQueue.SelectedIndex);
             }
             catch (Exception ex)
             {

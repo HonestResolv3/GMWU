@@ -5,6 +5,7 @@
         public string Arguments { get; set; }
         public string FileName { get; set; }
         public string FolderLocation { get; set; }
+        public string GMAName { get; set; }
         public string TaskName { get; set; }
         public string TaskNotes { get; set; }
 
