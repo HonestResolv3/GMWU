@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
@@ -9,11 +10,21 @@ namespace GMWU
 {
     public partial class GMWU : Form
     {
-        List<GTask> list = new List<GTask>();
+        // Declare variables that will be used
+        IntPtr dialog;
+        string dialogResult;
+        readonly List<GTask> list = new List<GTask>();
+        Image newImg;
 
         public GMWU()
         {
             InitializeComponent();
+        }
+
+        // Converts the information from each dialog to a string (such as file location)
+        private static string stringFromAnsi(IntPtr ptr)
+        {
+            return Marshal.PtrToStringAnsi(ptr);
         }
 
         private void btnAdd2Queue_Click(object sender, EventArgs e)
@@ -24,7 +35,7 @@ namespace GMWU
                 // This task is for creating a new .GMA that will be created through GMad.exe
                 case 0:
                     // Checks if the input is blank or the locations of the required content are not valid
-                    if (textBoxesAreBlank(txtAFLocation, txtGFLocation, txtGMAOutput) 
+                    if (textBoxesAreBlank(txtAFLocation, txtGFLocation, txtGMAOutput)
                         || checkLocationsBeingInvalid(txtAFLocation, txtGFLocation, txtGMAOutput, 0))
                         return;
 
@@ -50,8 +61,8 @@ namespace GMWU
                 // This task is for extrafting a .GMA that will be output to a specific location
                 case 1:
                     // Checks if the input is blank or the locations of the required content are not valid
-                    if (textBoxesAreBlank(txtGOLoc, txtGMAFLoc, txtGFLoc)
-                        || checkLocationsBeingInvalid(txtGOLoc, txtGMAFLoc, txtGFLoc, 1))
+                    if (textBoxesAreBlank(txtCOLoc, txtGMAFLoc, txtGFLoc)
+                        || checkLocationsBeingInvalid(txtCOLoc, txtGMAFLoc, txtGFLoc, 1))
                         return;
 
                     // If the task has no name, give it a default name, else set it to what the user entered
@@ -67,7 +78,7 @@ namespace GMWU
                     newTask.GMAName = txtGFLoc.Text.Substring(txtGFLoc.Text.LastIndexOf("\\") + 1);
 
                     // Store the location that will be used to output the contents of the extracted .GMA
-                    newTask.FolderLocation = Path.Combine(txtGOLoc.Text, newTask.GMAName.Substring(0, newTask.GMAName.IndexOf(".")));
+                    newTask.FolderLocation = Path.Combine(txtCOLoc.Text, newTask.GMAName.Substring(0, newTask.GMAName.IndexOf(".")));
 
                     // Store the arguments needed to extract a gma, by seelcting a file, and writing the .GMA's contents to an output location)
                     newTask.Arguments = "extract -file \"" + txtGFLoc.Text + "\" -out \"" + newTask.FolderLocation + "\"";
@@ -202,7 +213,6 @@ namespace GMWU
              * 
              * We do not want to create a new console window and let the output be redirected towards our new console
              */
-
             Process process = new Process
             {
                 StartInfo = new ProcessStartInfo
@@ -247,5 +257,131 @@ namespace GMWU
                 btnRunTask.Enabled = true;
             }
         }
+
+        private void btnAFLocation_Click(object sender, EventArgs e)
+        {
+            dialog = tinyfd.tinyfd_selectFolderDialog("Select addon folder", string.Empty);
+            dialogResult = stringFromAnsi(dialog);
+            if (!string.IsNullOrWhiteSpace(dialogResult))
+                txtAFLocation.Text = dialogResult;
+        }
+
+        private void btnGFLocation_Click(object sender, EventArgs e)
+        {
+            dialog = tinyfd.tinyfd_openFileDialog("Select gmad.exe file", string.Empty, 1, new string[] { "gmad.exe" }, "GMad File (gmad.exe)", 0);
+            dialogResult = stringFromAnsi(dialog);
+            if (!string.IsNullOrWhiteSpace(dialogResult))
+                txtGFLocation.Text = dialogResult;
+
+        }
+
+        private void btnGMAOutput_Click(object sender, EventArgs e)
+        {
+            dialog = tinyfd.tinyfd_selectFolderDialog("Select folder for to put the resulting .GMA in", string.Empty);
+            dialogResult = stringFromAnsi(dialog);
+            if (!string.IsNullOrWhiteSpace(dialogResult))
+                txtGMAOutput.Text = dialogResult;
+        }
+
+        private void btnCOLoc_Click(object sender, EventArgs e)
+        {
+            dialog = tinyfd.tinyfd_selectFolderDialog("Select folder for .GMA content output", string.Empty);
+            dialogResult = stringFromAnsi(dialog);
+            if (!string.IsNullOrWhiteSpace(dialogResult))
+                txtCOLoc.Text = dialogResult;
+        }
+
+        private void btnGMAFLoc_Click(object sender, EventArgs e)
+        {
+            dialog = tinyfd.tinyfd_openFileDialog("Select gmad.exe file", string.Empty, 1, new string[] { "gmad.exe" }, "GMad File (gmad.exe)", 0);
+            dialogResult = stringFromAnsi(dialog);
+            if (!string.IsNullOrWhiteSpace(dialogResult))
+                txtGMAFLoc.Text = dialogResult;
+        }
+
+        private void btnGFLoc_Click(object sender, EventArgs e)
+        {
+            dialog = tinyfd.tinyfd_openFileDialog("Select .gma file", string.Empty, 1, new string[] { "*.gma" }, "Garrys Mod Addon File (*.gma)", 0);
+            dialogResult = stringFromAnsi(dialog);
+            if (!string.IsNullOrWhiteSpace(dialogResult))
+                txtGFLoc.Text = dialogResult;
+        }
+
+        private void btnJILoc_Click(object sender, EventArgs e)
+        {
+            dialog = tinyfd.tinyfd_openFileDialog("Select .jpg file", string.Empty, 1, new string[] { "*.jpg" }, "JPG File (*.jpg)", 0);
+            dialogResult = stringFromAnsi(dialog);
+            if (!string.IsNullOrWhiteSpace(dialogResult))
+            {
+                if (!dialogResult.Contains(".jpg"))
+                {
+                    tinyfd.tinyfd_messageBox("Image Load Error", "This image is not a .jpg", "ok", "error", 1);
+                    return;
+                }
+
+                try
+                {
+                    newImg = Image.FromFile(dialogResult);
+                    if (newImg.Width != 512 || newImg.Height != 512)
+                    {
+                        if (pbxIcon.Image != null)
+                            pbxIcon.Image.Dispose();
+                        tinyfd.tinyfd_messageBox("Image Load Error", "The specified image is not 512x512", "ok", "error", 1);
+                        return;
+                    }
+                    pbxIcon.Image = newImg;
+                    txtJILoc.Text = dialogResult;
+                }
+                catch (Exception ex)
+                {
+                    rtbErrors.Text += $"[{DateTime.Now.ToString("HH:mm:ss tt")}] {ex}{Environment.NewLine}{Environment.NewLine}";
+                }
+            }
+        }
+
+        private void btnGMPULoc_Click(object sender, EventArgs e)
+        {
+            dialog = tinyfd.tinyfd_openFileDialog("Select gmpublish.exe file", string.Empty, 1, new string[] { "gmpublish.exe" }, "GMPublish File (gmpublish.exe)", 0);
+            dialogResult = stringFromAnsi(dialog);
+            if (!string.IsNullOrWhiteSpace(dialogResult))
+                txtGMPULoc.Text = dialogResult;
+        }
+
+        private void btnGMAFILoc_Click(object sender, EventArgs e)
+        {
+            dialog = tinyfd.tinyfd_openFileDialog("Select .gma file", string.Empty, 1, new string[] { "*.gma" }, "Garrys Mod Addon File (*.gma)", 0);
+            dialogResult = stringFromAnsi(dialog);
+            if (!string.IsNullOrWhiteSpace(dialogResult))
+                txtGFLoc.Text = dialogResult;
+        }
+    }
+
+    public class tinyfd
+    {
+        const string fileDialogDll = "tinyfiledialogs32.dll";
+
+        // Cross-platform file dialogs
+        [DllImport(fileDialogDll, CallingConvention = CallingConvention.Cdecl)] public static extern void tinyfd_beep();
+
+        [DllImport(fileDialogDll, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int tinyfd_notifyPopup(string aTitle, string aMessage, string aIconType);
+
+        [DllImport(fileDialogDll, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int tinyfd_messageBox(string aTitle, string aMessage, string aDialogTyle, string aIconType, int aDefaultButton);
+
+        [DllImport(fileDialogDll, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr tinyfd_inputBox(string aTitle, string aMessage, string aDefaultInput);
+
+        [DllImport(fileDialogDll, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr tinyfd_saveFileDialog(string aTitle, string aDefaultPathAndFile, int aNumOfFilterPatterns, string[] aFilterPatterns, string aSingleFilterDescription);
+
+        [DllImport(fileDialogDll, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr tinyfd_openFileDialog(string aTitle, string aDefaultPathAndFile, int aNumOfFilterPatterns, string[] aFilterPatterns, string aSingleFilterDescription, int aAllowMultipleSelects);
+
+        [DllImport(fileDialogDll, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr tinyfd_selectFolderDialog(string aTitle, string aDefaultPathAndFile);
+
+        [DllImport(fileDialogDll, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr tinyfd_colorChooser(string aTitle, string aDefaultHexRGB, byte[] aDefaultRGB, byte[] aoResultRGB);
     }
 }

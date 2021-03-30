@@ -32,12 +32,12 @@ namespace GMWU
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GMWU));
             this.btnAdd2Queue = new System.Windows.Forms.Button();
             this.gboxTaskInfo = new System.Windows.Forms.GroupBox();
-            this.btnRunTask = new System.Windows.Forms.Button();
             this.tbxTaskNotes = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.tbxTaskName = new System.Windows.Forms.TextBox();
             this.lblTaskNotes = new System.Windows.Forms.Label();
             this.lblTextName = new System.Windows.Forms.Label();
+            this.btnRunTask = new System.Windows.Forms.Button();
             this.tctrlMainArea = new System.Windows.Forms.TabControl();
             this.tpgCreatingTasks = new System.Windows.Forms.TabPage();
             this.button1 = new System.Windows.Forms.Button();
@@ -57,13 +57,19 @@ namespace GMWU
             this.tpgExtractGMA = new System.Windows.Forms.TabPage();
             this.txtGFLoc = new System.Windows.Forms.TextBox();
             this.txtGMAFLoc = new System.Windows.Forms.TextBox();
-            this.txtGOLoc = new System.Windows.Forms.TextBox();
+            this.txtCOLoc = new System.Windows.Forms.TextBox();
             this.btnGFLoc = new System.Windows.Forms.Button();
             this.btnGMAFLoc = new System.Windows.Forms.Button();
-            this.btnGOLoc = new System.Windows.Forms.Button();
+            this.btnCOLoc = new System.Windows.Forms.Button();
             this.tpgPublishAddon = new System.Windows.Forms.TabPage();
             this.tpgUpdateAddon = new System.Windows.Forms.TabPage();
             this.tpgUpdateIcon = new System.Windows.Forms.TabPage();
+            this.txtGMAFILoc = new System.Windows.Forms.TextBox();
+            this.txtGMPULoc = new System.Windows.Forms.TextBox();
+            this.txtJILoc = new System.Windows.Forms.TextBox();
+            this.btnGMAFILoc = new System.Windows.Forms.Button();
+            this.btnGMPULoc = new System.Windows.Forms.Button();
+            this.btnJILoc = new System.Windows.Forms.Button();
             this.tpgJSCreator = new System.Windows.Forms.TabPage();
             this.tpgPresetCreator = new System.Windows.Forms.TabPage();
             this.tpgSettings = new System.Windows.Forms.TabPage();
@@ -90,6 +96,7 @@ namespace GMWU
             this.tctrlTasks.SuspendLayout();
             this.tpgCreateGMA.SuspendLayout();
             this.tpgExtractGMA.SuspendLayout();
+            this.tpgUpdateIcon.SuspendLayout();
             this.tpgCredits.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.tctrlConsole.SuspendLayout();
@@ -101,7 +108,7 @@ namespace GMWU
             // 
             // btnAdd2Queue
             // 
-            this.btnAdd2Queue.Location = new System.Drawing.Point(110, 97);
+            this.btnAdd2Queue.Location = new System.Drawing.Point(170, 93);
             this.btnAdd2Queue.Name = "btnAdd2Queue";
             this.btnAdd2Queue.Size = new System.Drawing.Size(129, 23);
             this.btnAdd2Queue.TabIndex = 6;
@@ -111,7 +118,6 @@ namespace GMWU
             // 
             // gboxTaskInfo
             // 
-            this.gboxTaskInfo.Controls.Add(this.btnRunTask);
             this.gboxTaskInfo.Controls.Add(this.btnAdd2Queue);
             this.gboxTaskInfo.Controls.Add(this.tbxTaskNotes);
             this.gboxTaskInfo.Controls.Add(this.label3);
@@ -124,16 +130,6 @@ namespace GMWU
             this.gboxTaskInfo.TabIndex = 1;
             this.gboxTaskInfo.TabStop = false;
             this.gboxTaskInfo.Text = "Task Information";
-            // 
-            // btnRunTask
-            // 
-            this.btnRunTask.Location = new System.Drawing.Point(245, 97);
-            this.btnRunTask.Name = "btnRunTask";
-            this.btnRunTask.Size = new System.Drawing.Size(129, 23);
-            this.btnRunTask.TabIndex = 9;
-            this.btnRunTask.Text = "Run Task in Queue";
-            this.btnRunTask.UseVisualStyleBackColor = true;
-            this.btnRunTask.Click += new System.EventHandler(this.btnRunTask_Click);
             // 
             // tbxTaskNotes
             // 
@@ -176,6 +172,16 @@ namespace GMWU
             this.lblTextName.Size = new System.Drawing.Size(64, 13);
             this.lblTextName.TabIndex = 0;
             this.lblTextName.Text = "Task Name:";
+            // 
+            // btnRunTask
+            // 
+            this.btnRunTask.Location = new System.Drawing.Point(146, 295);
+            this.btnRunTask.Name = "btnRunTask";
+            this.btnRunTask.Size = new System.Drawing.Size(129, 23);
+            this.btnRunTask.TabIndex = 9;
+            this.btnRunTask.Text = "Run Task in Queue";
+            this.btnRunTask.UseVisualStyleBackColor = true;
+            this.btnRunTask.Click += new System.EventHandler(this.btnRunTask_Click);
             // 
             // tctrlMainArea
             // 
@@ -309,7 +315,7 @@ namespace GMWU
             // txtAFLocation
             // 
             this.txtAFLocation.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.txtAFLocation.Location = new System.Drawing.Point(169, 18);
+            this.txtAFLocation.Location = new System.Drawing.Point(169, 17);
             this.txtAFLocation.Name = "txtAFLocation";
             this.txtAFLocation.Size = new System.Drawing.Size(287, 22);
             this.txtAFLocation.TabIndex = 1;
@@ -323,6 +329,7 @@ namespace GMWU
             this.btnGMAOutput.TabIndex = 4;
             this.btnGMAOutput.Text = ".GMA Output Location";
             this.btnGMAOutput.UseVisualStyleBackColor = true;
+            this.btnGMAOutput.Click += new System.EventHandler(this.btnGMAOutput_Click);
             // 
             // btnGFLocation
             // 
@@ -331,8 +338,9 @@ namespace GMWU
             this.btnGFLocation.Name = "btnGFLocation";
             this.btnGFLocation.Size = new System.Drawing.Size(155, 23);
             this.btnGFLocation.TabIndex = 2;
-            this.btnGFLocation.Text = "GMad.EXE File Location";
+            this.btnGFLocation.Text = "GMad File Location";
             this.btnGFLocation.UseVisualStyleBackColor = true;
+            this.btnGFLocation.Click += new System.EventHandler(this.btnGFLocation_Click);
             // 
             // btnAFLocation
             // 
@@ -343,15 +351,16 @@ namespace GMWU
             this.btnAFLocation.TabIndex = 0;
             this.btnAFLocation.Text = "Addon Folder Location";
             this.btnAFLocation.UseVisualStyleBackColor = true;
+            this.btnAFLocation.Click += new System.EventHandler(this.btnAFLocation_Click);
             // 
             // tpgExtractGMA
             // 
             this.tpgExtractGMA.Controls.Add(this.txtGFLoc);
             this.tpgExtractGMA.Controls.Add(this.txtGMAFLoc);
-            this.tpgExtractGMA.Controls.Add(this.txtGOLoc);
+            this.tpgExtractGMA.Controls.Add(this.txtCOLoc);
             this.tpgExtractGMA.Controls.Add(this.btnGFLoc);
             this.tpgExtractGMA.Controls.Add(this.btnGMAFLoc);
-            this.tpgExtractGMA.Controls.Add(this.btnGOLoc);
+            this.tpgExtractGMA.Controls.Add(this.btnCOLoc);
             this.tpgExtractGMA.Location = new System.Drawing.Point(4, 22);
             this.tpgExtractGMA.Name = "tpgExtractGMA";
             this.tpgExtractGMA.Padding = new System.Windows.Forms.Padding(3);
@@ -363,7 +372,7 @@ namespace GMWU
             // txtGFLoc
             // 
             this.txtGFLoc.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.txtGFLoc.Location = new System.Drawing.Point(169, 110);
+            this.txtGFLoc.Location = new System.Drawing.Point(169, 111);
             this.txtGFLoc.Name = "txtGFLoc";
             this.txtGFLoc.Size = new System.Drawing.Size(287, 22);
             this.txtGFLoc.TabIndex = 11;
@@ -371,48 +380,51 @@ namespace GMWU
             // txtGMAFLoc
             // 
             this.txtGMAFLoc.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.txtGMAFLoc.Location = new System.Drawing.Point(169, 62);
+            this.txtGMAFLoc.Location = new System.Drawing.Point(169, 63);
             this.txtGMAFLoc.Name = "txtGMAFLoc";
             this.txtGMAFLoc.Size = new System.Drawing.Size(287, 22);
             this.txtGMAFLoc.TabIndex = 9;
             // 
-            // txtGOLoc
+            // txtCOLoc
             // 
-            this.txtGOLoc.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.txtGOLoc.Location = new System.Drawing.Point(169, 16);
-            this.txtGOLoc.Name = "txtGOLoc";
-            this.txtGOLoc.Size = new System.Drawing.Size(287, 22);
-            this.txtGOLoc.TabIndex = 7;
+            this.txtCOLoc.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.txtCOLoc.Location = new System.Drawing.Point(169, 17);
+            this.txtCOLoc.Name = "txtCOLoc";
+            this.txtCOLoc.Size = new System.Drawing.Size(287, 22);
+            this.txtCOLoc.TabIndex = 7;
             // 
             // btnGFLoc
             // 
             this.btnGFLoc.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnGFLoc.Location = new System.Drawing.Point(8, 109);
+            this.btnGFLoc.Location = new System.Drawing.Point(8, 110);
             this.btnGFLoc.Name = "btnGFLoc";
             this.btnGFLoc.Size = new System.Drawing.Size(155, 23);
             this.btnGFLoc.TabIndex = 10;
             this.btnGFLoc.Text = ".GMA File Location";
             this.btnGFLoc.UseVisualStyleBackColor = true;
+            this.btnGFLoc.Click += new System.EventHandler(this.btnGFLoc_Click);
             // 
             // btnGMAFLoc
             // 
             this.btnGMAFLoc.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnGMAFLoc.Location = new System.Drawing.Point(8, 61);
+            this.btnGMAFLoc.Location = new System.Drawing.Point(8, 62);
             this.btnGMAFLoc.Name = "btnGMAFLoc";
             this.btnGMAFLoc.Size = new System.Drawing.Size(155, 23);
             this.btnGMAFLoc.TabIndex = 8;
-            this.btnGMAFLoc.Text = "GMad.EXE File Location";
+            this.btnGMAFLoc.Text = "GMad File Location";
             this.btnGMAFLoc.UseVisualStyleBackColor = true;
+            this.btnGMAFLoc.Click += new System.EventHandler(this.btnGMAFLoc_Click);
             // 
-            // btnGOLoc
+            // btnCOLoc
             // 
-            this.btnGOLoc.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnGOLoc.Location = new System.Drawing.Point(8, 15);
-            this.btnGOLoc.Name = "btnGOLoc";
-            this.btnGOLoc.Size = new System.Drawing.Size(155, 23);
-            this.btnGOLoc.TabIndex = 6;
-            this.btnGOLoc.Text = ".GMA Output Location";
-            this.btnGOLoc.UseVisualStyleBackColor = true;
+            this.btnCOLoc.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnCOLoc.Location = new System.Drawing.Point(8, 16);
+            this.btnCOLoc.Name = "btnCOLoc";
+            this.btnCOLoc.Size = new System.Drawing.Size(155, 23);
+            this.btnCOLoc.TabIndex = 6;
+            this.btnCOLoc.Text = "Content Output Location";
+            this.btnCOLoc.UseVisualStyleBackColor = true;
+            this.btnCOLoc.Click += new System.EventHandler(this.btnCOLoc_Click);
             // 
             // tpgPublishAddon
             // 
@@ -436,6 +448,12 @@ namespace GMWU
             // 
             // tpgUpdateIcon
             // 
+            this.tpgUpdateIcon.Controls.Add(this.txtGMAFILoc);
+            this.tpgUpdateIcon.Controls.Add(this.txtGMPULoc);
+            this.tpgUpdateIcon.Controls.Add(this.txtJILoc);
+            this.tpgUpdateIcon.Controls.Add(this.btnGMAFILoc);
+            this.tpgUpdateIcon.Controls.Add(this.btnGMPULoc);
+            this.tpgUpdateIcon.Controls.Add(this.btnJILoc);
             this.tpgUpdateIcon.Location = new System.Drawing.Point(4, 22);
             this.tpgUpdateIcon.Name = "tpgUpdateIcon";
             this.tpgUpdateIcon.Padding = new System.Windows.Forms.Padding(3);
@@ -443,6 +461,63 @@ namespace GMWU
             this.tpgUpdateIcon.TabIndex = 4;
             this.tpgUpdateIcon.Text = "Update Icon";
             this.tpgUpdateIcon.UseVisualStyleBackColor = true;
+            // 
+            // txtGMAFILoc
+            // 
+            this.txtGMAFILoc.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.txtGMAFILoc.Location = new System.Drawing.Point(169, 111);
+            this.txtGMAFILoc.Name = "txtGMAFILoc";
+            this.txtGMAFILoc.Size = new System.Drawing.Size(287, 22);
+            this.txtGMAFILoc.TabIndex = 17;
+            // 
+            // txtGMPULoc
+            // 
+            this.txtGMPULoc.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.txtGMPULoc.Location = new System.Drawing.Point(169, 63);
+            this.txtGMPULoc.Name = "txtGMPULoc";
+            this.txtGMPULoc.Size = new System.Drawing.Size(287, 22);
+            this.txtGMPULoc.TabIndex = 15;
+            // 
+            // txtJILoc
+            // 
+            this.txtJILoc.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.txtJILoc.Location = new System.Drawing.Point(169, 17);
+            this.txtJILoc.Name = "txtJILoc";
+            this.txtJILoc.Size = new System.Drawing.Size(287, 22);
+            this.txtJILoc.TabIndex = 13;
+            // 
+            // btnGMAFILoc
+            // 
+            this.btnGMAFILoc.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnGMAFILoc.Location = new System.Drawing.Point(8, 110);
+            this.btnGMAFILoc.Name = "btnGMAFILoc";
+            this.btnGMAFILoc.Size = new System.Drawing.Size(155, 23);
+            this.btnGMAFILoc.TabIndex = 16;
+            this.btnGMAFILoc.Text = ".GMA File Location";
+            this.btnGMAFILoc.UseVisualStyleBackColor = true;
+            this.btnGMAFILoc.Click += new System.EventHandler(this.btnGMAFILoc_Click);
+            // 
+            // btnGMPULoc
+            // 
+            this.btnGMPULoc.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnGMPULoc.Location = new System.Drawing.Point(8, 62);
+            this.btnGMPULoc.Name = "btnGMPULoc";
+            this.btnGMPULoc.Size = new System.Drawing.Size(155, 23);
+            this.btnGMPULoc.TabIndex = 14;
+            this.btnGMPULoc.Text = "GMPublish File Location";
+            this.btnGMPULoc.UseVisualStyleBackColor = true;
+            this.btnGMPULoc.Click += new System.EventHandler(this.btnGMPULoc_Click);
+            // 
+            // btnJILoc
+            // 
+            this.btnJILoc.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnJILoc.Location = new System.Drawing.Point(8, 16);
+            this.btnJILoc.Name = "btnJILoc";
+            this.btnJILoc.Size = new System.Drawing.Size(155, 23);
+            this.btnJILoc.TabIndex = 12;
+            this.btnJILoc.Text = ".JPG Icon Location";
+            this.btnJILoc.UseVisualStyleBackColor = true;
+            this.btnJILoc.Click += new System.EventHandler(this.btnJILoc_Click);
             // 
             // tpgJSCreator
             // 
@@ -511,7 +586,7 @@ namespace GMWU
             // lblCreatedByTitle
             // 
             this.lblCreatedByTitle.AutoSize = true;
-            this.lblCreatedByTitle.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.lblCreatedByTitle.Font = new System.Drawing.Font("Segoe UI", 14.25F);
             this.lblCreatedByTitle.Location = new System.Drawing.Point(204, 26);
             this.lblCreatedByTitle.Name = "lblCreatedByTitle";
             this.lblCreatedByTitle.Size = new System.Drawing.Size(250, 25);
@@ -613,6 +688,7 @@ namespace GMWU
             // 
             // tpgQueue
             // 
+            this.tpgQueue.Controls.Add(this.btnRunTask);
             this.tpgQueue.Controls.Add(this.lbxQueue);
             this.tpgQueue.Location = new System.Drawing.Point(4, 22);
             this.tpgQueue.Name = "tpgQueue";
@@ -629,7 +705,7 @@ namespace GMWU
             this.lbxQueue.FormattingEnabled = true;
             this.lbxQueue.Location = new System.Drawing.Point(6, 7);
             this.lbxQueue.Name = "lbxQueue";
-            this.lbxQueue.Size = new System.Drawing.Size(403, 316);
+            this.lbxQueue.Size = new System.Drawing.Size(403, 277);
             this.lbxQueue.TabIndex = 0;
             // 
             // tabPage2
@@ -650,7 +726,7 @@ namespace GMWU
             this.Controls.Add(this.tctrlTaskArea);
             this.Controls.Add(this.tctrlConsole);
             this.Controls.Add(this.tctrlMainArea);
-            this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.Font = new System.Drawing.Font("Segoe UI", 8.25F);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(1153, 679);
             this.Name = "GMWU";
@@ -667,6 +743,8 @@ namespace GMWU
             this.tpgCreateGMA.PerformLayout();
             this.tpgExtractGMA.ResumeLayout(false);
             this.tpgExtractGMA.PerformLayout();
+            this.tpgUpdateIcon.ResumeLayout(false);
+            this.tpgUpdateIcon.PerformLayout();
             this.tpgCredits.ResumeLayout(false);
             this.tpgCredits.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
@@ -706,10 +784,10 @@ namespace GMWU
         private System.Windows.Forms.TabPage tpgExtractGMA;
         private System.Windows.Forms.TextBox txtGFLoc;
         private System.Windows.Forms.TextBox txtGMAFLoc;
-        private System.Windows.Forms.TextBox txtGOLoc;
+        private System.Windows.Forms.TextBox txtCOLoc;
         private System.Windows.Forms.Button btnGFLoc;
         private System.Windows.Forms.Button btnGMAFLoc;
-        private System.Windows.Forms.Button btnGOLoc;
+        private System.Windows.Forms.Button btnCOLoc;
         private System.Windows.Forms.TabPage tpgPublishAddon;
         private System.Windows.Forms.TabPage tpgPresetCreator;
         private System.Windows.Forms.TabPage tpgSettings;
@@ -732,6 +810,12 @@ namespace GMWU
         private System.Windows.Forms.Button btnRunTask;
         private System.Windows.Forms.Label lblGMAFileName;
         private System.Windows.Forms.TextBox txtGMFileName;
+        private System.Windows.Forms.TextBox txtGMAFILoc;
+        private System.Windows.Forms.TextBox txtGMPULoc;
+        private System.Windows.Forms.TextBox txtJILoc;
+        private System.Windows.Forms.Button btnGMAFILoc;
+        private System.Windows.Forms.Button btnGMPULoc;
+        private System.Windows.Forms.Button btnJILoc;
     }
 }
 
