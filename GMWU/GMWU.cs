@@ -386,6 +386,13 @@ namespace GMWU
                 return;
             }
 
+            Process[] steam = Process.GetProcessesByName("steam");
+            if (steam.Length == 0)
+            {
+                tinyfd.tinyfd_messageBox("Steam.exe Not Running", "You need to load up Steam to use this part of the program", "ok", "error", 1);
+                return;
+            }
+
             Process addonList = new Process
             {
                 StartInfo = new ProcessStartInfo
