@@ -71,14 +71,33 @@ namespace GMWU
             this.btnGMPULoc = new System.Windows.Forms.Button();
             this.btnJILoc = new System.Windows.Forms.Button();
             this.tpgJSCreator = new System.Windows.Forms.TabPage();
+            this.btnCreateJS = new System.Windows.Forms.Button();
+            this.gbxAddonProperties = new System.Windows.Forms.GroupBox();
+            this.cbxTag2 = new System.Windows.Forms.ComboBox();
+            this.cbxTag1 = new System.Windows.Forms.ComboBox();
+            this.cbxAddonType = new System.Windows.Forms.ComboBox();
+            this.lblAddonType = new System.Windows.Forms.Label();
+            this.lblAddonTags = new System.Windows.Forms.Label();
+            this.lblEnterWildcards = new System.Windows.Forms.Label();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.lblAddonTitle = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtJSOutput = new System.Windows.Forms.TextBox();
+            this.btnJSOutput = new System.Windows.Forms.Button();
             this.tpgPresetCreator = new System.Windows.Forms.TabPage();
             this.tpgSettings = new System.Windows.Forms.TabPage();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.gbxGExeLoc = new System.Windows.Forms.GroupBox();
+            this.btnDefGMAFile = new System.Windows.Forms.Button();
+            this.chkUseDefaultExe = new System.Windows.Forms.CheckBox();
+            this.txtDefGMAFile = new System.Windows.Forms.TextBox();
+            this.btnDefGMPUFile = new System.Windows.Forms.Button();
+            this.txtDefGMPFile = new System.Windows.Forms.TextBox();
             this.tpgCredits = new System.Windows.Forms.TabPage();
             this.btnSteam = new System.Windows.Forms.Button();
             this.btnGitHub = new System.Windows.Forms.Button();
             this.lblCreatedByTitle = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.tpgChangelog = new System.Windows.Forms.TabPage();
             this.tctrlConsole = new System.Windows.Forms.TabControl();
             this.tpgConsole = new System.Windows.Forms.TabPage();
             this.rtbConsole = new System.Windows.Forms.RichTextBox();
@@ -86,8 +105,11 @@ namespace GMWU
             this.rtbErrors = new System.Windows.Forms.RichTextBox();
             this.tctrlTaskArea = new System.Windows.Forms.TabControl();
             this.tpgQueue = new System.Windows.Forms.TabPage();
+            this.btnDeleteTask = new System.Windows.Forms.Button();
             this.lbxQueue = new System.Windows.Forms.ListBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.lbxAddonList = new System.Windows.Forms.ListBox();
+            this.btnLoadAddons = new System.Windows.Forms.Button();
             this.gboxTaskInfo.SuspendLayout();
             this.tctrlMainArea.SuspendLayout();
             this.tpgCreatingTasks.SuspendLayout();
@@ -97,6 +119,10 @@ namespace GMWU
             this.tpgCreateGMA.SuspendLayout();
             this.tpgExtractGMA.SuspendLayout();
             this.tpgUpdateIcon.SuspendLayout();
+            this.tpgJSCreator.SuspendLayout();
+            this.gbxAddonProperties.SuspendLayout();
+            this.tpgSettings.SuspendLayout();
+            this.gbxGExeLoc.SuspendLayout();
             this.tpgCredits.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.tctrlConsole.SuspendLayout();
@@ -104,11 +130,13 @@ namespace GMWU
             this.tpgErrors.SuspendLayout();
             this.tctrlTaskArea.SuspendLayout();
             this.tpgQueue.SuspendLayout();
+            this.tabPage2.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnAdd2Queue
             // 
-            this.btnAdd2Queue.Location = new System.Drawing.Point(170, 93);
+            this.btnAdd2Queue.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnAdd2Queue.Location = new System.Drawing.Point(170, 94);
             this.btnAdd2Queue.Name = "btnAdd2Queue";
             this.btnAdd2Queue.Size = new System.Drawing.Size(129, 23);
             this.btnAdd2Queue.TabIndex = 6;
@@ -175,7 +203,8 @@ namespace GMWU
             // 
             // btnRunTask
             // 
-            this.btnRunTask.Location = new System.Drawing.Point(146, 295);
+            this.btnRunTask.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnRunTask.Location = new System.Drawing.Point(76, 298);
             this.btnRunTask.Name = "btnRunTask";
             this.btnRunTask.Size = new System.Drawing.Size(129, 23);
             this.btnRunTask.TabIndex = 9;
@@ -190,7 +219,6 @@ namespace GMWU
             this.tctrlMainArea.Controls.Add(this.tpgPresetCreator);
             this.tctrlMainArea.Controls.Add(this.tpgSettings);
             this.tctrlMainArea.Controls.Add(this.tpgCredits);
-            this.tctrlMainArea.Controls.Add(this.tpgChangelog);
             this.tctrlMainArea.Location = new System.Drawing.Point(13, 12);
             this.tctrlMainArea.Name = "tctrlMainArea";
             this.tctrlMainArea.SelectedIndex = 0;
@@ -213,6 +241,7 @@ namespace GMWU
             // 
             // button1
             // 
+            this.button1.Cursor = System.Windows.Forms.Cursors.Hand;
             this.button1.Location = new System.Drawing.Point(513, 255);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(129, 23);
@@ -521,6 +550,14 @@ namespace GMWU
             // 
             // tpgJSCreator
             // 
+            this.tpgJSCreator.Controls.Add(this.btnCreateJS);
+            this.tpgJSCreator.Controls.Add(this.gbxAddonProperties);
+            this.tpgJSCreator.Controls.Add(this.lblEnterWildcards);
+            this.tpgJSCreator.Controls.Add(this.textBox2);
+            this.tpgJSCreator.Controls.Add(this.lblAddonTitle);
+            this.tpgJSCreator.Controls.Add(this.textBox1);
+            this.tpgJSCreator.Controls.Add(this.txtJSOutput);
+            this.tpgJSCreator.Controls.Add(this.btnJSOutput);
             this.tpgJSCreator.Location = new System.Drawing.Point(4, 22);
             this.tpgJSCreator.Name = "tpgJSCreator";
             this.tpgJSCreator.Padding = new System.Windows.Forms.Padding(3);
@@ -528,6 +565,160 @@ namespace GMWU
             this.tpgJSCreator.TabIndex = 1;
             this.tpgJSCreator.Text = ".JSON Creator";
             this.tpgJSCreator.UseVisualStyleBackColor = true;
+            // 
+            // btnCreateJS
+            // 
+            this.btnCreateJS.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnCreateJS.Location = new System.Drawing.Point(274, 298);
+            this.btnCreateJS.Name = "btnCreateJS";
+            this.btnCreateJS.Size = new System.Drawing.Size(155, 23);
+            this.btnCreateJS.TabIndex = 17;
+            this.btnCreateJS.Text = "Create .JSON File";
+            this.btnCreateJS.UseVisualStyleBackColor = true;
+            // 
+            // gbxAddonProperties
+            // 
+            this.gbxAddonProperties.Controls.Add(this.cbxTag2);
+            this.gbxAddonProperties.Controls.Add(this.cbxTag1);
+            this.gbxAddonProperties.Controls.Add(this.cbxAddonType);
+            this.gbxAddonProperties.Controls.Add(this.lblAddonType);
+            this.gbxAddonProperties.Controls.Add(this.lblAddonTags);
+            this.gbxAddonProperties.Location = new System.Drawing.Point(8, 101);
+            this.gbxAddonProperties.Name = "gbxAddonProperties";
+            this.gbxAddonProperties.Size = new System.Drawing.Size(662, 183);
+            this.gbxAddonProperties.TabIndex = 15;
+            this.gbxAddonProperties.TabStop = false;
+            this.gbxAddonProperties.Text = "Addon Properties";
+            // 
+            // cbxTag2
+            // 
+            this.cbxTag2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbxTag2.FormattingEnabled = true;
+            this.cbxTag2.Items.AddRange(new object[] {
+            "",
+            "Fun",
+            "Roleplay",
+            "Scenic",
+            "Movie",
+            "Realism",
+            "Cartoon",
+            "Water",
+            "Comic",
+            "Build"});
+            this.cbxTag2.Location = new System.Drawing.Point(267, 66);
+            this.cbxTag2.Name = "cbxTag2";
+            this.cbxTag2.Size = new System.Drawing.Size(253, 21);
+            this.cbxTag2.TabIndex = 22;
+            // 
+            // cbxTag1
+            // 
+            this.cbxTag1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbxTag1.FormattingEnabled = true;
+            this.cbxTag1.Items.AddRange(new object[] {
+            "Fun",
+            "Roleplay",
+            "Scenic",
+            "Movie",
+            "Realism",
+            "Cartoon",
+            "Water",
+            "Comic",
+            "Build"});
+            this.cbxTag1.Location = new System.Drawing.Point(267, 39);
+            this.cbxTag1.Name = "cbxTag1";
+            this.cbxTag1.Size = new System.Drawing.Size(253, 21);
+            this.cbxTag1.TabIndex = 21;
+            // 
+            // cbxAddonType
+            // 
+            this.cbxAddonType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbxAddonType.FormattingEnabled = true;
+            this.cbxAddonType.Items.AddRange(new object[] {
+            "ServerContent",
+            "Gamemode",
+            "Map",
+            "Weapon",
+            "Vehicle",
+            "Npc",
+            "Tool",
+            "Effects",
+            "Model",
+            "Entity"});
+            this.cbxAddonType.Location = new System.Drawing.Point(266, 126);
+            this.cbxAddonType.Name = "cbxAddonType";
+            this.cbxAddonType.Size = new System.Drawing.Size(253, 21);
+            this.cbxAddonType.TabIndex = 20;
+            // 
+            // lblAddonType
+            // 
+            this.lblAddonType.AutoSize = true;
+            this.lblAddonType.Location = new System.Drawing.Point(160, 130);
+            this.lblAddonType.Name = "lblAddonType";
+            this.lblAddonType.Size = new System.Drawing.Size(101, 13);
+            this.lblAddonType.TabIndex = 19;
+            this.lblAddonType.Text = "Enter Addon Type:";
+            // 
+            // lblAddonTags
+            // 
+            this.lblAddonTags.AutoSize = true;
+            this.lblAddonTags.Location = new System.Drawing.Point(160, 54);
+            this.lblAddonTags.Name = "lblAddonTags";
+            this.lblAddonTags.Size = new System.Drawing.Size(101, 13);
+            this.lblAddonTags.TabIndex = 18;
+            this.lblAddonTags.Text = "Enter Addon Tags:";
+            // 
+            // lblEnterWildcards
+            // 
+            this.lblEnterWildcards.AutoSize = true;
+            this.lblEnterWildcards.Location = new System.Drawing.Point(7, 76);
+            this.lblEnterWildcards.Name = "lblEnterWildcards";
+            this.lblEnterWildcards.Size = new System.Drawing.Size(91, 13);
+            this.lblEnterWildcards.TabIndex = 14;
+            this.lblEnterWildcards.Text = "Enter Wildcards:";
+            // 
+            // textBox2
+            // 
+            this.textBox2.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.textBox2.Location = new System.Drawing.Point(113, 73);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(559, 22);
+            this.textBox2.TabIndex = 13;
+            // 
+            // lblAddonTitle
+            // 
+            this.lblAddonTitle.AutoSize = true;
+            this.lblAddonTitle.Location = new System.Drawing.Point(7, 48);
+            this.lblAddonTitle.Name = "lblAddonTitle";
+            this.lblAddonTitle.Size = new System.Drawing.Size(100, 13);
+            this.lblAddonTitle.TabIndex = 12;
+            this.lblAddonTitle.Text = "Enter Addon Title:";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.textBox1.Location = new System.Drawing.Point(113, 45);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(559, 22);
+            this.textBox1.TabIndex = 11;
+            // 
+            // txtJSOutput
+            // 
+            this.txtJSOutput.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.txtJSOutput.Location = new System.Drawing.Point(167, 15);
+            this.txtJSOutput.Name = "txtJSOutput";
+            this.txtJSOutput.Size = new System.Drawing.Size(505, 22);
+            this.txtJSOutput.TabIndex = 3;
+            // 
+            // btnJSOutput
+            // 
+            this.btnJSOutput.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnJSOutput.Location = new System.Drawing.Point(6, 14);
+            this.btnJSOutput.Name = "btnJSOutput";
+            this.btnJSOutput.Size = new System.Drawing.Size(155, 23);
+            this.btnJSOutput.TabIndex = 2;
+            this.btnJSOutput.Text = ".JSON File Output";
+            this.btnJSOutput.UseVisualStyleBackColor = true;
+            this.btnJSOutput.Click += new System.EventHandler(this.btnJSOutput_Click);
             // 
             // tpgPresetCreator
             // 
@@ -541,6 +732,8 @@ namespace GMWU
             // 
             // tpgSettings
             // 
+            this.tpgSettings.Controls.Add(this.groupBox2);
+            this.tpgSettings.Controls.Add(this.gbxGExeLoc);
             this.tpgSettings.Location = new System.Drawing.Point(4, 22);
             this.tpgSettings.Name = "tpgSettings";
             this.tpgSettings.Padding = new System.Windows.Forms.Padding(3);
@@ -548,6 +741,74 @@ namespace GMWU
             this.tpgSettings.TabIndex = 3;
             this.tpgSettings.Text = "Settings";
             this.tpgSettings.UseVisualStyleBackColor = true;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Location = new System.Drawing.Point(6, 105);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(666, 100);
+            this.groupBox2.TabIndex = 8;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "General Settings";
+            // 
+            // gbxGExeLoc
+            // 
+            this.gbxGExeLoc.Controls.Add(this.btnDefGMAFile);
+            this.gbxGExeLoc.Controls.Add(this.chkUseDefaultExe);
+            this.gbxGExeLoc.Controls.Add(this.txtDefGMAFile);
+            this.gbxGExeLoc.Controls.Add(this.btnDefGMPUFile);
+            this.gbxGExeLoc.Controls.Add(this.txtDefGMPFile);
+            this.gbxGExeLoc.Location = new System.Drawing.Point(5, 5);
+            this.gbxGExeLoc.Name = "gbxGExeLoc";
+            this.gbxGExeLoc.Size = new System.Drawing.Size(667, 100);
+            this.gbxGExeLoc.TabIndex = 7;
+            this.gbxGExeLoc.TabStop = false;
+            this.gbxGExeLoc.Text = "Garry\'s Mod .EXE Locations";
+            // 
+            // btnDefGMAFile
+            // 
+            this.btnDefGMAFile.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnDefGMAFile.Location = new System.Drawing.Point(7, 21);
+            this.btnDefGMAFile.Name = "btnDefGMAFile";
+            this.btnDefGMAFile.Size = new System.Drawing.Size(187, 23);
+            this.btnDefGMAFile.TabIndex = 4;
+            this.btnDefGMAFile.Text = "Default GMad File Location";
+            this.btnDefGMAFile.UseVisualStyleBackColor = true;
+            // 
+            // chkUseDefaultExe
+            // 
+            this.chkUseDefaultExe.AutoSize = true;
+            this.chkUseDefaultExe.Location = new System.Drawing.Point(8, 77);
+            this.chkUseDefaultExe.Name = "chkUseDefaultExe";
+            this.chkUseDefaultExe.Size = new System.Drawing.Size(186, 17);
+            this.chkUseDefaultExe.TabIndex = 6;
+            this.chkUseDefaultExe.Text = "Use these locations with tasks?";
+            this.chkUseDefaultExe.UseVisualStyleBackColor = true;
+            // 
+            // txtDefGMAFile
+            // 
+            this.txtDefGMAFile.Location = new System.Drawing.Point(200, 22);
+            this.txtDefGMAFile.Name = "txtDefGMAFile";
+            this.txtDefGMAFile.Size = new System.Drawing.Size(461, 22);
+            this.txtDefGMAFile.TabIndex = 1;
+            // 
+            // btnDefGMPUFile
+            // 
+            this.btnDefGMPUFile.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnDefGMPUFile.Location = new System.Drawing.Point(7, 49);
+            this.btnDefGMPUFile.Name = "btnDefGMPUFile";
+            this.btnDefGMPUFile.Size = new System.Drawing.Size(187, 23);
+            this.btnDefGMPUFile.TabIndex = 5;
+            this.btnDefGMPUFile.Text = "Default GMPublish File Location";
+            this.btnDefGMPUFile.UseVisualStyleBackColor = true;
+            this.btnDefGMPUFile.Click += new System.EventHandler(this.btnDefGMPUFile_Click);
+            // 
+            // txtDefGMPFile
+            // 
+            this.txtDefGMPFile.Location = new System.Drawing.Point(200, 50);
+            this.txtDefGMPFile.Name = "txtDefGMPFile";
+            this.txtDefGMPFile.Size = new System.Drawing.Size(461, 22);
+            this.txtDefGMPFile.TabIndex = 3;
             // 
             // tpgCredits
             // 
@@ -602,16 +863,6 @@ namespace GMWU
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
-            // 
-            // tpgChangelog
-            // 
-            this.tpgChangelog.Location = new System.Drawing.Point(4, 22);
-            this.tpgChangelog.Name = "tpgChangelog";
-            this.tpgChangelog.Padding = new System.Windows.Forms.Padding(3);
-            this.tpgChangelog.Size = new System.Drawing.Size(678, 332);
-            this.tpgChangelog.TabIndex = 5;
-            this.tpgChangelog.Text = "Changelog";
-            this.tpgChangelog.UseVisualStyleBackColor = true;
             // 
             // tctrlConsole
             // 
@@ -688,6 +939,7 @@ namespace GMWU
             // 
             // tpgQueue
             // 
+            this.tpgQueue.Controls.Add(this.btnDeleteTask);
             this.tpgQueue.Controls.Add(this.btnRunTask);
             this.tpgQueue.Controls.Add(this.lbxQueue);
             this.tpgQueue.Location = new System.Drawing.Point(4, 22);
@@ -697,6 +949,17 @@ namespace GMWU
             this.tpgQueue.TabIndex = 0;
             this.tpgQueue.Text = "Queue";
             this.tpgQueue.UseVisualStyleBackColor = true;
+            // 
+            // btnDeleteTask
+            // 
+            this.btnDeleteTask.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnDeleteTask.Location = new System.Drawing.Point(211, 298);
+            this.btnDeleteTask.Name = "btnDeleteTask";
+            this.btnDeleteTask.Size = new System.Drawing.Size(129, 23);
+            this.btnDeleteTask.TabIndex = 10;
+            this.btnDeleteTask.Text = "Delete Task in Queue";
+            this.btnDeleteTask.UseVisualStyleBackColor = true;
+            this.btnDeleteTask.Click += new System.EventHandler(this.btnDeleteTask_Click);
             // 
             // lbxQueue
             // 
@@ -710,6 +973,8 @@ namespace GMWU
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.lbxAddonList);
+            this.tabPage2.Controls.Add(this.btnLoadAddons);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
@@ -717,6 +982,27 @@ namespace GMWU
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Addon List";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // lbxAddonList
+            // 
+            this.lbxAddonList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbxAddonList.FormattingEnabled = true;
+            this.lbxAddonList.Location = new System.Drawing.Point(6, 7);
+            this.lbxAddonList.Name = "lbxAddonList";
+            this.lbxAddonList.Size = new System.Drawing.Size(403, 277);
+            this.lbxAddonList.TabIndex = 13;
+            // 
+            // btnLoadAddons
+            // 
+            this.btnLoadAddons.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnLoadAddons.Location = new System.Drawing.Point(139, 298);
+            this.btnLoadAddons.Name = "btnLoadAddons";
+            this.btnLoadAddons.Size = new System.Drawing.Size(129, 23);
+            this.btnLoadAddons.TabIndex = 12;
+            this.btnLoadAddons.Text = "Load Addon List";
+            this.btnLoadAddons.UseVisualStyleBackColor = true;
+            this.btnLoadAddons.Click += new System.EventHandler(this.btnLoadAddons_Click);
             // 
             // GMWU
             // 
@@ -730,7 +1016,9 @@ namespace GMWU
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(1153, 679);
             this.Name = "GMWU";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Garry\'s Mod Workshop Utility";
+            this.Load += new System.EventHandler(this.GMWU_Load);
             this.gboxTaskInfo.ResumeLayout(false);
             this.gboxTaskInfo.PerformLayout();
             this.tctrlMainArea.ResumeLayout(false);
@@ -745,6 +1033,13 @@ namespace GMWU
             this.tpgExtractGMA.PerformLayout();
             this.tpgUpdateIcon.ResumeLayout(false);
             this.tpgUpdateIcon.PerformLayout();
+            this.tpgJSCreator.ResumeLayout(false);
+            this.tpgJSCreator.PerformLayout();
+            this.gbxAddonProperties.ResumeLayout(false);
+            this.gbxAddonProperties.PerformLayout();
+            this.tpgSettings.ResumeLayout(false);
+            this.gbxGExeLoc.ResumeLayout(false);
+            this.gbxGExeLoc.PerformLayout();
             this.tpgCredits.ResumeLayout(false);
             this.tpgCredits.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
@@ -753,6 +1048,7 @@ namespace GMWU
             this.tpgErrors.ResumeLayout(false);
             this.tctrlTaskArea.ResumeLayout(false);
             this.tpgQueue.ResumeLayout(false);
+            this.tabPage2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -792,7 +1088,6 @@ namespace GMWU
         private System.Windows.Forms.TabPage tpgPresetCreator;
         private System.Windows.Forms.TabPage tpgSettings;
         private System.Windows.Forms.TabPage tpgCredits;
-        private System.Windows.Forms.TabPage tpgChangelog;
         private System.Windows.Forms.Button btnSteam;
         private System.Windows.Forms.Button btnGitHub;
         private System.Windows.Forms.Label lblCreatedByTitle;
@@ -816,6 +1111,29 @@ namespace GMWU
         private System.Windows.Forms.Button btnGMAFILoc;
         private System.Windows.Forms.Button btnGMPULoc;
         private System.Windows.Forms.Button btnJILoc;
+        private System.Windows.Forms.Button btnDeleteTask;
+        private System.Windows.Forms.Label lblAddonTitle;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtJSOutput;
+        private System.Windows.Forms.Button btnJSOutput;
+        private System.Windows.Forms.Label lblEnterWildcards;
+        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.GroupBox gbxAddonProperties;
+        private System.Windows.Forms.Button btnCreateJS;
+        private System.Windows.Forms.ComboBox cbxTag2;
+        private System.Windows.Forms.ComboBox cbxTag1;
+        private System.Windows.Forms.ComboBox cbxAddonType;
+        private System.Windows.Forms.Label lblAddonType;
+        private System.Windows.Forms.Label lblAddonTags;
+        private System.Windows.Forms.Button btnLoadAddons;
+        private System.Windows.Forms.GroupBox gbxGExeLoc;
+        private System.Windows.Forms.Button btnDefGMAFile;
+        private System.Windows.Forms.CheckBox chkUseDefaultExe;
+        private System.Windows.Forms.TextBox txtDefGMAFile;
+        private System.Windows.Forms.Button btnDefGMPUFile;
+        private System.Windows.Forms.TextBox txtDefGMPFile;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.ListBox lbxAddonList;
     }
 }
 

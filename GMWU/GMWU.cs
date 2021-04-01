@@ -14,6 +14,8 @@ namespace GMWU
         IntPtr dialog;
         string dialogResult;
         readonly List<GTask> list = new List<GTask>();
+        readonly List<string> addons = new List<string>();
+        readonly List<string> content = new List<string>();
         Image newImg;
 
         public GMWU()
@@ -145,7 +147,7 @@ namespace GMWU
             // Checking if each text boxes contents are not empty, null, or just spaces prevents bad input
             if (string.IsNullOrWhiteSpace(T1.Text) || string.IsNullOrWhiteSpace(T2.Text) || string.IsNullOrWhiteSpace(T3.Text))
             {
-                MessageBox.Show("Please fill in all required fields before adding it to the task queue!", "Input Error");
+                tinyfd.tinyfd_messageBox("Input Error", "Please fill in all required fields before adding it to the task queue!", "ok", "error", 1);
                 return true;
             }
             return false;
@@ -164,7 +166,7 @@ namespace GMWU
                     // The first task looks at a directory (Addon folder input), a file (GMad.exe Location), and another directory (.GMA file output)
                     if (!Directory.Exists(T1.Text) || !File.Exists(T2.Text) || !Directory.Exists(T3.Text))
                     {
-                        MessageBox.Show("Make sure all locations provided are valid!", "Input Error");
+                        tinyfd.tinyfd_messageBox("Input Error", "Make sure all locations provided are valid", "ok", "error", 1);
                         return true;
                     }
                     break;
@@ -172,7 +174,7 @@ namespace GMWU
                     // The second task looks at a directory (Addon folder output for extraction), a file (GMad.exe Location), and another file (.GMA file location)
                     if (!Directory.Exists(T1.Text) || !File.Exists(T2.Text) || !File.Exists(T3.Text))
                     {
-                        MessageBox.Show("Make sure all locations provided are valid!", "Input Error");
+                        tinyfd.tinyfd_messageBox("Input Error", "Make sure all locations provided are valid", "ok", "error", 1);
                         return true;
                     }
                     break;
@@ -180,7 +182,7 @@ namespace GMWU
                     // The third task looks at a file (Icon used for addon in the workshop), another file (GMPublish.exe Location), and another file (.GMA file location)
                     if (!File.Exists(T1.Text) || !File.Exists(T2.Text) || !File.Exists(T3.Text))
                     {
-                        MessageBox.Show("Make sure all locations provided are valid!", "Input Error");
+                        tinyfd.tinyfd_messageBox("Input Error", "Make sure all locations provided are valid", "ok", "error", 1);
                         return true;
                     }
                     break;
@@ -201,7 +203,7 @@ namespace GMWU
             // Checks if the selected index is valid (if it is not selected, or somehow goes over, it isn't valid)
             if (lbxQueue.SelectedIndex > lbxQueue.Items.Count || lbxQueue.SelectedIndex == -1)
             {
-                MessageBox.Show("Please select a valid task from the queue!", "Selection Error");
+                tinyfd.tinyfd_messageBox("Selection Error", "Please select a valid task from the queue", "ok", "error", 1);
                 return;
             }
 
@@ -258,53 +260,56 @@ namespace GMWU
             }
         }
 
-        private void btnAFLocation_Click(object sender, EventArgs e)
+        /**
+         * A helper method that loads folder dialogs for addon and gma input/output
+         */
+        private void loadFolderDialog(string title, string defaultPath, TextBox T1)
         {
-            dialog = tinyfd.tinyfd_selectFolderDialog("Select addon folder", string.Empty);
+            dialog = tinyfd.tinyfd_selectFolderDialog(title, defaultPath);
             dialogResult = stringFromAnsi(dialog);
             if (!string.IsNullOrWhiteSpace(dialogResult))
-                txtAFLocation.Text = dialogResult;
+                T1.Text = dialogResult;
+        }
+
+        /**
+         * A helper method that loads file dialogs for GMad and GMPublish.exe, prevents redundancy
+         */
+        private void loadFileDialog(string title, string defaultPath, int numFilters, string[] filterPatterns, string filterDescription, int allowMultipleSelects, TextBox T1)
+        {
+            dialog = tinyfd.tinyfd_openFileDialog(title, defaultPath, numFilters, filterPatterns, filterDescription, allowMultipleSelects);
+            dialogResult = stringFromAnsi(dialog);
+            if (!string.IsNullOrWhiteSpace(dialogResult))
+                T1.Text = dialogResult;
+        }
+
+        private void btnAFLocation_Click(object sender, EventArgs e)
+        {
+            loadFolderDialog("Select addon folder", string.Empty, txtAFLocation);
         }
 
         private void btnGFLocation_Click(object sender, EventArgs e)
         {
-            dialog = tinyfd.tinyfd_openFileDialog("Select gmad.exe file", string.Empty, 1, new string[] { "gmad.exe" }, "GMad File (gmad.exe)", 0);
-            dialogResult = stringFromAnsi(dialog);
-            if (!string.IsNullOrWhiteSpace(dialogResult))
-                txtGFLocation.Text = dialogResult;
-
+            loadFileDialog("Select gmad.exe file", string.Empty, 1, new string[] { "gmad.exe" }, "GMad File (gmad.exe)", 0, txtGFLocation);
         }
 
         private void btnGMAOutput_Click(object sender, EventArgs e)
         {
-            dialog = tinyfd.tinyfd_selectFolderDialog("Select folder for to put the resulting .GMA in", string.Empty);
-            dialogResult = stringFromAnsi(dialog);
-            if (!string.IsNullOrWhiteSpace(dialogResult))
-                txtGMAOutput.Text = dialogResult;
+            loadFolderDialog("Select folder for to put the resulting .GMA in", string.Empty, txtGMAOutput);
         }
 
         private void btnCOLoc_Click(object sender, EventArgs e)
         {
-            dialog = tinyfd.tinyfd_selectFolderDialog("Select folder for .GMA content output", string.Empty);
-            dialogResult = stringFromAnsi(dialog);
-            if (!string.IsNullOrWhiteSpace(dialogResult))
-                txtCOLoc.Text = dialogResult;
+            loadFolderDialog("Select folder for .GMA content output", string.Empty, txtCOLoc);
         }
 
         private void btnGMAFLoc_Click(object sender, EventArgs e)
         {
-            dialog = tinyfd.tinyfd_openFileDialog("Select gmad.exe file", string.Empty, 1, new string[] { "gmad.exe" }, "GMad File (gmad.exe)", 0);
-            dialogResult = stringFromAnsi(dialog);
-            if (!string.IsNullOrWhiteSpace(dialogResult))
-                txtGMAFLoc.Text = dialogResult;
+            loadFileDialog("Select gmad.exe file", string.Empty, 1, new string[] { "gmad.exe" }, "GMad File (gmad.exe)", 0, txtGMAFLoc);
         }
 
         private void btnGFLoc_Click(object sender, EventArgs e)
         {
-            dialog = tinyfd.tinyfd_openFileDialog("Select .gma file", string.Empty, 1, new string[] { "*.gma" }, "Garrys Mod Addon File (*.gma)", 0);
-            dialogResult = stringFromAnsi(dialog);
-            if (!string.IsNullOrWhiteSpace(dialogResult))
-                txtGFLoc.Text = dialogResult;
+            loadFileDialog("Select gmad.exe file", string.Empty, 1, new string[] { "gmad.exe" }, "GMad File (gmad.exe)", 0, txtGFLoc);
         }
 
         private void btnJILoc_Click(object sender, EventArgs e)
@@ -341,18 +346,75 @@ namespace GMWU
 
         private void btnGMPULoc_Click(object sender, EventArgs e)
         {
-            dialog = tinyfd.tinyfd_openFileDialog("Select gmpublish.exe file", string.Empty, 1, new string[] { "gmpublish.exe" }, "GMPublish File (gmpublish.exe)", 0);
-            dialogResult = stringFromAnsi(dialog);
-            if (!string.IsNullOrWhiteSpace(dialogResult))
-                txtGMPULoc.Text = dialogResult;
+            loadFileDialog("Select gmpublish.exe file", string.Empty, 1, new string[] { "gmpublish.exe" }, "GMPublish File (gmpublish.exe)", 0, txtGMPULoc);
         }
 
         private void btnGMAFILoc_Click(object sender, EventArgs e)
         {
-            dialog = tinyfd.tinyfd_openFileDialog("Select .gma file", string.Empty, 1, new string[] { "*.gma" }, "Garrys Mod Addon File (*.gma)", 0);
-            dialogResult = stringFromAnsi(dialog);
-            if (!string.IsNullOrWhiteSpace(dialogResult))
-                txtGFLoc.Text = dialogResult;
+            loadFileDialog("Select gmad.exe file", string.Empty, 1, new string[] { "gmad.exe" }, "GMad File (gmad.exe)", 0, txtGMAFILoc);
+        }
+
+        private void btnDeleteTask_Click(object sender, EventArgs e)
+        {
+            if (lbxQueue.SelectedIndex > lbxQueue.Items.Count || lbxQueue.SelectedIndex == -1)
+            {
+                tinyfd.tinyfd_messageBox("Selection Error", "Please select a valid task from the queue", "ok", "error", 1);
+                return;
+            }
+
+            list.RemoveAt(lbxQueue.SelectedIndex);
+            lbxQueue.Items.RemoveAt(lbxQueue.SelectedIndex);
+        }
+
+        private void btnJSOutput_Click(object sender, EventArgs e)
+        {
+            loadFolderDialog("Select folder for .GMA content output", string.Empty, txtJSOutput);
+        }
+
+        private void GMWU_Load(object sender, EventArgs e)
+        {
+            cbxTag1.SelectedIndex = 0;
+            cbxTag2.SelectedIndex = 0;
+            cbxAddonType.SelectedIndex = 0;
+        }
+
+        private void btnLoadAddons_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtDefGMPFile.Text))
+            {
+                tinyfd.tinyfd_messageBox("No Location Provided", "You need to enter in the GMPublish.exe file in the Settings area of this program", "ok", "error", 1);
+                return;
+            }
+
+            Process addonList = new Process
+            {
+                StartInfo = new ProcessStartInfo
+                {
+                    FileName = txtDefGMPFile.Text,
+                    Arguments = "list",
+                    CreateNoWindow = true,
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                    UseShellExecute = false,
+                }
+            };
+
+            addonList.Start();
+            content.Clear();
+
+            while (!addonList.StandardOutput.EndOfStream)
+                content.Add(addonList.StandardOutput.ReadLine().Trim());
+
+            for (int i = 0; i < content.Count; i++)
+                if (!(i < 5))
+                    lbxAddonList.Items.Add(content[i]);
+
+            lbxAddonList.Items.RemoveAt(lbxAddonList.Items.Count - 1);
+        }
+
+        private void btnDefGMPUFile_Click(object sender, EventArgs e)
+        {
+            loadFileDialog("Select gmpublish.exe file", string.Empty, 1, new string[] { "gmpublish.exe" }, "GMPublish File (gmpublish.exe)", 0, txtDefGMPFile);
         }
     }
 
