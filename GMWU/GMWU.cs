@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
@@ -13,6 +15,7 @@ namespace GMWU
         // Declare variables that will be used
         IntPtr dialog;
         string dialogResult;
+        bool addonsLoaded;
         readonly List<GTask> list = new List<GTask>();
         readonly List<string> addons = new List<string>();
         readonly List<string> content = new List<string>();
@@ -240,7 +243,7 @@ namespace GMWU
                 while (!process.StandardOutput.EndOfStream)
 
                     // Print what the process is outputting to the console
-                    rtbConsole.Text += process.StandardOutput.ReadLine() + Environment.NewLine;
+                    rtbConsole.Text += (process.StandardOutput.ReadLine() + Environment.NewLine).Trim();
 
                 // Formatting to keep everything spaced
                 rtbConsole.Text += Environment.NewLine;
@@ -349,11 +352,6 @@ namespace GMWU
             loadFileDialog("Select gmpublish.exe file", string.Empty, 1, new string[] { "gmpublish.exe" }, "GMPublish File (gmpublish.exe)", 0, txtGMPULoc);
         }
 
-        private void btnGMAFILoc_Click(object sender, EventArgs e)
-        {
-            loadFileDialog("Select gmad.exe file", string.Empty, 1, new string[] { "gmad.exe" }, "GMad File (gmad.exe)", 0, txtGMAFILoc);
-        }
-
         private void btnDeleteTask_Click(object sender, EventArgs e)
         {
             if (lbxQueue.SelectedIndex > lbxQueue.Items.Count || lbxQueue.SelectedIndex == -1)
@@ -373,6 +371,7 @@ namespace GMWU
 
         private void GMWU_Load(object sender, EventArgs e)
         {
+            // Set indexes for combo boxes to the default index (0)
             cbxTag1.SelectedIndex = 0;
             cbxTag2.SelectedIndex = 0;
             cbxAddonType.SelectedIndex = 0;
@@ -380,12 +379,14 @@ namespace GMWU
 
         private void btnLoadAddons_Click(object sender, EventArgs e)
         {
+            // If no location has been provided in the Settings area of the program, say so
             if (string.IsNullOrWhiteSpace(txtDefGMPFile.Text))
             {
                 tinyfd.tinyfd_messageBox("No Location Provided", "You need to enter in the GMPublish.exe file in the Settings area of this program", "ok", "error", 1);
                 return;
             }
 
+            // Check if steam has been loaded, or else it is not able to load the users addons
             Process[] steam = Process.GetProcessesByName("steam");
             if (steam.Length == 0)
             {
@@ -393,6 +394,7 @@ namespace GMWU
                 return;
             }
 
+            // Create a new process that will print out all the addons the user has published
             Process addonList = new Process
             {
                 StartInfo = new ProcessStartInfo
@@ -406,22 +408,92 @@ namespace GMWU
                 }
             };
 
-            addonList.Start();
-            content.Clear();
+            try
+            {
+                addonList.Start();
+                content.Clear();
 
-            while (!addonList.StandardOutput.EndOfStream)
-                content.Add(addonList.StandardOutput.ReadLine().Trim());
+                while (!addonList.StandardOutput.EndOfStream)
+                    content.Add(addonList.StandardOutput.ReadLine().Trim());
 
-            for (int i = 0; i < content.Count; i++)
-                if (!(i < 5))
-                    lbxAddonList.Items.Add(content[i]);
+                for (int i = 0; i < content.Count; i++)
+                    if (!(i < 5))
+                        lbxAddonList.Items.Add(content[i]);
 
-            lbxAddonList.Items.RemoveAt(lbxAddonList.Items.Count - 1);
+                lbxAddonList.Items.RemoveAt(lbxAddonList.Items.Count - 1);
+                addonsLoaded = true;
+            }
+            catch (Exception ex)
+            {
+                rtbErrors.Text += $"[{DateTime.Now.ToString("HH:mm:ss tt")}] {ex}{Environment.NewLine}{Environment.NewLine}";
+            }
         }
 
         private void btnDefGMPUFile_Click(object sender, EventArgs e)
         {
             loadFileDialog("Select gmpublish.exe file", string.Empty, 1, new string[] { "gmpublish.exe" }, "GMPublish File (gmpublish.exe)", 0, txtDefGMPFile);
+        }
+
+        private void btnCreateJS_Click(object sender, EventArgs e)
+        {
+            if (!Directory.Exists(txtJSOutput.Text))
+            {
+                tinyfd.tinyfd_messageBox("No Location Provided", "You need to enter in a location for the addon.json file that is created", "ok", "error", 1);
+                return;
+            }
+            else if (string.IsNullOrWhiteSpace(txtAddonTitle.Text))
+            {
+                tinyfd.tinyfd_messageBox("No Addon Title Provided", "You need to enter in a title for your addon", "ok", "error", 1);
+                return;
+            }
+            else if (cbxTag1.SelectedItem.ToString().Equals(cbxTag2.SelectedItem.ToString()))
+            {
+                tinyfd.tinyfd_messageBox("Duplicate Tags Entered", "You cannot add the same addon tag twice", "ok", "error", 1);
+                return;
+            }
+
+            string[] tags;
+            if (cbxTag2.SelectedIndex > 0)
+                tags = new string[] { cbxTag1.SelectedItem.ToString().ToLowerInvariant(), cbxTag2.SelectedItem.ToString().ToLowerInvariant() };
+            else
+                tags = new string[] { cbxTag1.SelectedItem.ToString().ToLowerInvariant() };
+
+            string[] wildcards;
+            if (string.IsNullOrWhiteSpace(txtWildcards.Text))
+                wildcards = new string[0];
+            else
+                wildcards = txtWildcards.Text.Split(',').Where(s => !string.IsNullOrWhiteSpace(s)).ToArray();
+
+            try
+            {
+                AddonJson js = new AddonJson(txtAddonTitle.Text, cbxAddonType.SelectedItem.ToString().ToLowerInvariant(), tags, wildcards);
+                string json = JsonConvert.SerializeObject(js, Formatting.Indented);
+                File.WriteAllText(Path.Combine(txtJSOutput.Text, "addon.json"), json, System.Text.Encoding.UTF8);
+                tinyfd.tinyfd_messageBox("Addon.json Created", $"The addon.json file has been created at: {txtJSOutput.Text}", "ok", "info", 1);
+            }
+            catch (Exception ex)
+            {
+                rtbErrors.Text += $"[{DateTime.Now.ToString("HH:mm:ss tt")}] {ex}{Environment.NewLine}{Environment.NewLine}";
+            }
+        }
+
+        private void btnUseID_Click(object sender, EventArgs e)
+        {
+            if (!addonsLoaded)
+            {
+                tinyfd.tinyfd_messageBox("Addons Not Loaded", "Please load your addons before using this function", "ok", "error", 1);
+                return;
+            }
+
+            try
+            {
+                Clipboard.SetText(lbxAddonList.SelectedItem.ToString().Substring(0, lbxAddonList.SelectedItem.ToString().IndexOf('\t')));
+                tinyfd.tinyfd_messageBox("Addon ID Copied", "Addon ID has been copied to your clipboard", "ok", "info", 1);
+            }
+            catch (Exception ex)
+            {
+                rtbErrors.Text += $"[{DateTime.Now.ToString("HH:mm:ss tt")}] {ex}{Environment.NewLine}{Environment.NewLine}";
+            }
         }
     }
 

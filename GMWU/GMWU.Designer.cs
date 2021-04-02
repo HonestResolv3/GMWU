@@ -63,11 +63,17 @@ namespace GMWU
             this.btnCOLoc = new System.Windows.Forms.Button();
             this.tpgPublishAddon = new System.Windows.Forms.TabPage();
             this.tpgUpdateAddon = new System.Windows.Forms.TabPage();
+            this.lblAddonID = new System.Windows.Forms.Label();
+            this.txtAddonID = new System.Windows.Forms.TextBox();
+            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.textBox5 = new System.Windows.Forms.TextBox();
+            this.btnGMPUBLoc = new System.Windows.Forms.Button();
+            this.btnGMALoca = new System.Windows.Forms.Button();
             this.tpgUpdateIcon = new System.Windows.Forms.TabPage();
-            this.txtGMAFILoc = new System.Windows.Forms.TextBox();
+            this.lblAddonID2 = new System.Windows.Forms.Label();
+            this.txtAddonID2 = new System.Windows.Forms.TextBox();
             this.txtGMPULoc = new System.Windows.Forms.TextBox();
             this.txtJILoc = new System.Windows.Forms.TextBox();
-            this.btnGMAFILoc = new System.Windows.Forms.Button();
             this.btnGMPULoc = new System.Windows.Forms.Button();
             this.btnJILoc = new System.Windows.Forms.Button();
             this.tpgJSCreator = new System.Windows.Forms.TabPage();
@@ -79,9 +85,9 @@ namespace GMWU
             this.lblAddonType = new System.Windows.Forms.Label();
             this.lblAddonTags = new System.Windows.Forms.Label();
             this.lblEnterWildcards = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.txtWildcards = new System.Windows.Forms.TextBox();
             this.lblAddonTitle = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtAddonTitle = new System.Windows.Forms.TextBox();
             this.txtJSOutput = new System.Windows.Forms.TextBox();
             this.btnJSOutput = new System.Windows.Forms.Button();
             this.tpgPresetCreator = new System.Windows.Forms.TabPage();
@@ -108,6 +114,7 @@ namespace GMWU
             this.btnDeleteTask = new System.Windows.Forms.Button();
             this.lbxQueue = new System.Windows.Forms.ListBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.btnUseID = new System.Windows.Forms.Button();
             this.lbxAddonList = new System.Windows.Forms.ListBox();
             this.btnLoadAddons = new System.Windows.Forms.Button();
             this.gboxTaskInfo.SuspendLayout();
@@ -118,6 +125,7 @@ namespace GMWU
             this.tctrlTasks.SuspendLayout();
             this.tpgCreateGMA.SuspendLayout();
             this.tpgExtractGMA.SuspendLayout();
+            this.tpgUpdateAddon.SuspendLayout();
             this.tpgUpdateIcon.SuspendLayout();
             this.tpgJSCreator.SuspendLayout();
             this.gbxAddonProperties.SuspendLayout();
@@ -336,7 +344,7 @@ namespace GMWU
             // txtGFLocation
             // 
             this.txtGFLocation.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.txtGFLocation.Location = new System.Drawing.Point(169, 49);
+            this.txtGFLocation.Location = new System.Drawing.Point(169, 48);
             this.txtGFLocation.Name = "txtGFLocation";
             this.txtGFLocation.Size = new System.Drawing.Size(287, 22);
             this.txtGFLocation.TabIndex = 3;
@@ -363,7 +371,7 @@ namespace GMWU
             // btnGFLocation
             // 
             this.btnGFLocation.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnGFLocation.Location = new System.Drawing.Point(8, 48);
+            this.btnGFLocation.Location = new System.Drawing.Point(8, 47);
             this.btnGFLocation.Name = "btnGFLocation";
             this.btnGFLocation.Size = new System.Drawing.Size(155, 23);
             this.btnGFLocation.TabIndex = 2;
@@ -467,6 +475,12 @@ namespace GMWU
             // 
             // tpgUpdateAddon
             // 
+            this.tpgUpdateAddon.Controls.Add(this.lblAddonID);
+            this.tpgUpdateAddon.Controls.Add(this.txtAddonID);
+            this.tpgUpdateAddon.Controls.Add(this.textBox4);
+            this.tpgUpdateAddon.Controls.Add(this.textBox5);
+            this.tpgUpdateAddon.Controls.Add(this.btnGMPUBLoc);
+            this.tpgUpdateAddon.Controls.Add(this.btnGMALoca);
             this.tpgUpdateAddon.Location = new System.Drawing.Point(4, 22);
             this.tpgUpdateAddon.Name = "tpgUpdateAddon";
             this.tpgUpdateAddon.Padding = new System.Windows.Forms.Padding(3);
@@ -475,12 +489,65 @@ namespace GMWU
             this.tpgUpdateAddon.Text = "Update Addon";
             this.tpgUpdateAddon.UseVisualStyleBackColor = true;
             // 
+            // lblAddonID
+            // 
+            this.lblAddonID.AutoSize = true;
+            this.lblAddonID.Location = new System.Drawing.Point(9, 116);
+            this.lblAddonID.Name = "lblAddonID";
+            this.lblAddonID.Size = new System.Drawing.Size(59, 13);
+            this.lblAddonID.TabIndex = 25;
+            this.lblAddonID.Text = "Addon ID:";
+            // 
+            // txtAddonID
+            // 
+            this.txtAddonID.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.txtAddonID.Location = new System.Drawing.Point(75, 112);
+            this.txtAddonID.Name = "txtAddonID";
+            this.txtAddonID.Size = new System.Drawing.Size(381, 22);
+            this.txtAddonID.TabIndex = 24;
+            // 
+            // textBox4
+            // 
+            this.textBox4.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.textBox4.Location = new System.Drawing.Point(169, 64);
+            this.textBox4.Name = "textBox4";
+            this.textBox4.Size = new System.Drawing.Size(287, 22);
+            this.textBox4.TabIndex = 23;
+            // 
+            // textBox5
+            // 
+            this.textBox5.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.textBox5.Location = new System.Drawing.Point(169, 18);
+            this.textBox5.Name = "textBox5";
+            this.textBox5.Size = new System.Drawing.Size(287, 22);
+            this.textBox5.TabIndex = 21;
+            // 
+            // btnGMPUBLoc
+            // 
+            this.btnGMPUBLoc.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnGMPUBLoc.Location = new System.Drawing.Point(8, 63);
+            this.btnGMPUBLoc.Name = "btnGMPUBLoc";
+            this.btnGMPUBLoc.Size = new System.Drawing.Size(155, 23);
+            this.btnGMPUBLoc.TabIndex = 22;
+            this.btnGMPUBLoc.Text = "GMPublish File Location";
+            this.btnGMPUBLoc.UseVisualStyleBackColor = true;
+            // 
+            // btnGMALoca
+            // 
+            this.btnGMALoca.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnGMALoca.Location = new System.Drawing.Point(8, 17);
+            this.btnGMALoca.Name = "btnGMALoca";
+            this.btnGMALoca.Size = new System.Drawing.Size(155, 23);
+            this.btnGMALoca.TabIndex = 20;
+            this.btnGMALoca.Text = ".GMA Icon Location";
+            this.btnGMALoca.UseVisualStyleBackColor = true;
+            // 
             // tpgUpdateIcon
             // 
-            this.tpgUpdateIcon.Controls.Add(this.txtGMAFILoc);
+            this.tpgUpdateIcon.Controls.Add(this.lblAddonID2);
+            this.tpgUpdateIcon.Controls.Add(this.txtAddonID2);
             this.tpgUpdateIcon.Controls.Add(this.txtGMPULoc);
             this.tpgUpdateIcon.Controls.Add(this.txtJILoc);
-            this.tpgUpdateIcon.Controls.Add(this.btnGMAFILoc);
             this.tpgUpdateIcon.Controls.Add(this.btnGMPULoc);
             this.tpgUpdateIcon.Controls.Add(this.btnJILoc);
             this.tpgUpdateIcon.Location = new System.Drawing.Point(4, 22);
@@ -491,13 +558,22 @@ namespace GMWU
             this.tpgUpdateIcon.Text = "Update Icon";
             this.tpgUpdateIcon.UseVisualStyleBackColor = true;
             // 
-            // txtGMAFILoc
+            // lblAddonID2
             // 
-            this.txtGMAFILoc.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.txtGMAFILoc.Location = new System.Drawing.Point(169, 111);
-            this.txtGMAFILoc.Name = "txtGMAFILoc";
-            this.txtGMAFILoc.Size = new System.Drawing.Size(287, 22);
-            this.txtGMAFILoc.TabIndex = 17;
+            this.lblAddonID2.AutoSize = true;
+            this.lblAddonID2.Location = new System.Drawing.Point(9, 115);
+            this.lblAddonID2.Name = "lblAddonID2";
+            this.lblAddonID2.Size = new System.Drawing.Size(59, 13);
+            this.lblAddonID2.TabIndex = 19;
+            this.lblAddonID2.Text = "Addon ID:";
+            // 
+            // txtAddonID2
+            // 
+            this.txtAddonID2.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.txtAddonID2.Location = new System.Drawing.Point(75, 111);
+            this.txtAddonID2.Name = "txtAddonID2";
+            this.txtAddonID2.Size = new System.Drawing.Size(381, 22);
+            this.txtAddonID2.TabIndex = 18;
             // 
             // txtGMPULoc
             // 
@@ -514,17 +590,6 @@ namespace GMWU
             this.txtJILoc.Name = "txtJILoc";
             this.txtJILoc.Size = new System.Drawing.Size(287, 22);
             this.txtJILoc.TabIndex = 13;
-            // 
-            // btnGMAFILoc
-            // 
-            this.btnGMAFILoc.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnGMAFILoc.Location = new System.Drawing.Point(8, 110);
-            this.btnGMAFILoc.Name = "btnGMAFILoc";
-            this.btnGMAFILoc.Size = new System.Drawing.Size(155, 23);
-            this.btnGMAFILoc.TabIndex = 16;
-            this.btnGMAFILoc.Text = ".GMA File Location";
-            this.btnGMAFILoc.UseVisualStyleBackColor = true;
-            this.btnGMAFILoc.Click += new System.EventHandler(this.btnGMAFILoc_Click);
             // 
             // btnGMPULoc
             // 
@@ -553,9 +618,9 @@ namespace GMWU
             this.tpgJSCreator.Controls.Add(this.btnCreateJS);
             this.tpgJSCreator.Controls.Add(this.gbxAddonProperties);
             this.tpgJSCreator.Controls.Add(this.lblEnterWildcards);
-            this.tpgJSCreator.Controls.Add(this.textBox2);
+            this.tpgJSCreator.Controls.Add(this.txtWildcards);
             this.tpgJSCreator.Controls.Add(this.lblAddonTitle);
-            this.tpgJSCreator.Controls.Add(this.textBox1);
+            this.tpgJSCreator.Controls.Add(this.txtAddonTitle);
             this.tpgJSCreator.Controls.Add(this.txtJSOutput);
             this.tpgJSCreator.Controls.Add(this.btnJSOutput);
             this.tpgJSCreator.Location = new System.Drawing.Point(4, 22);
@@ -575,6 +640,7 @@ namespace GMWU
             this.btnCreateJS.TabIndex = 17;
             this.btnCreateJS.Text = "Create .JSON File";
             this.btnCreateJS.UseVisualStyleBackColor = true;
+            this.btnCreateJS.Click += new System.EventHandler(this.btnCreateJS_Click);
             // 
             // gbxAddonProperties
             // 
@@ -676,13 +742,13 @@ namespace GMWU
             this.lblEnterWildcards.TabIndex = 14;
             this.lblEnterWildcards.Text = "Enter Wildcards:";
             // 
-            // textBox2
+            // txtWildcards
             // 
-            this.textBox2.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.textBox2.Location = new System.Drawing.Point(113, 73);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(559, 22);
-            this.textBox2.TabIndex = 13;
+            this.txtWildcards.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.txtWildcards.Location = new System.Drawing.Point(113, 73);
+            this.txtWildcards.Name = "txtWildcards";
+            this.txtWildcards.Size = new System.Drawing.Size(559, 22);
+            this.txtWildcards.TabIndex = 13;
             // 
             // lblAddonTitle
             // 
@@ -693,13 +759,13 @@ namespace GMWU
             this.lblAddonTitle.TabIndex = 12;
             this.lblAddonTitle.Text = "Enter Addon Title:";
             // 
-            // textBox1
+            // txtAddonTitle
             // 
-            this.textBox1.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.textBox1.Location = new System.Drawing.Point(113, 45);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(559, 22);
-            this.textBox1.TabIndex = 11;
+            this.txtAddonTitle.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.txtAddonTitle.Location = new System.Drawing.Point(113, 45);
+            this.txtAddonTitle.Name = "txtAddonTitle";
+            this.txtAddonTitle.Size = new System.Drawing.Size(559, 22);
+            this.txtAddonTitle.TabIndex = 11;
             // 
             // txtJSOutput
             // 
@@ -973,6 +1039,7 @@ namespace GMWU
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.btnUseID);
             this.tabPage2.Controls.Add(this.lbxAddonList);
             this.tabPage2.Controls.Add(this.btnLoadAddons);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
@@ -982,6 +1049,17 @@ namespace GMWU
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Addon List";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // btnUseID
+            // 
+            this.btnUseID.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnUseID.Location = new System.Drawing.Point(211, 298);
+            this.btnUseID.Name = "btnUseID";
+            this.btnUseID.Size = new System.Drawing.Size(129, 23);
+            this.btnUseID.TabIndex = 14;
+            this.btnUseID.Text = "Use Addon ID";
+            this.btnUseID.UseVisualStyleBackColor = true;
+            this.btnUseID.Click += new System.EventHandler(this.btnUseID_Click);
             // 
             // lbxAddonList
             // 
@@ -996,7 +1074,7 @@ namespace GMWU
             // btnLoadAddons
             // 
             this.btnLoadAddons.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnLoadAddons.Location = new System.Drawing.Point(139, 298);
+            this.btnLoadAddons.Location = new System.Drawing.Point(76, 298);
             this.btnLoadAddons.Name = "btnLoadAddons";
             this.btnLoadAddons.Size = new System.Drawing.Size(129, 23);
             this.btnLoadAddons.TabIndex = 12;
@@ -1031,6 +1109,8 @@ namespace GMWU
             this.tpgCreateGMA.PerformLayout();
             this.tpgExtractGMA.ResumeLayout(false);
             this.tpgExtractGMA.PerformLayout();
+            this.tpgUpdateAddon.ResumeLayout(false);
+            this.tpgUpdateAddon.PerformLayout();
             this.tpgUpdateIcon.ResumeLayout(false);
             this.tpgUpdateIcon.PerformLayout();
             this.tpgJSCreator.ResumeLayout(false);
@@ -1105,19 +1185,17 @@ namespace GMWU
         private System.Windows.Forms.Button btnRunTask;
         private System.Windows.Forms.Label lblGMAFileName;
         private System.Windows.Forms.TextBox txtGMFileName;
-        private System.Windows.Forms.TextBox txtGMAFILoc;
         private System.Windows.Forms.TextBox txtGMPULoc;
         private System.Windows.Forms.TextBox txtJILoc;
-        private System.Windows.Forms.Button btnGMAFILoc;
         private System.Windows.Forms.Button btnGMPULoc;
         private System.Windows.Forms.Button btnJILoc;
         private System.Windows.Forms.Button btnDeleteTask;
         private System.Windows.Forms.Label lblAddonTitle;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtAddonTitle;
         private System.Windows.Forms.TextBox txtJSOutput;
         private System.Windows.Forms.Button btnJSOutput;
         private System.Windows.Forms.Label lblEnterWildcards;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox txtWildcards;
         private System.Windows.Forms.GroupBox gbxAddonProperties;
         private System.Windows.Forms.Button btnCreateJS;
         private System.Windows.Forms.ComboBox cbxTag2;
@@ -1134,6 +1212,15 @@ namespace GMWU
         private System.Windows.Forms.TextBox txtDefGMPFile;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.ListBox lbxAddonList;
+        private System.Windows.Forms.Label lblAddonID;
+        private System.Windows.Forms.TextBox txtAddonID;
+        private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.TextBox textBox5;
+        private System.Windows.Forms.Button btnGMPUBLoc;
+        private System.Windows.Forms.Button btnGMALoca;
+        private System.Windows.Forms.Label lblAddonID2;
+        private System.Windows.Forms.TextBox txtAddonID2;
+        private System.Windows.Forms.Button btnUseID;
     }
 }
 
