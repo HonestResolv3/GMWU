@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -14,13 +15,11 @@ namespace GMWU
         {
             // This code here detects if the program is already running, prevents another instance from loading
             const string appName = "GMWU";
-            bool createdNew;
-
-            Mutex mutex = new Mutex(true, appName, out createdNew);
+            _ = new Mutex(true, appName, out bool createdNew);
 
             if (!createdNew)
             {
-                MessageBox.Show("You cannot have more than one instance of this program running", "Program is already running");
+                TinyFD.tinyfd_messageBox("Program is already running", "You cannot have more than one instance of this program running", "ok", "error", 1);
                 return;
             }
 

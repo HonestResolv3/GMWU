@@ -2,6 +2,7 @@
 {
     public class AddonJson
     {
+        // All these properties are lowercase as Newtonsoft.Json uses them for entry names
         public string title { get; set; }
         public string type { get; set; }
         public string[] tags { get; set; }
