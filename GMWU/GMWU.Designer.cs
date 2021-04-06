@@ -29,6 +29,7 @@ namespace GMWU
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GMWU));
             this.btnAdd2Queue = new System.Windows.Forms.Button();
             this.gboxTaskInfo = new System.Windows.Forms.GroupBox();
@@ -68,6 +69,8 @@ namespace GMWU
             this.btnGMPubFileLoc1 = new System.Windows.Forms.Button();
             this.btnGMFileLoc2 = new System.Windows.Forms.Button();
             this.tpgUpdateAddon = new System.Windows.Forms.TabPage();
+            this.lblChangeNotes = new System.Windows.Forms.Label();
+            this.txtChangeNotes = new System.Windows.Forms.TextBox();
             this.lblAddonID = new System.Windows.Forms.Label();
             this.txtAddonID = new System.Windows.Forms.TextBox();
             this.txtGMPubFileLoc2 = new System.Windows.Forms.TextBox();
@@ -97,7 +100,12 @@ namespace GMWU
             this.btnJSOutput = new System.Windows.Forms.Button();
             this.tpgPresetCreator = new System.Windows.Forms.TabPage();
             this.tpgSettings = new System.Windows.Forms.TabPage();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.gbxQueueSettings = new System.Windows.Forms.GroupBox();
+            this.btnApplyChanges = new System.Windows.Forms.Button();
+            this.cbxAutoRunTask = new System.Windows.Forms.CheckBox();
+            this.txtChangeTime = new System.Windows.Forms.TextBox();
+            this.lblChangeTime = new System.Windows.Forms.Label();
+            this.lblCurrentQueueTime = new System.Windows.Forms.Label();
             this.gbxGExeLoc = new System.Windows.Forms.GroupBox();
             this.btnDefGMAFile = new System.Windows.Forms.Button();
             this.chkUseDefaultExe = new System.Windows.Forms.CheckBox();
@@ -123,6 +131,7 @@ namespace GMWU
             this.lbxAddonList = new System.Windows.Forms.ListBox();
             this.btnLoadAddons = new System.Windows.Forms.Button();
             this.bwrConsoleOutput = new System.ComponentModel.BackgroundWorker();
+            this.tmrQueueRunner = new System.Windows.Forms.Timer(this.components);
             this.gboxTaskInfo.SuspendLayout();
             this.tctrlMainArea.SuspendLayout();
             this.tpgCreatingTasks.SuspendLayout();
@@ -137,6 +146,7 @@ namespace GMWU
             this.tpgJSCreator.SuspendLayout();
             this.gbxAddonProperties.SuspendLayout();
             this.tpgSettings.SuspendLayout();
+            this.gbxQueueSettings.SuspendLayout();
             this.gbxGExeLoc.SuspendLayout();
             this.tpgCredits.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -535,6 +545,8 @@ namespace GMWU
             // 
             // tpgUpdateAddon
             // 
+            this.tpgUpdateAddon.Controls.Add(this.lblChangeNotes);
+            this.tpgUpdateAddon.Controls.Add(this.txtChangeNotes);
             this.tpgUpdateAddon.Controls.Add(this.lblAddonID);
             this.tpgUpdateAddon.Controls.Add(this.txtAddonID);
             this.tpgUpdateAddon.Controls.Add(this.txtGMPubFileLoc2);
@@ -549,10 +561,27 @@ namespace GMWU
             this.tpgUpdateAddon.Text = "Update Addon";
             this.tpgUpdateAddon.UseVisualStyleBackColor = true;
             // 
+            // lblChangeNotes
+            // 
+            this.lblChangeNotes.AutoSize = true;
+            this.lblChangeNotes.Location = new System.Drawing.Point(9, 115);
+            this.lblChangeNotes.Name = "lblChangeNotes";
+            this.lblChangeNotes.Size = new System.Drawing.Size(83, 13);
+            this.lblChangeNotes.TabIndex = 27;
+            this.lblChangeNotes.Text = "Change Notes:";
+            // 
+            // txtChangeNotes
+            // 
+            this.txtChangeNotes.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.txtChangeNotes.Location = new System.Drawing.Point(98, 111);
+            this.txtChangeNotes.Name = "txtChangeNotes";
+            this.txtChangeNotes.Size = new System.Drawing.Size(358, 22);
+            this.txtChangeNotes.TabIndex = 26;
+            // 
             // lblAddonID
             // 
             this.lblAddonID.AutoSize = true;
-            this.lblAddonID.Location = new System.Drawing.Point(9, 115);
+            this.lblAddonID.Location = new System.Drawing.Point(9, 84);
             this.lblAddonID.Name = "lblAddonID";
             this.lblAddonID.Size = new System.Drawing.Size(59, 13);
             this.lblAddonID.TabIndex = 25;
@@ -561,7 +590,7 @@ namespace GMWU
             // txtAddonID
             // 
             this.txtAddonID.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.txtAddonID.Location = new System.Drawing.Point(75, 111);
+            this.txtAddonID.Location = new System.Drawing.Point(75, 80);
             this.txtAddonID.Name = "txtAddonID";
             this.txtAddonID.Size = new System.Drawing.Size(381, 22);
             this.txtAddonID.TabIndex = 24;
@@ -569,7 +598,7 @@ namespace GMWU
             // txtGMPubFileLoc2
             // 
             this.txtGMPubFileLoc2.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.txtGMPubFileLoc2.Location = new System.Drawing.Point(169, 63);
+            this.txtGMPubFileLoc2.Location = new System.Drawing.Point(169, 48);
             this.txtGMPubFileLoc2.Name = "txtGMPubFileLoc2";
             this.txtGMPubFileLoc2.Size = new System.Drawing.Size(287, 22);
             this.txtGMPubFileLoc2.TabIndex = 23;
@@ -585,7 +614,7 @@ namespace GMWU
             // btnGMPubFileLoc2
             // 
             this.btnGMPubFileLoc2.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnGMPubFileLoc2.Location = new System.Drawing.Point(8, 62);
+            this.btnGMPubFileLoc2.Location = new System.Drawing.Point(8, 47);
             this.btnGMPubFileLoc2.Name = "btnGMPubFileLoc2";
             this.btnGMPubFileLoc2.Size = new System.Drawing.Size(155, 23);
             this.btnGMPubFileLoc2.TabIndex = 22;
@@ -860,7 +889,7 @@ namespace GMWU
             // 
             // tpgSettings
             // 
-            this.tpgSettings.Controls.Add(this.groupBox2);
+            this.tpgSettings.Controls.Add(this.gbxQueueSettings);
             this.tpgSettings.Controls.Add(this.gbxGExeLoc);
             this.tpgSettings.Location = new System.Drawing.Point(4, 22);
             this.tpgSettings.Name = "tpgSettings";
@@ -870,14 +899,64 @@ namespace GMWU
             this.tpgSettings.Text = "Settings";
             this.tpgSettings.UseVisualStyleBackColor = true;
             // 
-            // groupBox2
+            // gbxQueueSettings
             // 
-            this.groupBox2.Location = new System.Drawing.Point(6, 105);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(666, 100);
-            this.groupBox2.TabIndex = 8;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "General Settings";
+            this.gbxQueueSettings.Controls.Add(this.btnApplyChanges);
+            this.gbxQueueSettings.Controls.Add(this.cbxAutoRunTask);
+            this.gbxQueueSettings.Controls.Add(this.txtChangeTime);
+            this.gbxQueueSettings.Controls.Add(this.lblChangeTime);
+            this.gbxQueueSettings.Controls.Add(this.lblCurrentQueueTime);
+            this.gbxQueueSettings.Location = new System.Drawing.Point(6, 104);
+            this.gbxQueueSettings.Name = "gbxQueueSettings";
+            this.gbxQueueSettings.Size = new System.Drawing.Size(666, 93);
+            this.gbxQueueSettings.TabIndex = 8;
+            this.gbxQueueSettings.TabStop = false;
+            this.gbxQueueSettings.Text = "Queue Settings";
+            // 
+            // btnApplyChanges
+            // 
+            this.btnApplyChanges.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnApplyChanges.Location = new System.Drawing.Point(578, 41);
+            this.btnApplyChanges.Name = "btnApplyChanges";
+            this.btnApplyChanges.Size = new System.Drawing.Size(82, 23);
+            this.btnApplyChanges.TabIndex = 7;
+            this.btnApplyChanges.Text = "Apply";
+            this.btnApplyChanges.UseVisualStyleBackColor = true;
+            // 
+            // cbxAutoRunTask
+            // 
+            this.cbxAutoRunTask.AutoSize = true;
+            this.cbxAutoRunTask.Location = new System.Drawing.Point(8, 68);
+            this.cbxAutoRunTask.Name = "cbxAutoRunTask";
+            this.cbxAutoRunTask.Size = new System.Drawing.Size(107, 17);
+            this.cbxAutoRunTask.TabIndex = 7;
+            this.cbxAutoRunTask.Text = "Auto-run tasks?";
+            this.cbxAutoRunTask.UseVisualStyleBackColor = true;
+            // 
+            // txtChangeTime
+            // 
+            this.txtChangeTime.Location = new System.Drawing.Point(128, 41);
+            this.txtChangeTime.Name = "txtChangeTime";
+            this.txtChangeTime.Size = new System.Drawing.Size(444, 22);
+            this.txtChangeTime.TabIndex = 7;
+            // 
+            // lblChangeTime
+            // 
+            this.lblChangeTime.AutoSize = true;
+            this.lblChangeTime.Location = new System.Drawing.Point(5, 44);
+            this.lblChangeTime.Name = "lblChangeTime";
+            this.lblChangeTime.Size = new System.Drawing.Size(116, 13);
+            this.lblChangeTime.TabIndex = 1;
+            this.lblChangeTime.Text = "Change Task Interval:";
+            // 
+            // lblCurrentQueueTime
+            // 
+            this.lblCurrentQueueTime.AutoSize = true;
+            this.lblCurrentQueueTime.Location = new System.Drawing.Point(5, 19);
+            this.lblCurrentQueueTime.Name = "lblCurrentQueueTime";
+            this.lblCurrentQueueTime.Size = new System.Drawing.Size(118, 13);
+            this.lblCurrentQueueTime.TabIndex = 0;
+            this.lblCurrentQueueTime.Text = "Current Task Interval: ";
             // 
             // gbxGExeLoc
             // 
@@ -1146,9 +1225,10 @@ namespace GMWU
             this.btnLoadAddons.UseVisualStyleBackColor = true;
             this.btnLoadAddons.Click += new System.EventHandler(this.btnLoadAddons_Click);
             // 
-            // bwrConsoleOutput
+            // tmrQueueRunner
             // 
-            this.bwrConsoleOutput.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bwrConsoleOutput_DoWork);
+            this.tmrQueueRunner.Interval = 30000;
+            this.tmrQueueRunner.Tick += new System.EventHandler(this.tmrQueueRunner_Tick);
             // 
             // GMWU
             // 
@@ -1188,6 +1268,8 @@ namespace GMWU
             this.gbxAddonProperties.ResumeLayout(false);
             this.gbxAddonProperties.PerformLayout();
             this.tpgSettings.ResumeLayout(false);
+            this.gbxQueueSettings.ResumeLayout(false);
+            this.gbxQueueSettings.PerformLayout();
             this.gbxGExeLoc.ResumeLayout(false);
             this.gbxGExeLoc.PerformLayout();
             this.tpgCredits.ResumeLayout(false);
@@ -1279,7 +1361,7 @@ namespace GMWU
         private System.Windows.Forms.TextBox txtDefGMAFile;
         private System.Windows.Forms.Button btnDefGMPUFile;
         private System.Windows.Forms.TextBox txtDefGMPFile;
-        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.GroupBox gbxQueueSettings;
         private System.Windows.Forms.ListBox lbxAddonList;
         private System.Windows.Forms.Label lblAddonID;
         private System.Windows.Forms.TextBox txtAddonID;
@@ -1297,6 +1379,14 @@ namespace GMWU
         private System.Windows.Forms.Button btnGMPubFileLoc1;
         private System.Windows.Forms.Button btnGMFileLoc2;
         private System.ComponentModel.BackgroundWorker bwrConsoleOutput;
+        private System.Windows.Forms.Label lblChangeNotes;
+        private System.Windows.Forms.TextBox txtChangeNotes;
+        private System.Windows.Forms.Timer tmrQueueRunner;
+        private System.Windows.Forms.Button btnApplyChanges;
+        private System.Windows.Forms.CheckBox cbxAutoRunTask;
+        private System.Windows.Forms.TextBox txtChangeTime;
+        private System.Windows.Forms.Label lblChangeTime;
+        private System.Windows.Forms.Label lblCurrentQueueTime;
     }
 }
 

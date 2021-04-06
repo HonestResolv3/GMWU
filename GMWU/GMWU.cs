@@ -15,11 +15,13 @@ namespace GMWU
     {
         IntPtr dialog;
         string dialogResult;
-        bool addonsLoaded;
+        bool addonsLoaded = false;
+        bool timerStarted = false;
+        Image newImg;
+        Process singletonProcess;
         readonly List<GTask> list = new List<GTask>();
         readonly List<string> addons = new List<string>();
         readonly List<string> content = new List<string>();
-        Image newImg;
 
         public GMWU()
         {
@@ -83,8 +85,30 @@ namespace GMWU
                     newTask.Arguments = "create -addon \"" + txtGMFileLoc2.Text + "\" -icon \"" + txtIconLoc1.Text + "\"";
                     break;
                 case 3:
+                    if (textBoxesAreBlank(txtGMFileLoc3, txtGMPubFileLoc2, txtAddonID)
+                        || checkLocationsBeingInvalid(txtGMFileLoc3, txtGMPubFileLoc2, txtAddonID, 3))
+                        return;
+
+                    if (string.IsNullOrWhiteSpace(tbxTaskName.Text))
+                        newTask.TaskName = "Update Addon";
+                    else
+                        newTask.TaskName = tbxTaskName.Text;
+
+                    newTask.FileName = txtGMPubFileLoc2.Text;
+                    newTask.Arguments = "update -addon \"" + txtGMFileLoc3.Text + "\" -id \"" + long.Parse(txtAddonID.Text) + "\" -changes \"" + txtChangeNotes.Text + "\"";
                     break;
                 case 4:
+                    if (textBoxesAreBlank(txtIconLoc2, txtGMPubFileLoc3, txtAddonID2)
+                        || checkLocationsBeingInvalid(txtIconLoc2, txtGMPubFileLoc3, txtAddonID2, 3))
+                        return;
+
+                    if (string.IsNullOrWhiteSpace(tbxTaskName.Text))
+                        newTask.TaskName = "Update Icon";
+                    else
+                        newTask.TaskName = tbxTaskName.Text;
+
+                    newTask.FileName = txtGMPubFileLoc3.Text;
+                    newTask.Arguments = "update -icon \"" + txtIconLoc2.Text + "\" -id \"" + long.Parse(txtAddonID2.Text) + "\"";
                     break;
                 default:
                     break;
@@ -93,6 +117,11 @@ namespace GMWU
             newTask.TaskNotes = tbxTaskNotes.Text;
             lbxQueue.Items.Add(newTask);
             list.Add(newTask);
+            if (!timerStarted)
+            {
+                tmrQueueRunner.Start();
+                timerStarted = true;
+            }
         }
 
         /**
@@ -146,7 +175,7 @@ namespace GMWU
             // Checking if each text boxes contents are not empty, null, or just spaces prevents bad input
             if (string.IsNullOrWhiteSpace(T1.Text) || string.IsNullOrWhiteSpace(T2.Text) || string.IsNullOrWhiteSpace(T3.Text))
             {
-                TinyFD.tinyfd_messageBox("Input Error", "Please fill in all required fields before adding it to the task queue!", "ok", "error", 1);
+                TinyFD.tinyfd_messageBox("Input Error", "Please fill in all required fields before adding it to the task queue", "ok", "error", 1);
                 return true;
             }
             return false;
@@ -185,6 +214,20 @@ namespace GMWU
                         return true;
                     }
                     break;
+                case 3:
+                    if (!File.Exists(T1.Text) || !File.Exists(T2.Text))
+                    {
+                        TinyFD.tinyfd_messageBox("Input Error", "Make sure all locations provided are valid", "ok", "error", 1);
+                        return true;
+                    }
+                    else if (!long.TryParse(T3.Text, out long i))
+                    {
+                        TinyFD.tinyfd_messageBox("Addon ID Input Error", "Enter in a valid addon ID (you can use the addon list as well)", "ok", "error", 1);
+                        return true;
+                    }
+                    break;
+                default:
+                    break;
             }
             return false;
         }
@@ -198,52 +241,19 @@ namespace GMWU
          */
         private void btnRunTask_Click(object sender, EventArgs e)
         {
-            if (lbxQueue.SelectedIndex > lbxQueue.Items.Count || lbxQueue.SelectedIndex == -1)
+            runTask(lbxQueue.SelectedIndex);
+        }
+
+        private void tmrQueueRunner_Tick(object sender, EventArgs e)
+        {
+            if (!(lbxQueue.Items.Count > 0))
             {
-                TinyFD.tinyfd_messageBox("Selection Error", "Please select a valid task from the queue", "ok", "error", 1);
+                tmrQueueRunner.Stop();
+                timerStarted = false;
                 return;
             }
 
-            // A reference object to an element in the "list" data structure
-            GTask refer = list[lbxQueue.SelectedIndex];
-
-            /*
-             * Create a new Process object that has properties defined in the StartInfo area
-             * 
-             * We do not want to create a new console window and let the output be redirected towards our new console
-             */
-            Process process = new Process
-            {
-                StartInfo = new ProcessStartInfo
-                {
-                    FileName = refer.FileName,
-                    Arguments = refer.Arguments,
-                    CreateNoWindow = true,
-                    RedirectStandardOutput = true,
-                    UseShellExecute = false,
-                }
-            };
-
-            // At the moment, I want to make this cross-platform, and in case there are any errors, they are logged to the Errors console window
-            try
-            {
-                process.Start();
-                btnRunTask.Enabled = false;
-
-                while (!process.StandardOutput.EndOfStream)
-                    rtbConsole.Text += process.StandardOutput.ReadLine() + Environment.NewLine;
-                rtbConsole.Text += Environment.NewLine;
-
-                btnRunTask.Enabled = true;
-                list.RemoveAt(lbxQueue.SelectedIndex);
-                lbxQueue.Items.RemoveAt(lbxQueue.SelectedIndex);
-            }
-            catch (Exception ex)
-            {
-                tctrlConsole.SelectedIndex = 1;
-                rtbErrors.Text += $"[{DateTime.Now.ToString("HH:mm:ss tt")}] {ex}{Environment.NewLine}{Environment.NewLine}";
-                btnRunTask.Enabled = true;
-            }
+            runTask(lbxQueue.Items.Count - 1);
         }
 
         private void btnAFLoc_Click(object sender, EventArgs e)
@@ -338,6 +348,7 @@ namespace GMWU
             cbxTag1.SelectedIndex = 0;
             cbxTag2.SelectedIndex = 0;
             cbxAddonType.SelectedIndex = 0;
+            lblCurrentQueueTime.Text = $"Current Time Interval: {tmrQueueRunner.Interval / 1000} Seconds";
         }
 
         private void btnLoadAddons_Click(object sender, EventArgs e)
@@ -542,9 +553,58 @@ namespace GMWU
             }
         }
 
-        private void bwrConsoleOutput_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
+        private void runTask(int queueItemIndex)
         {
+            if (!singletonProcess.HasExited)
+                return;
 
+            if (queueItemIndex > lbxQueue.Items.Count || queueItemIndex == -1)
+            {
+                TinyFD.tinyfd_messageBox("Selection Error", "Please select a valid task from the queue", "ok", "error", 1);
+                return;
+            }
+
+            // A reference object to an element in the "list" data structure
+            GTask refer = list[queueItemIndex];
+
+            /*
+             * Create a new Process object that has properties defined in the StartInfo area
+             * 
+             * We do not want to create a new console window and let the output be redirected towards our new console
+             */
+            singletonProcess = new Process
+            {
+                StartInfo = new ProcessStartInfo
+                {
+                    FileName = refer.FileName,
+                    Arguments = refer.Arguments,
+                    CreateNoWindow = true,
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                    UseShellExecute = false,
+                }
+            };
+
+            // At the moment, I want to make this cross-platform, and in case there are any errors, they are logged to the Errors console window
+            try
+            {
+                singletonProcess.Start();
+                btnRunTask.Enabled = false;
+
+                while (!singletonProcess.StandardOutput.EndOfStream)
+                    rtbConsole.Text += singletonProcess.StandardOutput.ReadLine() + Environment.NewLine;
+                rtbConsole.Text += Environment.NewLine;
+
+                btnRunTask.Enabled = true;
+                list.RemoveAt(queueItemIndex);
+                lbxQueue.Items.RemoveAt(queueItemIndex);
+            }
+            catch (Exception ex)
+            {
+                tctrlConsole.SelectedIndex = 1;
+                rtbErrors.Text += $"[{DateTime.Now.ToString("HH:mm:ss tt")}] {ex}{Environment.NewLine}{Environment.NewLine}";
+                btnRunTask.Enabled = true;
+            }
         }
     }
 }
