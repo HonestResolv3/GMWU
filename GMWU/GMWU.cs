@@ -1,11 +1,13 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
@@ -14,14 +16,19 @@ namespace GMWU
     public partial class GMWU : Form
     {
         IntPtr dialog;
+        Image newImg;
+        Process process;
+        TextReader reader;
+        OutputContent output;
+
         string dialogResult;
         bool addonsLoaded = false;
         bool timerStarted = false;
-        Image newImg;
-        Process singletonProcess;
+
         readonly List<GTask> list = new List<GTask>();
         readonly List<string> addons = new List<string>();
         readonly List<string> content = new List<string>();
+        readonly StringBuilder builder = new StringBuilder();
 
         public GMWU()
         {
@@ -220,7 +227,7 @@ namespace GMWU
                         TinyFD.tinyfd_messageBox("Input Error", "Make sure all locations provided are valid", "ok", "error", 1);
                         return true;
                     }
-                    else if (!long.TryParse(T3.Text, out long i))
+                    else if (!long.TryParse(T3.Text, out long _))
                     {
                         TinyFD.tinyfd_messageBox("Addon ID Input Error", "Enter in a valid addon ID (you can use the addon list as well)", "ok", "error", 1);
                         return true;
@@ -391,6 +398,7 @@ namespace GMWU
             {
                 addonList.Start();
                 content.Clear();
+                btnLoadAddons.Enabled = false;
 
                 while (!addonList.StandardOutput.EndOfStream)
                     content.Add(addonList.StandardOutput.ReadLine().Trim());
@@ -401,9 +409,11 @@ namespace GMWU
 
                 lbxAddonList.Items.RemoveAt(lbxAddonList.Items.Count - 1);
                 addonsLoaded = true;
+                btnLoadAddons.Enabled = true;
             }
             catch (Exception ex)
             {
+                btnLoadAddons.Enabled = true;
                 tctrlConsole.SelectedIndex = 1;
                 rtbErrors.Text += $"[{DateTime.Now.ToString("HH:mm:ss tt")}] {ex}{Environment.NewLine}{Environment.NewLine}";
             }
@@ -555,7 +565,7 @@ namespace GMWU
 
         private void runTask(int queueItemIndex)
         {
-            if (!singletonProcess.HasExited)
+            if (process != null && !process.HasExited)
                 return;
 
             if (queueItemIndex > lbxQueue.Items.Count || queueItemIndex == -1)
@@ -572,7 +582,7 @@ namespace GMWU
              * 
              * We do not want to create a new console window and let the output be redirected towards our new console
              */
-            singletonProcess = new Process
+            process = new Process
             {
                 StartInfo = new ProcessStartInfo
                 {
@@ -588,12 +598,14 @@ namespace GMWU
             // At the moment, I want to make this cross-platform, and in case there are any errors, they are logged to the Errors console window
             try
             {
-                singletonProcess.Start();
+                process.Start();
                 btnRunTask.Enabled = false;
+                reader = TextReader.Synchronized(process.StandardOutput);
+                bwrConsoleOutput.RunWorkerAsync();
 
-                while (!singletonProcess.StandardOutput.EndOfStream)
-                    rtbConsole.Text += singletonProcess.StandardOutput.ReadLine() + Environment.NewLine;
-                rtbConsole.Text += Environment.NewLine;
+                /*while (!process.StandardOutput.EndOfStream)
+                    rtbConsole.Text += process.StandardOutput.ReadLine() + Environment.NewLine;
+                rtbConsole.Text += Environment.NewLine;*/
 
                 btnRunTask.Enabled = true;
                 list.RemoveAt(queueItemIndex);
@@ -604,6 +616,24 @@ namespace GMWU
                 tctrlConsole.SelectedIndex = 1;
                 rtbErrors.Text += $"[{DateTime.Now.ToString("HH:mm:ss tt")}] {ex}{Environment.NewLine}{Environment.NewLine}";
                 btnRunTask.Enabled = true;
+            }
+        }
+
+        private void bwrConsoleOutput_DoWork(object sender, DoWorkEventArgs e)
+        {
+            while (!bwrConsoleOutput.CancellationPending)
+            {
+                bwrConsoleOutput.ReportProgress(0, new OutputContent() { Content = reader.ReadToEnd() });
+                bwrConsoleOutput.CancelAsync();
+            }
+        }
+
+        private void bwrConsoleOutput_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            if (e.UserState is OutputContent)
+            {
+                output = e.UserState as OutputContent;
+                rtbConsole.Text += $"{output.Content}{Environment.NewLine}{Environment.NewLine}";
             }
         }
     }

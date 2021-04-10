@@ -1225,6 +1225,13 @@ namespace GMWU
             this.btnLoadAddons.UseVisualStyleBackColor = true;
             this.btnLoadAddons.Click += new System.EventHandler(this.btnLoadAddons_Click);
             // 
+            // bwrConsoleOutput
+            // 
+            this.bwrConsoleOutput.WorkerReportsProgress = true;
+            this.bwrConsoleOutput.WorkerSupportsCancellation = true;
+            this.bwrConsoleOutput.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bwrConsoleOutput_DoWork);
+            this.bwrConsoleOutput.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bwrConsoleOutput_ProgressChanged);
+            // 
             // tmrQueueRunner
             // 
             this.tmrQueueRunner.Interval = 30000;
