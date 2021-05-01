@@ -113,7 +113,6 @@ namespace GMWU
             this.btnDefGMPUFile = new System.Windows.Forms.Button();
             this.txtDefGMPFile = new System.Windows.Forms.TextBox();
             this.tpgCredits = new System.Windows.Forms.TabPage();
-            this.btnSteam = new System.Windows.Forms.Button();
             this.btnGitHub = new System.Windows.Forms.Button();
             this.lblCreatedByTitle = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
@@ -132,6 +131,8 @@ namespace GMWU
             this.btnLoadAddons = new System.Windows.Forms.Button();
             this.bwrConsoleOutput = new System.ComponentModel.BackgroundWorker();
             this.tmrQueueRunner = new System.Windows.Forms.Timer(this.components);
+            this.bwrAddonList = new System.ComponentModel.BackgroundWorker();
+            this.btnOverwriteTask = new System.Windows.Forms.Button();
             this.gboxTaskInfo.SuspendLayout();
             this.tctrlMainArea.SuspendLayout();
             this.tpgCreatingTasks.SuspendLayout();
@@ -161,9 +162,9 @@ namespace GMWU
             // btnAdd2Queue
             // 
             this.btnAdd2Queue.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnAdd2Queue.Location = new System.Drawing.Point(269, 93);
+            this.btnAdd2Queue.Location = new System.Drawing.Point(179, 95);
             this.btnAdd2Queue.Name = "btnAdd2Queue";
-            this.btnAdd2Queue.Size = new System.Drawing.Size(129, 23);
+            this.btnAdd2Queue.Size = new System.Drawing.Size(149, 23);
             this.btnAdd2Queue.TabIndex = 6;
             this.btnAdd2Queue.Text = "Add Task to Queue";
             this.btnAdd2Queue.UseVisualStyleBackColor = true;
@@ -171,6 +172,7 @@ namespace GMWU
             // 
             // gboxTaskInfo
             // 
+            this.gboxTaskInfo.Controls.Add(this.btnOverwriteTask);
             this.gboxTaskInfo.Controls.Add(this.btnAdd2Queue);
             this.gboxTaskInfo.Controls.Add(this.tbxTaskNotes);
             this.gboxTaskInfo.Controls.Add(this.label3);
@@ -1019,7 +1021,6 @@ namespace GMWU
             // 
             // tpgCredits
             // 
-            this.tpgCredits.Controls.Add(this.btnSteam);
             this.tpgCredits.Controls.Add(this.btnGitHub);
             this.tpgCredits.Controls.Add(this.lblCreatedByTitle);
             this.tpgCredits.Controls.Add(this.pictureBox1);
@@ -1031,19 +1032,9 @@ namespace GMWU
             this.tpgCredits.Text = "Credits";
             this.tpgCredits.UseVisualStyleBackColor = true;
             // 
-            // btnSteam
-            // 
-            this.btnSteam.Location = new System.Drawing.Point(346, 277);
-            this.btnSteam.Name = "btnSteam";
-            this.btnSteam.Size = new System.Drawing.Size(96, 23);
-            this.btnSteam.TabIndex = 3;
-            this.btnSteam.Text = "Steam Page";
-            this.btnSteam.UseVisualStyleBackColor = true;
-            this.btnSteam.Click += new System.EventHandler(this.btnSteam_Click);
-            // 
             // btnGitHub
             // 
-            this.btnGitHub.Location = new System.Drawing.Point(218, 277);
+            this.btnGitHub.Location = new System.Drawing.Point(286, 277);
             this.btnGitHub.Name = "btnGitHub";
             this.btnGitHub.Size = new System.Drawing.Size(96, 23);
             this.btnGitHub.TabIndex = 2;
@@ -1231,11 +1222,30 @@ namespace GMWU
             this.bwrConsoleOutput.WorkerSupportsCancellation = true;
             this.bwrConsoleOutput.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bwrConsoleOutput_DoWork);
             this.bwrConsoleOutput.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bwrConsoleOutput_ProgressChanged);
+            this.bwrConsoleOutput.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bwrConsoleOutput_RunWorkerCompleted);
             // 
             // tmrQueueRunner
             // 
             this.tmrQueueRunner.Interval = 30000;
             this.tmrQueueRunner.Tick += new System.EventHandler(this.tmrQueueRunner_Tick);
+            // 
+            // bwrAddonList
+            // 
+            this.bwrAddonList.WorkerReportsProgress = true;
+            this.bwrAddonList.WorkerSupportsCancellation = true;
+            this.bwrAddonList.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bwrAddonList_DoWork);
+            this.bwrAddonList.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bwrAddonList_ProgressChanged);
+            // 
+            // btnOverwriteTask
+            // 
+            this.btnOverwriteTask.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnOverwriteTask.Location = new System.Drawing.Point(334, 95);
+            this.btnOverwriteTask.Name = "btnOverwriteTask";
+            this.btnOverwriteTask.Size = new System.Drawing.Size(150, 23);
+            this.btnOverwriteTask.TabIndex = 9;
+            this.btnOverwriteTask.Text = "Overwrite Task in Queue";
+            this.btnOverwriteTask.UseVisualStyleBackColor = true;
+            this.btnOverwriteTask.Click += new System.EventHandler(this.btnOverwriteTask_Click);
             // 
             // GMWU
             // 
@@ -1327,7 +1337,6 @@ namespace GMWU
         private System.Windows.Forms.TabPage tpgPresetCreator;
         private System.Windows.Forms.TabPage tpgSettings;
         private System.Windows.Forms.TabPage tpgCredits;
-        private System.Windows.Forms.Button btnSteam;
         private System.Windows.Forms.Button btnGitHub;
         private System.Windows.Forms.Label lblCreatedByTitle;
         private System.Windows.Forms.PictureBox pictureBox1;
@@ -1394,6 +1403,8 @@ namespace GMWU
         private System.Windows.Forms.TextBox txtChangeTime;
         private System.Windows.Forms.Label lblChangeTime;
         private System.Windows.Forms.Label lblCurrentQueueTime;
+        private System.ComponentModel.BackgroundWorker bwrAddonList;
+        private System.Windows.Forms.Button btnOverwriteTask;
     }
 }
 

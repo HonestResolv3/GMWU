@@ -20,5 +20,8 @@ namespace GMWU
 
         [DllImport(fileDialogDll, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr tinyfd_selectFolderDialog(string aTitle, string aDefaultPathAndFile);
+
+        [DllImport(fileDialogDll, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr tinyfd_inputBox(string aTitle, string aMessage, string aDefaultInput);
     }
 }

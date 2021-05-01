@@ -18,12 +18,15 @@ namespace GMWU
         IntPtr dialog;
         Image newImg;
         Process process;
+        Process addonList;
         TextReader reader;
+        TextReader reader2;
         OutputContent output;
 
         string dialogResult;
         bool addonsLoaded = false;
         bool timerStarted = false;
+        int queueSelection;
 
         readonly List<GTask> list = new List<GTask>();
         readonly List<string> addons = new List<string>();
@@ -43,13 +46,54 @@ namespace GMWU
 
         private void btnAdd2Queue_Click(object sender, EventArgs e)
         {
+            GTask taskRef = createTask(tctrlTasks.SelectedIndex);
+            if (taskRef == null)
+            {
+                TinyFD.tinyfd_messageBox("Information Incorrect", "Please make sure all fields for the specified task are correct", "ok", "error", 1);
+                return;
+            }
+
+            lbxQueue.Items.Add(taskRef);
+            list.Add(taskRef);
+            if (!timerStarted)
+            {
+                tmrQueueRunner.Start();
+                timerStarted = true;
+            }
+        }
+
+        private void btnOverwriteTask_Click(object sender, EventArgs e)
+        {
+            if (lbxQueue.Items.Count <= 0)
+            {
+                TinyFD.tinyfd_messageBox("No Items in Queue", "Please create some tasks for the program to use before using this program", "ok", "error", 1);
+                return;
+            }
+            else if (lbxQueue.SelectedIndex < 0 || lbxQueue.SelectedIndex > lbxQueue.Items.Count - 1)
+            {
+                TinyFD.tinyfd_messageBox("Invalid Selection Provided", "Please select a valid task from the queue", "ok", "error", 1);
+                return;
+            }
+
+            GTask taskRef = createTask(tctrlTasks.SelectedIndex);
+            if (taskRef == null)
+            {
+                TinyFD.tinyfd_messageBox("Information Incorrect", "Please make sure all fields for the specified task are correct", "ok", "error", 1);
+                return;
+            }
+
+            list[lbxQueue.SelectedIndex] = taskRef;
+        }
+
+        private GTask createTask(int index)
+        {
             GTask newTask = new GTask();
-            switch (tctrlTasks.SelectedIndex)
+            switch (index)
             {
                 case 0:
                     if (textBoxesAreBlank(txtAFLocation, txtGMadLoc1, txtGMOutput)
                         || checkLocationsBeingInvalid(txtAFLocation, txtGMadLoc1, txtGMOutput, 0))
-                        return;
+                        return null;
 
                     if (string.IsNullOrWhiteSpace(tbxTaskName.Text))
                         newTask.TaskName = "Create .GMA";
@@ -66,7 +110,7 @@ namespace GMWU
                 case 1:
                     if (textBoxesAreBlank(txtCOLoc, txtGMadLoc2, txtGMFileLoc1)
                         || checkLocationsBeingInvalid(txtCOLoc, txtGMadLoc2, txtGMFileLoc1, 1))
-                        return;
+                        return null;
 
                     if (string.IsNullOrWhiteSpace(tbxTaskName.Text))
                         newTask.TaskName = "Extract .GMA";
@@ -81,7 +125,7 @@ namespace GMWU
                 case 2:
                     if (textBoxesAreBlank(txtGMFileLoc2, txtGMPubFileLoc1, txtIconLoc1)
                         || checkLocationsBeingInvalid(txtGMFileLoc2, txtGMPubFileLoc1, txtIconLoc1, 2))
-                        return;
+                        return null;
 
                     if (string.IsNullOrWhiteSpace(tbxTaskName.Text))
                         newTask.TaskName = "Publish Addon";
@@ -94,7 +138,7 @@ namespace GMWU
                 case 3:
                     if (textBoxesAreBlank(txtGMFileLoc3, txtGMPubFileLoc2, txtAddonID)
                         || checkLocationsBeingInvalid(txtGMFileLoc3, txtGMPubFileLoc2, txtAddonID, 3))
-                        return;
+                        return null;
 
                     if (string.IsNullOrWhiteSpace(tbxTaskName.Text))
                         newTask.TaskName = "Update Addon";
@@ -107,7 +151,7 @@ namespace GMWU
                 case 4:
                     if (textBoxesAreBlank(txtIconLoc2, txtGMPubFileLoc3, txtAddonID2)
                         || checkLocationsBeingInvalid(txtIconLoc2, txtGMPubFileLoc3, txtAddonID2, 3))
-                        return;
+                        return null;
 
                     if (string.IsNullOrWhiteSpace(tbxTaskName.Text))
                         newTask.TaskName = "Update Icon";
@@ -122,13 +166,7 @@ namespace GMWU
             }
 
             newTask.TaskNotes = tbxTaskNotes.Text;
-            lbxQueue.Items.Add(newTask);
-            list.Add(newTask);
-            if (!timerStarted)
-            {
-                tmrQueueRunner.Start();
-                timerStarted = true;
-            }
+            return newTask;
         }
 
         /**
@@ -137,14 +175,6 @@ namespace GMWU
         private void btnGitHub_Click(object sender, EventArgs e)
         {
             runUrlLoad("https://github.com/TruthfullyHonest");
-        }
-
-        /**
-         * Runs the helper method to load my Steam page on the users browser
-         */
-        private void btnSteam_Click(object sender, EventArgs e)
-        {
-            runUrlLoad("https://steamcommunity.com/id/TruthfullyHonest");
         }
 
         /**
@@ -220,13 +250,31 @@ namespace GMWU
                         TinyFD.tinyfd_messageBox("Input Error", "Make sure all locations provided are valid", "ok", "error", 1);
                         return true;
                     }
+                    if (!CheckIfFileIsImage(T3.Text))
+                        return true;
                     break;
                 case 3:
+                    // Update Addon
                     if (!File.Exists(T1.Text) || !File.Exists(T2.Text))
                     {
                         TinyFD.tinyfd_messageBox("Input Error", "Make sure all locations provided are valid", "ok", "error", 1);
                         return true;
                     }
+                    else if (!long.TryParse(T3.Text, out long _))
+                    {
+                        TinyFD.tinyfd_messageBox("Addon ID Input Error", "Enter in a valid addon ID (you can use the addon list as well)", "ok", "error", 1);
+                        return true;
+                    }
+                    break;
+                case 4:
+                    // Update Icon
+                    if (!File.Exists(T1.Text) || !File.Exists(T2.Text))
+                    {
+                        TinyFD.tinyfd_messageBox("Input Error", "Make sure all locations provided are valid", "ok", "error", 1);
+                        return true;
+                    }
+                    if (!CheckIfFileIsImage(T1.Text))
+                        return true;
                     else if (!long.TryParse(T3.Text, out long _))
                     {
                         TinyFD.tinyfd_messageBox("Addon ID Input Error", "Enter in a valid addon ID (you can use the addon list as well)", "ok", "error", 1);
@@ -262,6 +310,56 @@ namespace GMWU
 
             runTask(lbxQueue.Items.Count - 1);
         }
+
+        private void runTask(int queueItemIndex)
+        {
+            if (process != null && !process.HasExited)
+                return;
+
+            if (queueItemIndex > lbxQueue.Items.Count || queueItemIndex == -1)
+            {
+                TinyFD.tinyfd_messageBox("Selection Error", "Please select a valid task from the queue", "ok", "error", 1);
+                return;
+            }
+
+            // A reference object to an element in the "list" data structure
+            GTask refer = list[queueItemIndex];
+
+            /*
+             * Create a new Process object that has properties defined in the StartInfo area
+             * 
+             * We do not want to create a new console window and let the output be redirected towards our new console
+             */
+            process = new Process
+            {
+                StartInfo = new ProcessStartInfo
+                {
+                    FileName = refer.FileName,
+                    Arguments = refer.Arguments,
+                    CreateNoWindow = true,
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                    UseShellExecute = false,
+                }
+            };
+
+            // At the moment, I want to make this cross-platform, and in case there are any errors, they are logged to the Errors console window
+            try
+            {
+                process.Start();
+                btnRunTask.Enabled = false;
+                reader = TextReader.Synchronized(process.StandardOutput);
+                bwrConsoleOutput.RunWorkerAsync();
+                queueSelection = queueItemIndex;
+            }
+            catch (Exception ex)
+            {
+                tctrlConsole.SelectedIndex = 1;
+                rtbErrors.Text += $"[{DateTime.Now.ToString("HH:mm:ss tt")}] {ex}{Environment.NewLine}{Environment.NewLine}";
+                btnRunTask.Enabled = true;
+            }
+        }
+
 
         private void btnAFLoc_Click(object sender, EventArgs e)
         {
@@ -320,7 +418,7 @@ namespace GMWU
 
         private void btnGMFileLoc3_Click(object sender, EventArgs e)
         {
-            loadFileDialog("Select .gma file", string.Empty, 1, new string[] { "*.gma" }, "Garrys Mod Addon File (*.gma)", 0, txtGMFileLoc1);
+            loadFileDialog("Select .gma file", string.Empty, 1, new string[] { "*.gma" }, "Garrys Mod Addon File (*.gma)", 0, txtGMFileLoc3);
         }
 
         private void btnDefGMPUFile_Click(object sender, EventArgs e)
@@ -331,6 +429,56 @@ namespace GMWU
         private void btnGMPubFileLoc2_Click(object sender, EventArgs e)
         {
             loadFileDialog("Select gmpublish.exe file", string.Empty, 1, new string[] { "gmpublish.exe" }, "GMPublish File (gmpublish.exe)", 0, txtGMPubFileLoc2);
+        }
+
+        private void btnJSOutput_Click(object sender, EventArgs e)
+        {
+            loadFolderDialog("Select folder for .GMA content output", string.Empty, txtJSOutput);
+        }
+
+        /**
+         * A helper method that loads file dialogs for gmad.exe, gmpublish.exe, and any .gma files, prevents redundancy
+         */
+        private void loadFileDialog(string title, string defaultPath, int numFilters, string[] filterPatterns, string filterDescription, int allowMultipleSelects, TextBox T1)
+        {
+            dialog = TinyFD.tinyfd_openFileDialog(title, defaultPath, numFilters, filterPatterns, filterDescription, allowMultipleSelects);
+            dialogResult = stringFromAnsi(dialog);
+            if (!string.IsNullOrWhiteSpace(dialogResult))
+                T1.Text = dialogResult;
+        }
+
+        /**
+         * A helper method that loads file dialogs for .jpg icons that are 512x512
+         */
+        private void loadIconDialog(string title, string defaultPath, int numFilters, string[] filterPatterns, string filterDescription, int allowMultipleSelects, TextBox T1)
+        {
+            dialog = TinyFD.tinyfd_openFileDialog(title, defaultPath, numFilters, filterPatterns, filterDescription, allowMultipleSelects);
+            dialogResult = stringFromAnsi(dialog);
+            if (!string.IsNullOrWhiteSpace(dialogResult))
+            {
+                if (!dialogResult.Contains(".jpg"))
+                {
+                    TinyFD.tinyfd_messageBox("Image Load Error", "This image is not a .jpg", "ok", "error", 1);
+                    return;
+                }
+
+                if (CheckIfFileIsImage(dialogResult))
+                {
+                    pbxIcon.Image = newImg;
+                    T1.Text = dialogResult;
+                }
+            }
+        }
+
+        /**
+         * A helper method that loads folder dialogs for addon and gma input/output
+         */
+        private void loadFolderDialog(string title, string defaultPath, TextBox T1)
+        {
+            dialog = TinyFD.tinyfd_selectFolderDialog(title, defaultPath);
+            dialogResult = stringFromAnsi(dialog);
+            if (!string.IsNullOrWhiteSpace(dialogResult))
+                T1.Text = dialogResult;
         }
 
         private void btnDeleteTask_Click(object sender, EventArgs e)
@@ -345,11 +493,6 @@ namespace GMWU
             lbxQueue.Items.RemoveAt(lbxQueue.SelectedIndex);
         }
 
-        private void btnJSOutput_Click(object sender, EventArgs e)
-        {
-            loadFolderDialog("Select folder for .GMA content output", string.Empty, txtJSOutput);
-        }
-
         private void GMWU_Load(object sender, EventArgs e)
         {
             cbxTag1.SelectedIndex = 0;
@@ -360,6 +503,9 @@ namespace GMWU
 
         private void btnLoadAddons_Click(object sender, EventArgs e)
         {
+            if (addonList != null && !addonList.HasExited)
+                return;
+
             if (string.IsNullOrWhiteSpace(txtDefGMPFile.Text))
             {
                 TinyFD.tinyfd_messageBox("No Location Provided", "You need to enter in the GMPublish.exe file in the Settings area of this program", "ok", "error", 1);
@@ -381,7 +527,7 @@ namespace GMWU
                 rtbErrors.Text += $"[{DateTime.Now.ToString("HH:mm:ss tt")}] {ex}{Environment.NewLine}{Environment.NewLine}";
             }
 
-            Process addonList = new Process
+            addonList = new Process
             {
                 StartInfo = new ProcessStartInfo
                 {
@@ -398,18 +544,9 @@ namespace GMWU
             {
                 addonList.Start();
                 content.Clear();
-                btnLoadAddons.Enabled = false;
+                reader2 = TextReader.Synchronized(addonList.StandardOutput);
+                bwrAddonList.RunWorkerAsync();
 
-                while (!addonList.StandardOutput.EndOfStream)
-                    content.Add(addonList.StandardOutput.ReadLine().Trim());
-
-                for (int i = 0; i < content.Count; i++)
-                    if (!(i < 5))
-                        lbxAddonList.Items.Add(content[i]);
-
-                lbxAddonList.Items.RemoveAt(lbxAddonList.Items.Count - 1);
-                addonsLoaded = true;
-                btnLoadAddons.Enabled = true;
             }
             catch (Exception ex)
             {
@@ -505,119 +642,6 @@ namespace GMWU
                 tpgErrors.Text = "Program Errors";
         }
 
-        /**
-         * A helper method that loads folder dialogs for addon and gma input/output
-         */
-        private void loadFolderDialog(string title, string defaultPath, TextBox T1)
-        {
-            dialog = TinyFD.tinyfd_selectFolderDialog(title, defaultPath);
-            dialogResult = stringFromAnsi(dialog);
-            if (!string.IsNullOrWhiteSpace(dialogResult))
-                T1.Text = dialogResult;
-        }
-
-        /**
-         * A helper method that loads file dialogs for gmad.exe, gmpublish.exe, and any .gma files, prevents redundancy
-         */
-        private void loadFileDialog(string title, string defaultPath, int numFilters, string[] filterPatterns, string filterDescription, int allowMultipleSelects, TextBox T1)
-        {
-            dialog = TinyFD.tinyfd_openFileDialog(title, defaultPath, numFilters, filterPatterns, filterDescription, allowMultipleSelects);
-            dialogResult = stringFromAnsi(dialog);
-            if (!string.IsNullOrWhiteSpace(dialogResult))
-                T1.Text = dialogResult;
-        }
-
-        /**
-         * A helper method that loads file dialogs for .jpg icons that are 512x512
-         */
-        private void loadIconDialog(string title, string defaultPath, int numFilters, string[] filterPatterns, string filterDescription, int allowMultipleSelects, TextBox T1)
-        {
-            dialog = TinyFD.tinyfd_openFileDialog(title, defaultPath, numFilters, filterPatterns, filterDescription, allowMultipleSelects);
-            dialogResult = stringFromAnsi(dialog);
-            if (!string.IsNullOrWhiteSpace(dialogResult))
-            {
-                if (!dialogResult.Contains(".jpg"))
-                {
-                    TinyFD.tinyfd_messageBox("Image Load Error", "This image is not a .jpg", "ok", "error", 1);
-                    return;
-                }
-
-                try
-                {
-                    newImg = Image.FromFile(dialogResult);
-                    if (newImg.Width != 512 || newImg.Height != 512)
-                    {
-                        if (pbxIcon.Image != null)
-                            pbxIcon.Image.Dispose();
-                        TinyFD.tinyfd_messageBox("Image Load Error", "The specified image is not 512x512", "ok", "error", 1);
-                        return;
-                    }
-                    pbxIcon.Image = newImg;
-                    T1.Text = dialogResult;
-                }
-                catch (Exception ex)
-                {
-                    tctrlConsole.SelectedIndex = 1;
-                    rtbErrors.Text += $"[{DateTime.Now.ToString("HH:mm:ss tt")}] {ex}{Environment.NewLine}{Environment.NewLine}";
-                }
-            }
-        }
-
-        private void runTask(int queueItemIndex)
-        {
-            if (process != null && !process.HasExited)
-                return;
-
-            if (queueItemIndex > lbxQueue.Items.Count || queueItemIndex == -1)
-            {
-                TinyFD.tinyfd_messageBox("Selection Error", "Please select a valid task from the queue", "ok", "error", 1);
-                return;
-            }
-
-            // A reference object to an element in the "list" data structure
-            GTask refer = list[queueItemIndex];
-
-            /*
-             * Create a new Process object that has properties defined in the StartInfo area
-             * 
-             * We do not want to create a new console window and let the output be redirected towards our new console
-             */
-            process = new Process
-            {
-                StartInfo = new ProcessStartInfo
-                {
-                    FileName = refer.FileName,
-                    Arguments = refer.Arguments,
-                    CreateNoWindow = true,
-                    RedirectStandardOutput = true,
-                    RedirectStandardError = true,
-                    UseShellExecute = false,
-                }
-            };
-
-            // At the moment, I want to make this cross-platform, and in case there are any errors, they are logged to the Errors console window
-            try
-            {
-                process.Start();
-                btnRunTask.Enabled = false;
-                reader = TextReader.Synchronized(process.StandardOutput);
-                bwrConsoleOutput.RunWorkerAsync();
-
-                /*while (!process.StandardOutput.EndOfStream)
-                    rtbConsole.Text += process.StandardOutput.ReadLine() + Environment.NewLine;
-                rtbConsole.Text += Environment.NewLine;*/
-
-                btnRunTask.Enabled = true;
-                list.RemoveAt(queueItemIndex);
-                lbxQueue.Items.RemoveAt(queueItemIndex);
-            }
-            catch (Exception ex)
-            {
-                tctrlConsole.SelectedIndex = 1;
-                rtbErrors.Text += $"[{DateTime.Now.ToString("HH:mm:ss tt")}] {ex}{Environment.NewLine}{Environment.NewLine}";
-                btnRunTask.Enabled = true;
-            }
-        }
 
         private void bwrConsoleOutput_DoWork(object sender, DoWorkEventArgs e)
         {
@@ -635,6 +659,60 @@ namespace GMWU
                 output = e.UserState as OutputContent;
                 rtbConsole.Text += $"{output.Content}{Environment.NewLine}{Environment.NewLine}";
             }
+        }
+
+        private void bwrAddonList_DoWork(object sender, DoWorkEventArgs e)
+        {
+            while (!bwrAddonList.CancellationPending)
+            {
+                bwrAddonList.ReportProgress(0, new OutputContent() { Content = reader2.ReadLine() });
+                bwrAddonList.CancelAsync();
+            }
+
+            for (int i = 0; i < content.Count; i++)
+                if (!(i < 5))
+                    lbxAddonList.Items.Add(content[i]);
+            lbxAddonList.Items.RemoveAt(lbxAddonList.Items.Count - 1);
+            addonsLoaded = true;
+            btnLoadAddons.Enabled = true;
+        }
+
+        private void bwrAddonList_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            if (e.UserState is OutputContent)
+            {
+                output = e.UserState as OutputContent;
+                lbxAddonList.Items.Add($"{output.Content}{Environment.NewLine}{Environment.NewLine}");
+            }
+        }
+
+        private void bwrConsoleOutput_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            btnRunTask.Enabled = true;
+            list.RemoveAt(queueSelection);
+            lbxQueue.Items.RemoveAt(queueSelection);
+        }
+
+        private bool CheckIfFileIsImage(string path)
+        {
+            try
+            {
+                newImg = Image.FromFile(path);
+                if (newImg.Width != 512 || newImg.Height != 512)
+                {
+                    if (pbxIcon.Image != null)
+                        pbxIcon.Image.Dispose();
+                    TinyFD.tinyfd_messageBox("Image Load Error", "The specified image is not 512x512", "ok", "error", 1);
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                tctrlConsole.SelectedIndex = 1;
+                rtbErrors.Text += $"[{DateTime.Now.ToString("HH:mm:ss tt")}] {ex}{Environment.NewLine}{Environment.NewLine}";
+                return false;
+            }
+            return true;
         }
     }
 }
