@@ -645,11 +645,8 @@ namespace GMWU
 
         private void bwrConsoleOutput_DoWork(object sender, DoWorkEventArgs e)
         {
-            while (!bwrConsoleOutput.CancellationPending)
-            {
-                bwrConsoleOutput.ReportProgress(0, new OutputContent() { Content = reader.ReadToEnd() });
-                bwrConsoleOutput.CancelAsync();
-            }
+            bwrConsoleOutput.ReportProgress(0, new OutputContent() { Content = reader.ReadToEnd() });
+            bwrConsoleOutput.CancelAsync();
         }
 
         private void bwrConsoleOutput_ProgressChanged(object sender, ProgressChangedEventArgs e)
@@ -666,15 +663,7 @@ namespace GMWU
             while (!bwrAddonList.CancellationPending)
             {
                 bwrAddonList.ReportProgress(0, new OutputContent() { Content = reader2.ReadLine() });
-                bwrAddonList.CancelAsync();
             }
-
-            for (int i = 0; i < content.Count; i++)
-                if (!(i < 5))
-                    lbxAddonList.Items.Add(content[i]);
-            lbxAddonList.Items.RemoveAt(lbxAddonList.Items.Count - 1);
-            addonsLoaded = true;
-            btnLoadAddons.Enabled = true;
         }
 
         private void bwrAddonList_ProgressChanged(object sender, ProgressChangedEventArgs e)
@@ -682,15 +671,29 @@ namespace GMWU
             if (e.UserState is OutputContent)
             {
                 output = e.UserState as OutputContent;
-                lbxAddonList.Items.Add($"{output.Content}{Environment.NewLine}{Environment.NewLine}");
+                if (string.IsNullOrWhiteSpace(output.Content))
+                    bwrAddonList.CancelAsync();
+                else
+                    lbxAddonList.Items.Add($"{output.Content.Trim()}{Environment.NewLine}{Environment.NewLine}");
             }
         }
 
         private void bwrConsoleOutput_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            btnRunTask.Enabled = true;
-            list.RemoveAt(queueSelection);
-            lbxQueue.Items.RemoveAt(queueSelection);
+            try
+            {
+                list.RemoveAt(queueSelection);
+                lbxQueue.Items.RemoveAt(queueSelection);
+            }
+            catch (Exception ex)
+            {
+                tctrlConsole.SelectedIndex = 1;
+                rtbErrors.Text += $"[{DateTime.Now.ToString("HH:mm:ss tt")}] {ex}{Environment.NewLine}{Environment.NewLine}";
+            }
+            finally
+            {
+                btnRunTask.Enabled = true;
+            }
         }
 
         private bool CheckIfFileIsImage(string path)
@@ -713,6 +716,28 @@ namespace GMWU
                 return false;
             }
             return true;
+        }
+
+        private void bwrAddonList_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            try
+            {
+                lbxAddonList.Items.RemoveAt(0);
+                lbxAddonList.Items.RemoveAt(1);
+                lbxAddonList.Items.RemoveAt(2);
+                lbxAddonList.Items.RemoveAt(lbxAddonList.Items.Count - 1);
+                lbxAddonList.Items.RemoveAt(0);
+            }
+            catch (Exception ex)
+            {
+                tctrlConsole.SelectedIndex = 1;
+                rtbErrors.Text += $"[{DateTime.Now.ToString("HH:mm:ss tt")}] {ex}{Environment.NewLine}{Environment.NewLine}";
+            }
+            finally
+            {
+                addonsLoaded = true;
+                btnLoadAddons.Enabled = true;
+            }
         }
     }
 }

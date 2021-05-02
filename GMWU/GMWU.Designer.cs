@@ -33,6 +33,7 @@ namespace GMWU
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GMWU));
             this.btnAdd2Queue = new System.Windows.Forms.Button();
             this.gboxTaskInfo = new System.Windows.Forms.GroupBox();
+            this.btnOverwriteTask = new System.Windows.Forms.Button();
             this.tbxTaskNotes = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.tbxTaskName = new System.Windows.Forms.TextBox();
@@ -132,7 +133,6 @@ namespace GMWU
             this.bwrConsoleOutput = new System.ComponentModel.BackgroundWorker();
             this.tmrQueueRunner = new System.Windows.Forms.Timer(this.components);
             this.bwrAddonList = new System.ComponentModel.BackgroundWorker();
-            this.btnOverwriteTask = new System.Windows.Forms.Button();
             this.gboxTaskInfo.SuspendLayout();
             this.tctrlMainArea.SuspendLayout();
             this.tpgCreatingTasks.SuspendLayout();
@@ -185,6 +185,17 @@ namespace GMWU
             this.gboxTaskInfo.TabIndex = 1;
             this.gboxTaskInfo.TabStop = false;
             this.gboxTaskInfo.Text = "Task Information";
+            // 
+            // btnOverwriteTask
+            // 
+            this.btnOverwriteTask.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnOverwriteTask.Location = new System.Drawing.Point(334, 95);
+            this.btnOverwriteTask.Name = "btnOverwriteTask";
+            this.btnOverwriteTask.Size = new System.Drawing.Size(150, 23);
+            this.btnOverwriteTask.TabIndex = 9;
+            this.btnOverwriteTask.Text = "Overwrite Task in Queue";
+            this.btnOverwriteTask.UseVisualStyleBackColor = true;
+            this.btnOverwriteTask.Click += new System.EventHandler(this.btnOverwriteTask_Click);
             // 
             // tbxTaskNotes
             // 
@@ -1034,7 +1045,7 @@ namespace GMWU
             // 
             // btnGitHub
             // 
-            this.btnGitHub.Location = new System.Drawing.Point(286, 277);
+            this.btnGitHub.Location = new System.Drawing.Point(302, 281);
             this.btnGitHub.Name = "btnGitHub";
             this.btnGitHub.Size = new System.Drawing.Size(96, 23);
             this.btnGitHub.TabIndex = 2;
@@ -1046,7 +1057,7 @@ namespace GMWU
             // 
             this.lblCreatedByTitle.AutoSize = true;
             this.lblCreatedByTitle.Font = new System.Drawing.Font("Segoe UI", 14.25F);
-            this.lblCreatedByTitle.Location = new System.Drawing.Point(204, 26);
+            this.lblCreatedByTitle.Location = new System.Drawing.Point(220, 30);
             this.lblCreatedByTitle.Name = "lblCreatedByTitle";
             this.lblCreatedByTitle.Size = new System.Drawing.Size(250, 25);
             this.lblCreatedByTitle.TabIndex = 1;
@@ -1055,7 +1066,7 @@ namespace GMWU
             // pictureBox1
             // 
             this.pictureBox1.Image = global::GMWU.Properties.Resources.C_Pi;
-            this.pictureBox1.Location = new System.Drawing.Point(244, 72);
+            this.pictureBox1.Location = new System.Drawing.Point(260, 76);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(177, 177);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -1235,17 +1246,7 @@ namespace GMWU
             this.bwrAddonList.WorkerSupportsCancellation = true;
             this.bwrAddonList.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bwrAddonList_DoWork);
             this.bwrAddonList.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bwrAddonList_ProgressChanged);
-            // 
-            // btnOverwriteTask
-            // 
-            this.btnOverwriteTask.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnOverwriteTask.Location = new System.Drawing.Point(334, 95);
-            this.btnOverwriteTask.Name = "btnOverwriteTask";
-            this.btnOverwriteTask.Size = new System.Drawing.Size(150, 23);
-            this.btnOverwriteTask.TabIndex = 9;
-            this.btnOverwriteTask.Text = "Overwrite Task in Queue";
-            this.btnOverwriteTask.UseVisualStyleBackColor = true;
-            this.btnOverwriteTask.Click += new System.EventHandler(this.btnOverwriteTask_Click);
+            this.bwrAddonList.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bwrAddonList_RunWorkerCompleted);
             // 
             // GMWU
             // 
