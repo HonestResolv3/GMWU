@@ -7,6 +7,7 @@
         public string FileName { get; set; }
         public string TaskName { get; set; }
         public string TaskNotes { get; set; }
+        public Enums.TaskType TaskType { get; set; }
 
         // Creating a new Garry's Mod workshop task that is empty so that we can individually enter in the properties above
         public GTask()

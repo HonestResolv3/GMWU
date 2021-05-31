@@ -7,6 +7,7 @@ namespace GMWU
 {
     static class Program
     {
+        static Mutex mu;
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -15,11 +16,11 @@ namespace GMWU
         {
             // This code here detects if the program is already running, prevents another instance from loading
             const string appName = "GMWU";
-            _ = new Mutex(true, appName, out bool createdNew);
+            mu = new Mutex(true, appName, out bool createdNew);
 
             if (!createdNew)
             {
-                TinyFD.tinyfd_messageBox("Program is already running", "You cannot have more than one instance of this program running", "ok", "error", 1);
+                TinyFD.tinyfd_messageBox($"{appName} is already running", "You cannot have more than one instance of this program running", "ok", "error", 1);
                 return;
             }
 

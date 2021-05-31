@@ -99,11 +99,10 @@ namespace GMWU
             this.txtAddonTitle = new System.Windows.Forms.TextBox();
             this.txtJSOutput = new System.Windows.Forms.TextBox();
             this.btnJSOutput = new System.Windows.Forms.Button();
-            this.tpgPresetCreator = new System.Windows.Forms.TabPage();
             this.tpgSettings = new System.Windows.Forms.TabPage();
             this.gbxQueueSettings = new System.Windows.Forms.GroupBox();
             this.btnApplyChanges = new System.Windows.Forms.Button();
-            this.cbxAutoRunTask = new System.Windows.Forms.CheckBox();
+            this.chkAutoRunTask = new System.Windows.Forms.CheckBox();
             this.txtChangeTime = new System.Windows.Forms.TextBox();
             this.lblChangeTime = new System.Windows.Forms.Label();
             this.lblCurrentQueueTime = new System.Windows.Forms.Label();
@@ -241,8 +240,9 @@ namespace GMWU
             // 
             // btnRunTask
             // 
+            this.btnRunTask.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btnRunTask.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnRunTask.Location = new System.Drawing.Point(76, 298);
+            this.btnRunTask.Location = new System.Drawing.Point(76, 297);
             this.btnRunTask.Name = "btnRunTask";
             this.btnRunTask.Size = new System.Drawing.Size(129, 23);
             this.btnRunTask.TabIndex = 9;
@@ -254,7 +254,6 @@ namespace GMWU
             // 
             this.tctrlMainArea.Controls.Add(this.tpgCreatingTasks);
             this.tctrlMainArea.Controls.Add(this.tpgJSCreator);
-            this.tctrlMainArea.Controls.Add(this.tpgPresetCreator);
             this.tctrlMainArea.Controls.Add(this.tpgSettings);
             this.tctrlMainArea.Controls.Add(this.tpgCredits);
             this.tctrlMainArea.Location = new System.Drawing.Point(13, 12);
@@ -890,16 +889,6 @@ namespace GMWU
             this.btnJSOutput.UseVisualStyleBackColor = true;
             this.btnJSOutput.Click += new System.EventHandler(this.btnJSOutput_Click);
             // 
-            // tpgPresetCreator
-            // 
-            this.tpgPresetCreator.Location = new System.Drawing.Point(4, 22);
-            this.tpgPresetCreator.Name = "tpgPresetCreator";
-            this.tpgPresetCreator.Padding = new System.Windows.Forms.Padding(3);
-            this.tpgPresetCreator.Size = new System.Drawing.Size(678, 332);
-            this.tpgPresetCreator.TabIndex = 2;
-            this.tpgPresetCreator.Text = "Preset Creator";
-            this.tpgPresetCreator.UseVisualStyleBackColor = true;
-            // 
             // tpgSettings
             // 
             this.tpgSettings.Controls.Add(this.gbxQueueSettings);
@@ -915,11 +904,11 @@ namespace GMWU
             // gbxQueueSettings
             // 
             this.gbxQueueSettings.Controls.Add(this.btnApplyChanges);
-            this.gbxQueueSettings.Controls.Add(this.cbxAutoRunTask);
+            this.gbxQueueSettings.Controls.Add(this.chkAutoRunTask);
             this.gbxQueueSettings.Controls.Add(this.txtChangeTime);
             this.gbxQueueSettings.Controls.Add(this.lblChangeTime);
             this.gbxQueueSettings.Controls.Add(this.lblCurrentQueueTime);
-            this.gbxQueueSettings.Location = new System.Drawing.Point(6, 104);
+            this.gbxQueueSettings.Location = new System.Drawing.Point(6, 186);
             this.gbxQueueSettings.Name = "gbxQueueSettings";
             this.gbxQueueSettings.Size = new System.Drawing.Size(666, 93);
             this.gbxQueueSettings.TabIndex = 8;
@@ -935,20 +924,21 @@ namespace GMWU
             this.btnApplyChanges.TabIndex = 7;
             this.btnApplyChanges.Text = "Apply";
             this.btnApplyChanges.UseVisualStyleBackColor = true;
+            this.btnApplyChanges.Click += new System.EventHandler(this.btnApplyChanges_Click);
             // 
-            // cbxAutoRunTask
+            // chkAutoRunTask
             // 
-            this.cbxAutoRunTask.AutoSize = true;
-            this.cbxAutoRunTask.Location = new System.Drawing.Point(8, 68);
-            this.cbxAutoRunTask.Name = "cbxAutoRunTask";
-            this.cbxAutoRunTask.Size = new System.Drawing.Size(107, 17);
-            this.cbxAutoRunTask.TabIndex = 7;
-            this.cbxAutoRunTask.Text = "Auto-run tasks?";
-            this.cbxAutoRunTask.UseVisualStyleBackColor = true;
+            this.chkAutoRunTask.AutoSize = true;
+            this.chkAutoRunTask.Location = new System.Drawing.Point(8, 68);
+            this.chkAutoRunTask.Name = "chkAutoRunTask";
+            this.chkAutoRunTask.Size = new System.Drawing.Size(107, 17);
+            this.chkAutoRunTask.TabIndex = 7;
+            this.chkAutoRunTask.Text = "Auto-run tasks?";
+            this.chkAutoRunTask.UseVisualStyleBackColor = true;
             // 
             // txtChangeTime
             // 
-            this.txtChangeTime.Location = new System.Drawing.Point(128, 41);
+            this.txtChangeTime.Location = new System.Drawing.Point(126, 41);
             this.txtChangeTime.Name = "txtChangeTime";
             this.txtChangeTime.Size = new System.Drawing.Size(444, 22);
             this.txtChangeTime.TabIndex = 7;
@@ -978,7 +968,7 @@ namespace GMWU
             this.gbxGExeLoc.Controls.Add(this.txtDefGMAFile);
             this.gbxGExeLoc.Controls.Add(this.btnDefGMPUFile);
             this.gbxGExeLoc.Controls.Add(this.txtDefGMPFile);
-            this.gbxGExeLoc.Location = new System.Drawing.Point(5, 5);
+            this.gbxGExeLoc.Location = new System.Drawing.Point(5, 41);
             this.gbxGExeLoc.Name = "gbxGExeLoc";
             this.gbxGExeLoc.Size = new System.Drawing.Size(667, 100);
             this.gbxGExeLoc.TabIndex = 7;
@@ -994,6 +984,7 @@ namespace GMWU
             this.btnDefGMAFile.TabIndex = 4;
             this.btnDefGMAFile.Text = "Default GMad File Location";
             this.btnDefGMAFile.UseVisualStyleBackColor = true;
+            this.btnDefGMAFile.Click += new System.EventHandler(this.btnDefGMAFile_Click);
             // 
             // chkUseDefaultExe
             // 
@@ -1004,6 +995,7 @@ namespace GMWU
             this.chkUseDefaultExe.TabIndex = 6;
             this.chkUseDefaultExe.Text = "Use these locations with tasks?";
             this.chkUseDefaultExe.UseVisualStyleBackColor = true;
+            this.chkUseDefaultExe.CheckedChanged += new System.EventHandler(this.chkUseDefaultExe_CheckedChanged);
             // 
             // txtDefGMAFile
             // 
@@ -1163,8 +1155,9 @@ namespace GMWU
             // 
             // btnDeleteTask
             // 
+            this.btnDeleteTask.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btnDeleteTask.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnDeleteTask.Location = new System.Drawing.Point(211, 298);
+            this.btnDeleteTask.Location = new System.Drawing.Point(211, 297);
             this.btnDeleteTask.Name = "btnDeleteTask";
             this.btnDeleteTask.Size = new System.Drawing.Size(129, 23);
             this.btnDeleteTask.TabIndex = 10;
@@ -1335,7 +1328,6 @@ namespace GMWU
         private System.Windows.Forms.Button btnGMadLoc2;
         private System.Windows.Forms.Button btnCOLoc;
         private System.Windows.Forms.TabPage tpgPublishAddon;
-        private System.Windows.Forms.TabPage tpgPresetCreator;
         private System.Windows.Forms.TabPage tpgSettings;
         private System.Windows.Forms.TabPage tpgCredits;
         private System.Windows.Forms.Button btnGitHub;
@@ -1400,7 +1392,7 @@ namespace GMWU
         private System.Windows.Forms.TextBox txtChangeNotes;
         private System.Windows.Forms.Timer tmrQueueRunner;
         private System.Windows.Forms.Button btnApplyChanges;
-        private System.Windows.Forms.CheckBox cbxAutoRunTask;
+        private System.Windows.Forms.CheckBox chkAutoRunTask;
         private System.Windows.Forms.TextBox txtChangeTime;
         private System.Windows.Forms.Label lblChangeTime;
         private System.Windows.Forms.Label lblCurrentQueueTime;

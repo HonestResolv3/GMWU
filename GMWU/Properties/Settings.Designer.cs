@@ -22,5 +22,353 @@ namespace GMWU.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string DefaultGMadFilePath {
+            get {
+                return ((string)(this["DefaultGMadFilePath"]));
+            }
+            set {
+                this["DefaultGMadFilePath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string DefaultGMPublishFileLine {
+            get {
+                return ((string)(this["DefaultGMPublishFileLine"]));
+            }
+            set {
+                this["DefaultGMPublishFileLine"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string AddonFolderLocation {
+            get {
+                return ((string)(this["AddonFolderLocation"]));
+            }
+            set {
+                this["AddonFolderLocation"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string GMadFile1Location {
+            get {
+                return ((string)(this["GMadFile1Location"]));
+            }
+            set {
+                this["GMadFile1Location"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string GMadOutputLocation {
+            get {
+                return ((string)(this["GMadOutputLocation"]));
+            }
+            set {
+                this["GMadOutputLocation"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string ExtractOutputLocation {
+            get {
+                return ((string)(this["ExtractOutputLocation"]));
+            }
+            set {
+                this["ExtractOutputLocation"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string GMadFile2Location {
+            get {
+                return ((string)(this["GMadFile2Location"]));
+            }
+            set {
+                this["GMadFile2Location"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string GMAFile1Location {
+            get {
+                return ((string)(this["GMAFile1Location"]));
+            }
+            set {
+                this["GMAFile1Location"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string GMAFile2Location {
+            get {
+                return ((string)(this["GMAFile2Location"]));
+            }
+            set {
+                this["GMAFile2Location"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string GMPubFile1Location {
+            get {
+                return ((string)(this["GMPubFile1Location"]));
+            }
+            set {
+                this["GMPubFile1Location"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string IconFile1Location {
+            get {
+                return ((string)(this["IconFile1Location"]));
+            }
+            set {
+                this["IconFile1Location"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string GMAFile3Location {
+            get {
+                return ((string)(this["GMAFile3Location"]));
+            }
+            set {
+                this["GMAFile3Location"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string GMPubFile2Location {
+            get {
+                return ((string)(this["GMPubFile2Location"]));
+            }
+            set {
+                this["GMPubFile2Location"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string UpdateAddonID {
+            get {
+                return ((string)(this["UpdateAddonID"]));
+            }
+            set {
+                this["UpdateAddonID"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string UpdateAddonNotes {
+            get {
+                return ((string)(this["UpdateAddonNotes"]));
+            }
+            set {
+                this["UpdateAddonNotes"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string IconFile2Location {
+            get {
+                return ((string)(this["IconFile2Location"]));
+            }
+            set {
+                this["IconFile2Location"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string GMPubFile3Location {
+            get {
+                return ((string)(this["GMPubFile3Location"]));
+            }
+            set {
+                this["GMPubFile3Location"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string UpdateIconID {
+            get {
+                return ((string)(this["UpdateIconID"]));
+            }
+            set {
+                this["UpdateIconID"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string TaskName {
+            get {
+                return ((string)(this["TaskName"]));
+            }
+            set {
+                this["TaskName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string TaskNotes {
+            get {
+                return ((string)(this["TaskNotes"]));
+            }
+            set {
+                this["TaskNotes"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int MainControlIndex {
+            get {
+                return ((int)(this["MainControlIndex"]));
+            }
+            set {
+                this["MainControlIndex"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int TaskControlIndex {
+            get {
+                return ((int)(this["TaskControlIndex"]));
+            }
+            set {
+                this["TaskControlIndex"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int ConsoleControlIndex {
+            get {
+                return ((int)(this["ConsoleControlIndex"]));
+            }
+            set {
+                this["ConsoleControlIndex"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int TaskSelectionIndex {
+            get {
+                return ((int)(this["TaskSelectionIndex"]));
+            }
+            set {
+                this["TaskSelectionIndex"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string DefaultGMadLocation {
+            get {
+                return ((string)(this["DefaultGMadLocation"]));
+            }
+            set {
+                this["DefaultGMadLocation"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string DefaultGMPubLocation {
+            get {
+                return ((string)(this["DefaultGMPubLocation"]));
+            }
+            set {
+                this["DefaultGMPubLocation"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string UseDefaultLocations {
+            get {
+                return ((string)(this["UseDefaultLocations"]));
+            }
+            set {
+                this["UseDefaultLocations"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string TaskIntervalTime {
+            get {
+                return ((string)(this["TaskIntervalTime"]));
+            }
+            set {
+                this["TaskIntervalTime"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string AutoRunTasks {
+            get {
+                return ((string)(this["AutoRunTasks"]));
+            }
+            set {
+                this["AutoRunTasks"] = value;
+            }
+        }
     }
 }

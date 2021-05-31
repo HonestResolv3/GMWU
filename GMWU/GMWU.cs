@@ -9,6 +9,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace GMWU
@@ -22,6 +23,7 @@ namespace GMWU
         TextReader reader;
         TextReader reader2;
         OutputContent output;
+        List<string> addons = new List<string>();
 
         string dialogResult;
         bool addonsLoaded = false;
@@ -29,9 +31,7 @@ namespace GMWU
         int queueSelection;
 
         readonly List<GTask> list = new List<GTask>();
-        readonly List<string> addons = new List<string>();
         readonly List<string> content = new List<string>();
-        readonly StringBuilder builder = new StringBuilder();
 
         public GMWU()
         {
@@ -55,7 +55,7 @@ namespace GMWU
 
             lbxQueue.Items.Add(taskRef);
             list.Add(taskRef);
-            if (!timerStarted)
+            if (!timerStarted && chkAutoRunTask.Enabled)
             {
                 tmrQueueRunner.Start();
                 timerStarted = true;
@@ -105,6 +105,7 @@ namespace GMWU
 
                     newTask.FileName = txtGMadLoc1.Text;
                     newTask.Arguments = "create -folder \"" + txtAFLocation.Text + "\" -out \"" + txtGMOutput.Text + "\\" + txtGMFileName.Text + ".gma" + "\"";
+                    newTask.TaskType = Enums.TaskType.CreateGMA;
                     break;
                 // This task is for extrafting a .GMA that will be output to a specific location
                 case 1:
@@ -121,6 +122,7 @@ namespace GMWU
                     string gmaName = txtGMFileLoc1.Text.Substring(txtGMFileLoc1.Text.LastIndexOf("\\") + 1);
                     string folderLocation = Path.Combine(txtCOLoc.Text, gmaName.Substring(0, gmaName.IndexOf(".")));
                     newTask.Arguments = "extract -file \"" + txtGMFileLoc1.Text + "\" -out \"" + folderLocation + "\"";
+                    newTask.TaskType = Enums.TaskType.ExtractGMA;
                     break;
                 case 2:
                     if (textBoxesAreBlank(txtGMFileLoc2, txtGMPubFileLoc1, txtIconLoc1)
@@ -134,6 +136,7 @@ namespace GMWU
 
                     newTask.FileName = txtGMPubFileLoc1.Text;
                     newTask.Arguments = "create -addon \"" + txtGMFileLoc2.Text + "\" -icon \"" + txtIconLoc1.Text + "\"";
+                    newTask.TaskType = Enums.TaskType.PublishAddon;
                     break;
                 case 3:
                     if (textBoxesAreBlank(txtGMFileLoc3, txtGMPubFileLoc2, txtAddonID)
@@ -147,6 +150,7 @@ namespace GMWU
 
                     newTask.FileName = txtGMPubFileLoc2.Text;
                     newTask.Arguments = "update -addon \"" + txtGMFileLoc3.Text + "\" -id \"" + long.Parse(txtAddonID.Text) + "\" -changes \"" + txtChangeNotes.Text + "\"";
+                    newTask.TaskType = Enums.TaskType.UpdateAddon;
                     break;
                 case 4:
                     if (textBoxesAreBlank(txtIconLoc2, txtGMPubFileLoc3, txtAddonID2)
@@ -160,6 +164,7 @@ namespace GMWU
 
                     newTask.FileName = txtGMPubFileLoc3.Text;
                     newTask.Arguments = "update -icon \"" + txtIconLoc2.Text + "\" -id \"" + long.Parse(txtAddonID2.Text) + "\"";
+                    newTask.TaskType = Enums.TaskType.UpdateIcon;
                     break;
                 default:
                     break;
@@ -506,6 +511,7 @@ namespace GMWU
             if (addonList != null && !addonList.HasExited)
                 return;
 
+            lbxAddonList.Items.Clear();
             if (string.IsNullOrWhiteSpace(txtDefGMPFile.Text))
             {
                 TinyFD.tinyfd_messageBox("No Location Provided", "You need to enter in the GMPublish.exe file in the Settings area of this program", "ok", "error", 1);
@@ -645,8 +651,10 @@ namespace GMWU
 
         private void bwrConsoleOutput_DoWork(object sender, DoWorkEventArgs e)
         {
-            bwrConsoleOutput.ReportProgress(0, new OutputContent() { Content = reader.ReadToEnd() });
-            bwrConsoleOutput.CancelAsync();
+            while (!bwrConsoleOutput.CancellationPending)
+            {
+                bwrConsoleOutput.ReportProgress(0, new OutputContent() { Content = reader.ReadLine() });
+            }
         }
 
         private void bwrConsoleOutput_ProgressChanged(object sender, ProgressChangedEventArgs e)
@@ -654,7 +662,10 @@ namespace GMWU
             if (e.UserState is OutputContent)
             {
                 output = e.UserState as OutputContent;
-                rtbConsole.Text += $"{output.Content}{Environment.NewLine}{Environment.NewLine}";
+                if (string.IsNullOrWhiteSpace(output.Content))
+                    bwrConsoleOutput.CancelAsync();
+                else
+                    rtbConsole.Text += $"{output.Content}{Environment.NewLine}{Environment.NewLine}";
             }
         }
 
@@ -674,7 +685,10 @@ namespace GMWU
                 if (string.IsNullOrWhiteSpace(output.Content))
                     bwrAddonList.CancelAsync();
                 else
-                    lbxAddonList.Items.Add($"{output.Content.Trim()}{Environment.NewLine}{Environment.NewLine}");
+                {
+                    addons.Add(output.Content.Trim());
+                    lbxAddonList.Items.Add($"{output.Content.Trim()}{Environment.NewLine}");
+                }
             }
         }
 
@@ -688,7 +702,7 @@ namespace GMWU
             catch (Exception ex)
             {
                 tctrlConsole.SelectedIndex = 1;
-                rtbErrors.Text += $"[{DateTime.Now.ToString("HH:mm:ss tt")}] {ex}{Environment.NewLine}{Environment.NewLine}";
+                rtbErrors.Text += $"[{DateTime.Now.ToString("HH:mm:ss tt")}] {ex}{Environment.NewLine}";
             }
             finally
             {
@@ -723,10 +737,10 @@ namespace GMWU
             try
             {
                 lbxAddonList.Items.RemoveAt(0);
-                lbxAddonList.Items.RemoveAt(1);
-                lbxAddonList.Items.RemoveAt(2);
-                lbxAddonList.Items.RemoveAt(lbxAddonList.Items.Count - 1);
                 lbxAddonList.Items.RemoveAt(0);
+                lbxAddonList.Items.RemoveAt(0);
+                lbxAddonList.Items.RemoveAt(0);
+                lbxAddonList.Items.RemoveAt(lbxAddonList.Items.Count - 1);
             }
             catch (Exception ex)
             {
@@ -738,6 +752,40 @@ namespace GMWU
                 addonsLoaded = true;
                 btnLoadAddons.Enabled = true;
             }
+        }
+
+        private void btnDefGMAFile_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void chkUseDefaultExe_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkUseDefaultExe.Checked)
+            {
+                txtGMadLoc1.Text = txtDefGMAFile.Text;
+                txtGMadLoc2.Text = txtDefGMAFile.Text;
+                txtGMPubFileLoc1.Text = txtDefGMPFile.Text;
+                txtGMPubFileLoc2.Text = txtDefGMPFile.Text;
+                txtGMPubFileLoc3.Text = txtDefGMPFile.Text;
+            }
+
+            btnGMadLoc1.Enabled = !chkUseDefaultExe.Checked;
+            btnGMadLoc2.Enabled = !chkUseDefaultExe.Checked;
+            btnGMPubFileLoc1.Enabled = !chkUseDefaultExe.Checked;
+            btnGMPubFileLoc2.Enabled = !chkUseDefaultExe.Checked;
+            btnGMPubFileLoc3.Enabled = !chkUseDefaultExe.Checked;
+
+            txtGMadLoc1.Enabled = !chkUseDefaultExe.Checked;
+            txtGMadLoc2.Enabled = !chkUseDefaultExe.Checked;
+            txtGMPubFileLoc1.Enabled = !chkUseDefaultExe.Checked;
+            txtGMPubFileLoc2.Enabled = !chkUseDefaultExe.Checked;
+            txtGMPubFileLoc3.Enabled = !chkUseDefaultExe.Checked;
+        }
+
+        private void btnApplyChanges_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
