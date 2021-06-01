@@ -1,9 +1,11 @@
 GMWU (Garry's Mod Workshop Utility)
 
+![Image](./images/GMWU_Banner.png)
+
 Work-in-progress re-write of [Garry's Mod Workshop Utility](https://github.com/TruthfullyHonest/Garrys-Mod-Workshop-Utility)
 
 Current State:
-![Current State](https://i.imgur.com/5MFcqJq.png)
+![Current State](./images/Application1.png)
 
 Features:
 - Create and extract .gma files, publish addons, update addons and icons

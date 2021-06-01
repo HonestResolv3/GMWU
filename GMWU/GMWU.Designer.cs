@@ -1145,7 +1145,7 @@ namespace GMWU
             // btnUseID
             // 
             this.btnUseID.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnUseID.Location = new System.Drawing.Point(211, 298);
+            this.btnUseID.Location = new System.Drawing.Point(211, 297);
             this.btnUseID.Name = "btnUseID";
             this.btnUseID.Size = new System.Drawing.Size(129, 23);
             this.btnUseID.TabIndex = 14;
@@ -1166,7 +1166,7 @@ namespace GMWU
             // btnLoadAddons
             // 
             this.btnLoadAddons.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnLoadAddons.Location = new System.Drawing.Point(76, 298);
+            this.btnLoadAddons.Location = new System.Drawing.Point(76, 297);
             this.btnLoadAddons.Name = "btnLoadAddons";
             this.btnLoadAddons.Size = new System.Drawing.Size(129, 23);
             this.btnLoadAddons.TabIndex = 12;
