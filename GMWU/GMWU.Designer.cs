@@ -112,10 +112,6 @@ namespace GMWU
             this.txtDefGMAFile = new System.Windows.Forms.TextBox();
             this.btnDefGMPUFile = new System.Windows.Forms.Button();
             this.txtDefGMPFile = new System.Windows.Forms.TextBox();
-            this.tpgCredits = new System.Windows.Forms.TabPage();
-            this.btnGitHub = new System.Windows.Forms.Button();
-            this.lblCreatedByTitle = new System.Windows.Forms.Label();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.tctrlConsole = new System.Windows.Forms.TabControl();
             this.tpgConsole = new System.Windows.Forms.TabPage();
             this.rtbConsole = new System.Windows.Forms.RichTextBox();
@@ -132,6 +128,7 @@ namespace GMWU
             this.bwrConsoleOutput = new System.ComponentModel.BackgroundWorker();
             this.tmrQueueRunner = new System.Windows.Forms.Timer(this.components);
             this.bwrAddonList = new System.ComponentModel.BackgroundWorker();
+            this.btnClearDir = new System.Windows.Forms.Button();
             this.gboxTaskInfo.SuspendLayout();
             this.tctrlMainArea.SuspendLayout();
             this.tpgCreatingTasks.SuspendLayout();
@@ -148,8 +145,6 @@ namespace GMWU
             this.tpgSettings.SuspendLayout();
             this.gbxQueueSettings.SuspendLayout();
             this.gbxGExeLoc.SuspendLayout();
-            this.tpgCredits.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.tctrlConsole.SuspendLayout();
             this.tpgConsole.SuspendLayout();
             this.tpgErrors.SuspendLayout();
@@ -255,7 +250,6 @@ namespace GMWU
             this.tctrlMainArea.Controls.Add(this.tpgCreatingTasks);
             this.tctrlMainArea.Controls.Add(this.tpgJSCreator);
             this.tctrlMainArea.Controls.Add(this.tpgSettings);
-            this.tctrlMainArea.Controls.Add(this.tpgCredits);
             this.tctrlMainArea.Location = new System.Drawing.Point(13, 12);
             this.tctrlMainArea.Name = "tctrlMainArea";
             this.tctrlMainArea.SelectedIndex = 0;
@@ -963,6 +957,7 @@ namespace GMWU
             // 
             // gbxGExeLoc
             // 
+            this.gbxGExeLoc.Controls.Add(this.btnClearDir);
             this.gbxGExeLoc.Controls.Add(this.btnDefGMAFile);
             this.gbxGExeLoc.Controls.Add(this.chkUseDefaultExe);
             this.gbxGExeLoc.Controls.Add(this.txtDefGMAFile);
@@ -970,7 +965,7 @@ namespace GMWU
             this.gbxGExeLoc.Controls.Add(this.txtDefGMPFile);
             this.gbxGExeLoc.Location = new System.Drawing.Point(5, 41);
             this.gbxGExeLoc.Name = "gbxGExeLoc";
-            this.gbxGExeLoc.Size = new System.Drawing.Size(667, 100);
+            this.gbxGExeLoc.Size = new System.Drawing.Size(667, 108);
             this.gbxGExeLoc.TabIndex = 7;
             this.gbxGExeLoc.TabStop = false;
             this.gbxGExeLoc.Text = "Garry\'s Mod .EXE Locations";
@@ -1001,6 +996,7 @@ namespace GMWU
             // 
             this.txtDefGMAFile.Location = new System.Drawing.Point(200, 22);
             this.txtDefGMAFile.Name = "txtDefGMAFile";
+            this.txtDefGMAFile.ReadOnly = true;
             this.txtDefGMAFile.Size = new System.Drawing.Size(461, 22);
             this.txtDefGMAFile.TabIndex = 1;
             // 
@@ -1019,51 +1015,9 @@ namespace GMWU
             // 
             this.txtDefGMPFile.Location = new System.Drawing.Point(200, 50);
             this.txtDefGMPFile.Name = "txtDefGMPFile";
+            this.txtDefGMPFile.ReadOnly = true;
             this.txtDefGMPFile.Size = new System.Drawing.Size(461, 22);
             this.txtDefGMPFile.TabIndex = 3;
-            // 
-            // tpgCredits
-            // 
-            this.tpgCredits.Controls.Add(this.btnGitHub);
-            this.tpgCredits.Controls.Add(this.lblCreatedByTitle);
-            this.tpgCredits.Controls.Add(this.pictureBox1);
-            this.tpgCredits.Location = new System.Drawing.Point(4, 22);
-            this.tpgCredits.Name = "tpgCredits";
-            this.tpgCredits.Padding = new System.Windows.Forms.Padding(3);
-            this.tpgCredits.Size = new System.Drawing.Size(678, 332);
-            this.tpgCredits.TabIndex = 4;
-            this.tpgCredits.Text = "Credits";
-            this.tpgCredits.UseVisualStyleBackColor = true;
-            // 
-            // btnGitHub
-            // 
-            this.btnGitHub.Location = new System.Drawing.Point(302, 281);
-            this.btnGitHub.Name = "btnGitHub";
-            this.btnGitHub.Size = new System.Drawing.Size(96, 23);
-            this.btnGitHub.TabIndex = 2;
-            this.btnGitHub.Text = "GitHub Page";
-            this.btnGitHub.UseVisualStyleBackColor = true;
-            this.btnGitHub.Click += new System.EventHandler(this.btnGitHub_Click);
-            // 
-            // lblCreatedByTitle
-            // 
-            this.lblCreatedByTitle.AutoSize = true;
-            this.lblCreatedByTitle.Font = new System.Drawing.Font("Segoe UI", 14.25F);
-            this.lblCreatedByTitle.Location = new System.Drawing.Point(220, 30);
-            this.lblCreatedByTitle.Name = "lblCreatedByTitle";
-            this.lblCreatedByTitle.Size = new System.Drawing.Size(250, 25);
-            this.lblCreatedByTitle.TabIndex = 1;
-            this.lblCreatedByTitle.Text = "Created by: TruthfullyHonest";
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = global::GMWU.Properties.Resources.C_Pi;
-            this.pictureBox1.Location = new System.Drawing.Point(260, 76);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(177, 177);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
             // 
             // tctrlConsole
             // 
@@ -1241,6 +1195,17 @@ namespace GMWU
             this.bwrAddonList.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bwrAddonList_ProgressChanged);
             this.bwrAddonList.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bwrAddonList_RunWorkerCompleted);
             // 
+            // btnClearDir
+            // 
+            this.btnClearDir.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnClearDir.Location = new System.Drawing.Point(579, 78);
+            this.btnClearDir.Name = "btnClearDir";
+            this.btnClearDir.Size = new System.Drawing.Size(82, 23);
+            this.btnClearDir.TabIndex = 8;
+            this.btnClearDir.Text = "Clear";
+            this.btnClearDir.UseVisualStyleBackColor = true;
+            this.btnClearDir.Click += new System.EventHandler(this.btnClearDir_Click);
+            // 
             // GMWU
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1284,9 +1249,6 @@ namespace GMWU
             this.gbxQueueSettings.PerformLayout();
             this.gbxGExeLoc.ResumeLayout(false);
             this.gbxGExeLoc.PerformLayout();
-            this.tpgCredits.ResumeLayout(false);
-            this.tpgCredits.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.tctrlConsole.ResumeLayout(false);
             this.tpgConsole.ResumeLayout(false);
             this.tpgErrors.ResumeLayout(false);
@@ -1330,10 +1292,6 @@ namespace GMWU
         private System.Windows.Forms.Button btnCOLoc;
         private System.Windows.Forms.TabPage tpgPublishAddon;
         private System.Windows.Forms.TabPage tpgSettings;
-        private System.Windows.Forms.TabPage tpgCredits;
-        private System.Windows.Forms.Button btnGitHub;
-        private System.Windows.Forms.Label lblCreatedByTitle;
-        private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.TabPage tpgUpdateAddon;
         private System.Windows.Forms.TabPage tpgUpdateIcon;
         private System.Windows.Forms.GroupBox groupBox1;
@@ -1399,6 +1357,7 @@ namespace GMWU
         private System.Windows.Forms.Label lblCurrentQueueTime;
         private System.ComponentModel.BackgroundWorker bwrAddonList;
         private System.Windows.Forms.Button btnOverwriteTask;
+        private System.Windows.Forms.Button btnClearDir;
     }
 }
 

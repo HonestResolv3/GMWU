@@ -429,6 +429,15 @@ namespace GMWU
         private void btnDefGMPUFile_Click(object sender, EventArgs e)
         {
             loadFileDialog("Select gmpublish.exe file", string.Empty, 1, new string[] { "gmpublish.exe" }, "GMPublish File (gmpublish.exe)", 0, txtDefGMPFile);
+            if (chkUseDefaultExe.Checked)
+                updateValues();
+        }
+
+        private void btnDefGMAFile_Click(object sender, EventArgs e)
+        {
+            loadFileDialog("Select gmad.exe file", string.Empty, 1, new string[] { "gmad.exe" }, "GMad File (gmpublish.exe)", 0, txtDefGMAFile);
+            if (chkUseDefaultExe.Checked)
+                updateValues();
         }
 
         private void btnGMPubFileLoc2_Click(object sender, EventArgs e)
@@ -669,6 +678,12 @@ namespace GMWU
             }
         }
 
+        private void btnClearDir_Click(object sender, EventArgs e)
+        {
+            txtDefGMAFile.Text = string.Empty;
+            txtDefGMPFile.Text = string.Empty;
+        }
+
         private void rtbErrors_TextChanged(object sender, EventArgs e)
         {
             tpgErrors.Text = "Program Errors (New)";
@@ -786,21 +801,9 @@ namespace GMWU
             }
         }
 
-        private void btnDefGMAFile_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void chkUseDefaultExe_CheckedChanged(object sender, EventArgs e)
         {
-            if (chkUseDefaultExe.Checked)
-            {
-                txtGMadLoc1.Text = txtDefGMAFile.Text;
-                txtGMadLoc2.Text = txtDefGMAFile.Text;
-                txtGMPubFileLoc1.Text = txtDefGMPFile.Text;
-                txtGMPubFileLoc2.Text = txtDefGMPFile.Text;
-                txtGMPubFileLoc3.Text = txtDefGMPFile.Text;
-            }
+            updateValues();
 
             btnGMadLoc1.Enabled = !chkUseDefaultExe.Checked;
             btnGMadLoc2.Enabled = !chkUseDefaultExe.Checked;
@@ -822,8 +825,15 @@ namespace GMWU
                 TinyFD.tinyfd_messageBox("Time information Incorrect", "Please enter in a valid time for the tasks to run at", "ok", "error", 1);
                 return;
             }
-            tmrQueueRunner.Interval = Math.Abs(time * 1000);
-            lblCurrentQueueTime.Text = $"Current Time Interval: {tmrQueueRunner.Interval / 1000} Seconds";
+            if (time > 0)
+            {
+                tmrQueueRunner.Interval = Math.Abs(time * 1000);
+                lblCurrentQueueTime.Text = $"Current Time Interval: {tmrQueueRunner.Interval / 1000} Seconds";
+            }
+            else
+            {
+                chkAutoRunTask.Checked = false;
+            }
         }
 
         private void GMWU_FormClosing(object sender, FormClosingEventArgs e)
@@ -878,6 +888,18 @@ namespace GMWU
             Properties.Settings.Default.AutoRunTasks = chkAutoRunTask.Checked;
             Properties.Settings.Default.UseDefaultLocations = chkUseDefaultExe.Checked;
             Properties.Settings.Default.Save();
+        }
+
+        private void updateValues()
+        {
+            if (chkUseDefaultExe.Checked)
+            {
+                txtGMadLoc1.Text = txtDefGMAFile.Text;
+                txtGMadLoc2.Text = txtDefGMAFile.Text;
+                txtGMPubFileLoc1.Text = txtDefGMPFile.Text;
+                txtGMPubFileLoc2.Text = txtDefGMPFile.Text;
+                txtGMPubFileLoc3.Text = txtDefGMPFile.Text;
+            }
         }
     }
 }
