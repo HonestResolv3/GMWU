@@ -38,12 +38,12 @@ namespace GMWU.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string DefaultGMPublishFileLine {
+        public string DefaultGMPublishFilePath {
             get {
-                return ((string)(this["DefaultGMPublishFileLine"]));
+                return ((string)(this["DefaultGMPublishFilePath"]));
             }
             set {
-                this["DefaultGMPublishFileLine"] = value;
+                this["DefaultGMPublishFilePath"] = value;
             }
         }
         
@@ -181,10 +181,10 @@ namespace GMWU.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string UpdateAddonID {
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int UpdateAddonID {
             get {
-                return ((string)(this["UpdateAddonID"]));
+                return ((int)(this["UpdateAddonID"]));
             }
             set {
                 this["UpdateAddonID"] = value;
@@ -229,10 +229,10 @@ namespace GMWU.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string UpdateIconID {
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int UpdateIconID {
             get {
-                return ((string)(this["UpdateIconID"]));
+                return ((int)(this["UpdateIconID"]));
             }
             set {
                 this["UpdateIconID"] = value;
@@ -337,10 +337,10 @@ namespace GMWU.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string UseDefaultLocations {
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool UseDefaultLocations {
             get {
-                return ((string)(this["UseDefaultLocations"]));
+                return ((bool)(this["UseDefaultLocations"]));
             }
             set {
                 this["UseDefaultLocations"] = value;
@@ -349,10 +349,10 @@ namespace GMWU.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string TaskIntervalTime {
+        [global::System.Configuration.DefaultSettingValueAttribute("30000")]
+        public int TaskIntervalTime {
             get {
-                return ((string)(this["TaskIntervalTime"]));
+                return ((int)(this["TaskIntervalTime"]));
             }
             set {
                 this["TaskIntervalTime"] = value;
@@ -361,13 +361,109 @@ namespace GMWU.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string AutoRunTasks {
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool AutoRunTasks {
             get {
-                return ((string)(this["AutoRunTasks"]));
+                return ((bool)(this["AutoRunTasks"]));
             }
             set {
                 this["AutoRunTasks"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string JsonFileOutput {
+            get {
+                return ((string)(this["JsonFileOutput"]));
+            }
+            set {
+                this["JsonFileOutput"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string JsonAddonTitle {
+            get {
+                return ((string)(this["JsonAddonTitle"]));
+            }
+            set {
+                this["JsonAddonTitle"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string JsonAddonWildcards {
+            get {
+                return ((string)(this["JsonAddonWildcards"]));
+            }
+            set {
+                this["JsonAddonWildcards"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int AddonTag1Index {
+            get {
+                return ((int)(this["AddonTag1Index"]));
+            }
+            set {
+                this["AddonTag1Index"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int AddonTag2Index {
+            get {
+                return ((int)(this["AddonTag2Index"]));
+            }
+            set {
+                this["AddonTag2Index"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int AddonTypeIndex {
+            get {
+                return ((int)(this["AddonTypeIndex"]));
+            }
+            set {
+                this["AddonTypeIndex"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string GMAFileName {
+            get {
+                return ((string)(this["GMAFileName"]));
+            }
+            set {
+                this["GMAFileName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int ChangeTaskTime {
+            get {
+                return ((int)(this["ChangeTaskTime"]));
+            }
+            set {
+                this["ChangeTaskTime"] = value;
             }
         }
     }

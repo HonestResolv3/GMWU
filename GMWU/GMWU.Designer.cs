@@ -34,9 +34,9 @@ namespace GMWU
             this.btnAdd2Queue = new System.Windows.Forms.Button();
             this.gboxTaskInfo = new System.Windows.Forms.GroupBox();
             this.btnOverwriteTask = new System.Windows.Forms.Button();
-            this.tbxTaskNotes = new System.Windows.Forms.TextBox();
+            this.txtTaskNotes = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.tbxTaskName = new System.Windows.Forms.TextBox();
+            this.txtTaskName = new System.Windows.Forms.TextBox();
             this.lblTaskNotes = new System.Windows.Forms.Label();
             this.lblTextName = new System.Windows.Forms.Label();
             this.btnRunTask = new System.Windows.Forms.Button();
@@ -173,9 +173,9 @@ namespace GMWU
             // 
             this.gboxTaskInfo.Controls.Add(this.btnOverwriteTask);
             this.gboxTaskInfo.Controls.Add(this.btnAdd2Queue);
-            this.gboxTaskInfo.Controls.Add(this.tbxTaskNotes);
+            this.gboxTaskInfo.Controls.Add(this.txtTaskNotes);
             this.gboxTaskInfo.Controls.Add(this.label3);
-            this.gboxTaskInfo.Controls.Add(this.tbxTaskName);
+            this.gboxTaskInfo.Controls.Add(this.txtTaskName);
             this.gboxTaskInfo.Controls.Add(this.lblTaskNotes);
             this.gboxTaskInfo.Controls.Add(this.lblTextName);
             this.gboxTaskInfo.Location = new System.Drawing.Point(9, 189);
@@ -196,13 +196,13 @@ namespace GMWU
             this.btnOverwriteTask.UseVisualStyleBackColor = true;
             this.btnOverwriteTask.Click += new System.EventHandler(this.btnOverwriteTask_Click);
             // 
-            // tbxTaskNotes
+            // txtTaskNotes
             // 
-            this.tbxTaskNotes.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.tbxTaskNotes.Location = new System.Drawing.Point(76, 58);
-            this.tbxTaskNotes.Name = "tbxTaskNotes";
-            this.tbxTaskNotes.Size = new System.Drawing.Size(580, 22);
-            this.tbxTaskNotes.TabIndex = 8;
+            this.txtTaskNotes.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.txtTaskNotes.Location = new System.Drawing.Point(76, 58);
+            this.txtTaskNotes.Name = "txtTaskNotes";
+            this.txtTaskNotes.Size = new System.Drawing.Size(580, 22);
+            this.txtTaskNotes.TabIndex = 8;
             // 
             // label3
             // 
@@ -212,13 +212,13 @@ namespace GMWU
             this.label3.Size = new System.Drawing.Size(0, 13);
             this.label3.TabIndex = 2;
             // 
-            // tbxTaskName
+            // txtTaskName
             // 
-            this.tbxTaskName.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.tbxTaskName.Location = new System.Drawing.Point(76, 22);
-            this.tbxTaskName.Name = "tbxTaskName";
-            this.tbxTaskName.Size = new System.Drawing.Size(580, 22);
-            this.tbxTaskName.TabIndex = 7;
+            this.txtTaskName.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.txtTaskName.Location = new System.Drawing.Point(76, 22);
+            this.txtTaskName.Name = "txtTaskName";
+            this.txtTaskName.Size = new System.Drawing.Size(580, 22);
+            this.txtTaskName.TabIndex = 7;
             // 
             // lblTaskNotes
             // 
@@ -737,7 +737,7 @@ namespace GMWU
             // btnCreateJS
             // 
             this.btnCreateJS.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnCreateJS.Location = new System.Drawing.Point(274, 298);
+            this.btnCreateJS.Location = new System.Drawing.Point(274, 297);
             this.btnCreateJS.Name = "btnCreateJS";
             this.btnCreateJS.Size = new System.Drawing.Size(155, 23);
             this.btnCreateJS.TabIndex = 17;
@@ -1255,6 +1255,7 @@ namespace GMWU
             this.Name = "GMWU";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Garry\'s Mod Workshop Utility";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.GMWU_FormClosing);
             this.Load += new System.EventHandler(this.GMWU_Load);
             this.gboxTaskInfo.ResumeLayout(false);
             this.gboxTaskInfo.PerformLayout();
@@ -1299,9 +1300,9 @@ namespace GMWU
         #endregion
         private System.Windows.Forms.Button btnAdd2Queue;
         private System.Windows.Forms.GroupBox gboxTaskInfo;
-        private System.Windows.Forms.TextBox tbxTaskNotes;
+        private System.Windows.Forms.TextBox txtTaskNotes;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox tbxTaskName;
+        private System.Windows.Forms.TextBox txtTaskName;
         private System.Windows.Forms.Label lblTaskNotes;
         private System.Windows.Forms.Label lblTextName;
         private System.Windows.Forms.TabControl tctrlMainArea;

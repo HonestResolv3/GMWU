@@ -95,10 +95,10 @@ namespace GMWU
                         || checkLocationsBeingInvalid(txtAFLocation, txtGMadLoc1, txtGMOutput, 0))
                         return null;
 
-                    if (string.IsNullOrWhiteSpace(tbxTaskName.Text))
+                    if (string.IsNullOrWhiteSpace(txtTaskName.Text))
                         newTask.TaskName = "Create .GMA";
                     else
-                        newTask.TaskName = tbxTaskName.Text;
+                        newTask.TaskName = txtTaskName.Text;
 
                     if (string.IsNullOrWhiteSpace(txtGMFileName.Text))
                         txtGMFileName.Text = "newgma";
@@ -113,10 +113,10 @@ namespace GMWU
                         || checkLocationsBeingInvalid(txtCOLoc, txtGMadLoc2, txtGMFileLoc1, 1))
                         return null;
 
-                    if (string.IsNullOrWhiteSpace(tbxTaskName.Text))
+                    if (string.IsNullOrWhiteSpace(txtTaskName.Text))
                         newTask.TaskName = "Extract .GMA";
                     else
-                        newTask.TaskName = tbxTaskName.Text;
+                        newTask.TaskName = txtTaskName.Text;
 
                     newTask.FileName = txtGMadLoc2.Text;
                     string gmaName = txtGMFileLoc1.Text.Substring(txtGMFileLoc1.Text.LastIndexOf("\\") + 1);
@@ -129,10 +129,10 @@ namespace GMWU
                         || checkLocationsBeingInvalid(txtGMFileLoc2, txtGMPubFileLoc1, txtIconLoc1, 2))
                         return null;
 
-                    if (string.IsNullOrWhiteSpace(tbxTaskName.Text))
+                    if (string.IsNullOrWhiteSpace(txtTaskName.Text))
                         newTask.TaskName = "Publish Addon";
                     else
-                        newTask.TaskName = tbxTaskName.Text;
+                        newTask.TaskName = txtTaskName.Text;
 
                     newTask.FileName = txtGMPubFileLoc1.Text;
                     newTask.Arguments = "create -addon \"" + txtGMFileLoc2.Text + "\" -icon \"" + txtIconLoc1.Text + "\"";
@@ -143,10 +143,10 @@ namespace GMWU
                         || checkLocationsBeingInvalid(txtGMFileLoc3, txtGMPubFileLoc2, txtAddonID, 3))
                         return null;
 
-                    if (string.IsNullOrWhiteSpace(tbxTaskName.Text))
+                    if (string.IsNullOrWhiteSpace(txtTaskName.Text))
                         newTask.TaskName = "Update Addon";
                     else
-                        newTask.TaskName = tbxTaskName.Text;
+                        newTask.TaskName = txtTaskName.Text;
 
                     newTask.FileName = txtGMPubFileLoc2.Text;
                     newTask.Arguments = "update -addon \"" + txtGMFileLoc3.Text + "\" -id \"" + long.Parse(txtAddonID.Text) + "\" -changes \"" + txtChangeNotes.Text + "\"";
@@ -157,10 +157,10 @@ namespace GMWU
                         || checkLocationsBeingInvalid(txtIconLoc2, txtGMPubFileLoc3, txtAddonID2, 3))
                         return null;
 
-                    if (string.IsNullOrWhiteSpace(tbxTaskName.Text))
+                    if (string.IsNullOrWhiteSpace(txtTaskName.Text))
                         newTask.TaskName = "Update Icon";
                     else
-                        newTask.TaskName = tbxTaskName.Text;
+                        newTask.TaskName = txtTaskName.Text;
 
                     newTask.FileName = txtGMPubFileLoc3.Text;
                     newTask.Arguments = "update -icon \"" + txtIconLoc2.Text + "\" -id \"" + long.Parse(txtAddonID2.Text) + "\"";
@@ -170,7 +170,7 @@ namespace GMWU
                     break;
             }
 
-            newTask.TaskNotes = tbxTaskNotes.Text;
+            newTask.TaskNotes = txtTaskNotes.Text;
             return newTask;
         }
 
@@ -500,9 +500,41 @@ namespace GMWU
 
         private void GMWU_Load(object sender, EventArgs e)
         {
-            cbxTag1.SelectedIndex = 0;
-            cbxTag2.SelectedIndex = 0;
-            cbxAddonType.SelectedIndex = 0;
+            txtDefGMAFile.Text = Properties.Settings.Default.DefaultGMadFilePath;
+            txtDefGMPFile.Text = Properties.Settings.Default.DefaultGMPublishFilePath;
+            txtAFLocation.Text = Properties.Settings.Default.AddonFolderLocation;
+            txtGMadLoc1.Text = Properties.Settings.Default.GMadFile1Location;
+            txtGMOutput.Text = Properties.Settings.Default.GMadOutputLocation;
+            txtGMFileName.Text = Properties.Settings.Default.GMAFileName;
+            txtCOLoc.Text = Properties.Settings.Default.ExtractOutputLocation;
+            txtGMadLoc2.Text = Properties.Settings.Default.GMadFile2Location;
+            txtGMFileLoc1.Text = Properties.Settings.Default.GMAFile1Location;
+            txtGMFileLoc2.Text = Properties.Settings.Default.GMAFile2Location;
+            txtGMPubFileLoc1.Text = Properties.Settings.Default.GMPubFile1Location;
+            txtIconLoc1.Text = Properties.Settings.Default.IconFile1Location;
+            txtGMFileLoc3.Text = Properties.Settings.Default.GMAFile3Location;
+            txtGMPubFileLoc2.Text = Properties.Settings.Default.GMPubFile2Location;
+            txtAddonID.Text = Properties.Settings.Default.UpdateAddonID.ToString();
+            txtChangeNotes.Text = Properties.Settings.Default.UpdateAddonNotes;
+            txtIconLoc2.Text = Properties.Settings.Default.IconFile2Location;
+            txtGMPubFileLoc3.Text = Properties.Settings.Default.GMPubFile3Location;
+            txtAddonID2.Text = Properties.Settings.Default.UpdateIconID.ToString();
+            txtTaskName.Text = Properties.Settings.Default.TaskName;
+            txtTaskNotes.Text = Properties.Settings.Default.TaskNotes;
+            tctrlMainArea.SelectedIndex = Properties.Settings.Default.MainControlIndex;
+            tctrlConsole.SelectedIndex = Properties.Settings.Default.ConsoleControlIndex;
+            tctrlTaskArea.SelectedIndex = Properties.Settings.Default.TaskControlIndex;
+            tctrlTasks.SelectedIndex = Properties.Settings.Default.TaskSelectionIndex;
+            txtJSOutput.Text = Properties.Settings.Default.JsonFileOutput;
+            txtAddonTitle.Text = Properties.Settings.Default.JsonAddonTitle;
+            txtWildcards.Text = Properties.Settings.Default.JsonAddonWildcards;
+            cbxTag1.SelectedIndex = Properties.Settings.Default.AddonTag1Index;
+            cbxTag2.SelectedIndex = Properties.Settings.Default.AddonTag2Index;
+            cbxAddonType.SelectedIndex = Properties.Settings.Default.AddonTypeIndex;
+            txtChangeTime.Text = Properties.Settings.Default.ChangeTaskTime.ToString();
+            chkUseDefaultExe.Checked = Properties.Settings.Default.UseDefaultLocations;
+            chkAutoRunTask.Checked = Properties.Settings.Default.AutoRunTasks;
+            tmrQueueRunner.Interval = Properties.Settings.Default.TaskIntervalTime;
             lblCurrentQueueTime.Text = $"Current Time Interval: {tmrQueueRunner.Interval / 1000} Seconds";
         }
 
@@ -785,7 +817,67 @@ namespace GMWU
 
         private void btnApplyChanges_Click(object sender, EventArgs e)
         {
+            if (!int.TryParse(txtChangeTime.Text, out int time))
+            {
+                TinyFD.tinyfd_messageBox("Time information Incorrect", "Please enter in a valid time for the tasks to run at", "ok", "error", 1);
+                return;
+            }
+            tmrQueueRunner.Interval = Math.Abs(time * 1000);
+            lblCurrentQueueTime.Text = $"Current Time Interval: {tmrQueueRunner.Interval / 1000} Seconds";
+        }
 
+        private void GMWU_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Properties.Settings.Default.DefaultGMadFilePath = txtDefGMAFile.Text;
+            Properties.Settings.Default.DefaultGMPublishFilePath = txtDefGMPFile.Text;
+            Properties.Settings.Default.AddonFolderLocation = txtAFLocation.Text;
+            Properties.Settings.Default.GMadFile1Location = txtGMadLoc1.Text;
+            Properties.Settings.Default.GMadOutputLocation = txtGMOutput.Text;
+            Properties.Settings.Default.GMAFileName = txtGMFileName.Text;
+            Properties.Settings.Default.ExtractOutputLocation = txtCOLoc.Text;
+            Properties.Settings.Default.GMadFile2Location = txtGMadLoc2.Text;
+            Properties.Settings.Default.GMAFile1Location = txtGMFileLoc1.Text;
+            Properties.Settings.Default.GMAFile2Location = txtGMFileLoc2.Text;
+            Properties.Settings.Default.GMPubFile1Location = txtGMPubFileLoc1.Text;
+            Properties.Settings.Default.IconFile1Location = txtIconLoc1.Text;
+            Properties.Settings.Default.GMAFile3Location = txtGMFileLoc3.Text;
+            Properties.Settings.Default.GMPubFile2Location = txtGMPubFileLoc2.Text;
+
+            if (int.TryParse(txtAddonID.Text, out int addonID1))
+                Properties.Settings.Default.UpdateAddonID = Math.Abs(addonID1);
+            else
+                Properties.Settings.Default.UpdateAddonID = 000000000;
+
+            Properties.Settings.Default.UpdateAddonNotes = txtChangeNotes.Text;
+            Properties.Settings.Default.IconFile2Location = txtIconLoc2.Text;
+            Properties.Settings.Default.GMPubFile3Location = txtGMPubFileLoc3.Text;
+
+            if (int.TryParse(txtAddonID2.Text, out int addonID2))
+                Properties.Settings.Default.UpdateIconID = Math.Abs(addonID2);
+            else
+                Properties.Settings.Default.UpdateIconID = 000000000;
+
+            if (int.TryParse(txtChangeTime.Text, out int time))
+                Properties.Settings.Default.ChangeTaskTime = Math.Abs(time);
+            else
+                Properties.Settings.Default.ChangeTaskTime = 30;
+
+            Properties.Settings.Default.TaskName = txtTaskName.Text;
+            Properties.Settings.Default.TaskNotes = txtTaskNotes.Text;
+            Properties.Settings.Default.MainControlIndex = tctrlMainArea.SelectedIndex;
+            Properties.Settings.Default.ConsoleControlIndex = tctrlConsole.SelectedIndex;
+            Properties.Settings.Default.TaskControlIndex = tctrlTaskArea.SelectedIndex;
+            Properties.Settings.Default.TaskSelectionIndex = tctrlTasks.SelectedIndex;
+            Properties.Settings.Default.JsonFileOutput = txtJSOutput.Text;
+            Properties.Settings.Default.JsonAddonTitle = txtAddonTitle.Text;
+            Properties.Settings.Default.JsonAddonWildcards = txtWildcards.Text;
+            Properties.Settings.Default.AddonTag1Index = cbxTag1.SelectedIndex;
+            Properties.Settings.Default.AddonTag2Index = cbxTag2.SelectedIndex;
+            Properties.Settings.Default.AddonTypeIndex = cbxAddonType.SelectedIndex;
+            Properties.Settings.Default.TaskIntervalTime = tmrQueueRunner.Interval;
+            Properties.Settings.Default.AutoRunTasks = chkAutoRunTask.Checked;
+            Properties.Settings.Default.UseDefaultLocations = chkUseDefaultExe.Checked;
+            Properties.Settings.Default.Save();
         }
     }
 }
